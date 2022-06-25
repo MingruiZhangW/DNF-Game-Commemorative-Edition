@@ -30,9 +30,7 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
     , m_scene_one_root_node(std::make_unique<SceneNode>(StringContant::sceneOneRootNodeName))
-{
-    constructSceneOne();
-}
+{}
 
 SceneManager::~SceneManager() {}
 

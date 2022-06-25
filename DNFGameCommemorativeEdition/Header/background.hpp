@@ -18,7 +18,8 @@ public:
 private:
     ShaderProgram* m_shader;
 
-    Texture m_grass_texture;
+    Texture m_back_texture;
+    Texture m_mid_texture;
 
     GLfloat m_background_width;
     GLfloat m_background_height;

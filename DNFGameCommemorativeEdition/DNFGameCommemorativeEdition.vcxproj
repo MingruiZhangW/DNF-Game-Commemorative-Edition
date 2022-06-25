@@ -53,6 +53,7 @@
     <ClCompile Include="Source\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource\Texture\Background\BackgoundMid.png" />
     <Image Include="Resource\Texture\Background\BackgroundFar.png" />
     <Image Include="Resource\Texture\Tiles\grassTile.png" />
   </ItemGroup>
