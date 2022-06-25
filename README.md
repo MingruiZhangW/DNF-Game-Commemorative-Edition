@@ -2,7 +2,7 @@
 Mini DNF Like Game
 
 > Ongoing
-- GLEW, GLFW, GLM
+- GLEW, GLFW, GLM, STB
 - Windows 10
 - MSVC v143
 - Windows SDK 10.0.19041.0

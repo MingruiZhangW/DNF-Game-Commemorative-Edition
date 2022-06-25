@@ -2,13 +2,15 @@
 
 #include "gamewindow.hpp"
 #include "shaderprogram.hpp"
+#include "background.hpp"
+#include "scenemanager.hpp"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
+
+#include <memory>
 
 class Game : public GameWindow
 {
@@ -30,5 +32,14 @@ protected:
     virtual bool windowResizeEvent(int width, int height) override;
     virtual bool keyInputEvent(int key, int action, int mods) override;
 
-    // ShaderProgram m_shader;
+    std::unique_ptr<SceneManager> m_scene_manager;
+
+    ShaderProgram m_shader;
+    GLint P_uni; // Uniform location for Projection matrix.
+    GLint V_uni; // Uniform location for View matrix.
+    GLint M_uni; // Uniform location for Model matrix.
+
+    // Matrices controlling the camera and projection.
+    glm::mat4 m_proj;
+    glm::mat4 m_view;
 };

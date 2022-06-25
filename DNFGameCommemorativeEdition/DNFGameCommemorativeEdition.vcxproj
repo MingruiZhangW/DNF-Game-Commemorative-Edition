@@ -19,19 +19,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="gamewindow.cpp" />
-    <ClCompile Include="glerrorcheck.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="shaderprogram.cpp" />
+    <None Include="..\README.md" />
+    <None Include="Resource\Shaders\shader.frag" />
+    <None Include="Resource\Shaders\shader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="exception.hpp" />
-    <ClInclude Include="game.hpp" />
-    <ClInclude Include="gamewindow.hpp" />
-    <ClInclude Include="glerrorcheck.hpp" />
-    <ClInclude Include="shaderexception.hpp" />
-    <ClInclude Include="shaderprogram.hpp" />
+    <ClInclude Include="Header\background.hpp" />
+    <ClInclude Include="Header\exception.hpp" />
+    <ClInclude Include="Header\floor.hpp" />
+    <ClInclude Include="Header\game.hpp" />
+    <ClInclude Include="Header\gamewindow.hpp" />
+    <ClInclude Include="Header\geometrynode.hpp" />
+    <ClInclude Include="Header\glerrorcheck.hpp" />
+    <ClInclude Include="Header\scenemanager.hpp" />
+    <ClInclude Include="Header\scenenode.hpp" />
+    <ClInclude Include="Header\shaderexception.hpp" />
+    <ClInclude Include="Header\shaderprogram.hpp" />
+    <ClInclude Include="Header\stb_image.h" />
+    <ClInclude Include="Header\stringconstant.hpp" />
+    <ClInclude Include="Header\texture.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\background.cpp" />
+    <ClCompile Include="Source\floor.cpp" />
+    <ClCompile Include="Source\game.cpp" />
+    <ClCompile Include="Source\gamewindow.cpp" />
+    <ClCompile Include="Source\geometrynode.cpp" />
+    <ClCompile Include="Source\glerrorcheck.cpp" />
+    <ClCompile Include="Source\scenemanager.cpp" />
+    <ClCompile Include="Source\scenenode.cpp" />
+    <ClCompile Include="Source\shaderprogram.cpp" />
+    <ClCompile Include="Source\texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Texture\Background\BackgroundFar.png" />
+    <Image Include="Resource\Texture\Tiles\grassTile.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -148,7 +171,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/GLEW/include;$(SolutionDir)/3rdparty/GLFW/include;$(SolutionDir)/3rdparty/GLM/glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/DNFGameCommemorativeEdition/Header;$(SolutionDir)/3rdparty/GLEW/include;$(SolutionDir)/3rdparty/GLFW/include;$(SolutionDir)/3rdparty/GLM/glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

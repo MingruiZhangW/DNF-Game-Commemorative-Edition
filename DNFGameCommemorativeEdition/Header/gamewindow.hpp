@@ -43,6 +43,8 @@ protected:
     virtual bool windowResizeEvent(int width, int height);
     virtual bool keyInputEvent(int key, int action, int mods);
 
+    std::string getResourceFilePath(const char* base);
+
     GLFWwindow* m_window;
     std::string m_windowTitle;
     int m_windowWidth;

@@ -255,14 +255,6 @@ GameWindow::launch(int argc,
 }
 
 //----------------------------------------------------------------------------------------
-static void
-renderImGui(int framebufferWidth, int framebufferHeight)
-{
-    // Set viewport to full window size.
-    glViewport(0, 0, framebufferWidth, framebufferHeight);
-}
-
-//----------------------------------------------------------------------------------------
 void
 GameWindow::run(int width, int height, const std::string& windowTitle, float desiredFramesPerSecond)
 {
@@ -308,6 +300,17 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
 
     centerWindow();
     glfwMakeContextCurrent(m_window);
+
+    // Allow modern extension features
+    glewExperimental = GL_TRUE;
+
+    if (glewInit() != GLEW_OK) {
+        std::cout << ("GLEW initialisation failed!") << std::endl;
+        glfwDestroyWindow(m_window);
+        glfwTerminate();
+        return;
+    }
+
     glfwInit();
 
 #ifdef DEBUG_GL
@@ -351,9 +354,6 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
 
                 // In case of a window resize, get new framebuffer dimensions.
                 glfwGetFramebufferSize(m_window, &m_framebufferWidth, &m_framebufferHeight);
-
-                // Draw any UI controls specified in guiLogic() by derived class.
-                renderImGui(m_framebufferWidth, m_framebufferHeight);
 
                 // Finally, blast everything to the screen.
                 glfwSwapBuffers(m_window);
@@ -455,4 +455,10 @@ printGLInfo()
             std::cout << extension << std::endl;
         }
     }
+}
+
+std::string
+GameWindow::getResourceFilePath(const char* base)
+{
+    return m_exec_dir + "/Resource/" + base;
 }
