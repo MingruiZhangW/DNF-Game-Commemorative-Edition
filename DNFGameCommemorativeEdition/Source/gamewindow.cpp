@@ -1,4 +1,5 @@
 #include "gamewindow.hpp"
+#include "constant.hpp"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -10,6 +11,9 @@
 #include <sstream>
 #include <iostream>
 #include <cstdio>
+#include <ctime>
+
+#include <Windows.h>
 
 //-- Static member initialization:
 std::string GameWindow::m_exec_dir = ".";
@@ -337,9 +341,14 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
         init();
 
         // steady_clock::time_point frameStartTime;
+        std::clock_t start;
+        float duration;
 
         // Main Program Loop:
         while (!glfwWindowShouldClose(m_window)) {
+            // Lap
+            start = std::clock();
+
             glfwPollEvents();
 
             if (!m_paused) {
@@ -357,6 +366,12 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
 
                 // Finally, blast everything to the screen.
                 glfwSwapBuffers(m_window);
+            }
+
+            duration = (std::clock() - start) / static_cast<float>(CLOCKS_PER_SEC);
+
+            if (FPS::frameDelay > duration) {
+                Sleep(FPS::frameDelay - duration);
             }
         }
 
