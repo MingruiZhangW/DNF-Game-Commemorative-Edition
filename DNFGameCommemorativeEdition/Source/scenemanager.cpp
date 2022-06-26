@@ -1,7 +1,6 @@
 #include "scenemanager.hpp"
 #include "constant.hpp"
-#include "background.hpp"
-#include "floor.hpp"
+#include "map.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -53,11 +52,13 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
     if (node == nullptr)
         return;
 
-    // Call callbackFunc here
-    auto trans = modelMat * node->getTransform();
-    updateShaderUniforms(m_shader, trans);
+    glm::mat4 trans {1.0f};
+    if (node->m_node_type == NodeType::GeometryNode) {
+        trans = modelMat * node->getTransform();
+        updateShaderUniforms(m_shader, trans);
 
-    node->draw();
+        node->draw();
+    }
 
     // All the children except the last
     for (auto i : node->m_children) {
@@ -68,13 +69,8 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
 void
 SceneManager::constructSceneOne()
 {
-    Background* sceneOneBackground = new Background(StringContant::sceneOneBackgroundName);
-    sceneOneBackground->init(m_shader, m_frame_buffer_width, m_frame_buffer_height);
+    Map* sceneOneMap = new Map(m_shader, m_frame_buffer_width, m_frame_buffer_height);
+    sceneOneMap->initSceneOneMap();
 
-    m_scene_one_root_node->addChild(dynamic_cast<SceneNode*>(sceneOneBackground));
-
-    Floor* sceneOneFloor = new Floor(StringContant::sceneOneFloorName);
-    sceneOneFloor->init(m_shader, m_frame_buffer_width, m_frame_buffer_height);
-
-    m_scene_one_root_node->addChild(dynamic_cast<SceneNode*>(sceneOneFloor));
+    m_scene_one_root_node->addChild(sceneOneMap);
 }

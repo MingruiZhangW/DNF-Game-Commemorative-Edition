@@ -19,6 +19,16 @@ public:
     void useTexture();
     void clearTexture();
 
+    int getTextureWidth()
+    {
+        return m_width;
+    }
+
+    int getTextureHeight()
+    {
+        return m_height;
+    }
+
 protected:
     GLuint m_texture_id;
 

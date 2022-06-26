@@ -2,24 +2,33 @@
 
 #include "shaderprogram.hpp"
 #include "texture.hpp"
-#include "scenemanager.hpp"
+#include "geometrynode.hpp"
 
-class Floor : public SceneNode
+class Floor : public GeometryNode
 {
 public:
-    Floor(const std::string& name);
+    enum class FloorTextureType { Grass, Road };
+
+    Floor(const std::string& name,
+          ShaderProgram* shader,
+          GLfloat width,
+          GLfloat height,
+          FloorTextureType textureType);
     ~Floor() {}
 
-    void init(ShaderProgram* shader, GLfloat width, GLfloat height);
     void draw();
+    glm::vec2 getTextureGeo()
+    {
+        return glm::vec2(m_texture.getTextureWidth(), m_texture.getTextureHeight());
+    }
 
 private:
     ShaderProgram* m_shader;
 
-    GLfloat m_window_width;
-    GLfloat m_window_height;
+    GLfloat m_plane_width;
+    GLfloat m_plane_height;
 
-    Texture m_grass_texture;
+    Texture m_texture;
 
     GLuint m_position_attrib_pos;
     GLuint m_texture_coor_attrib_pos;

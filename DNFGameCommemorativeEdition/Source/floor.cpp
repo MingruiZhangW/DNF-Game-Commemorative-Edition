@@ -24,21 +24,37 @@ static const GLfloat floor_vertex_buffer_data[] =
 
 // clang-format on
 
-Floor::Floor(const std::string& name)
-    : SceneNode(name)
-{}
-
-void
-Floor::init(ShaderProgram* shader, GLfloat width, GLfloat height)
+Floor::Floor(const std::string& name,
+             ShaderProgram* shader,
+             GLfloat width,
+             GLfloat height,
+             FloorTextureType textureType)
+    : GeometryNode(name)
+    , m_shader(shader)
 {
-    m_shader = shader;
+    // Load texture
+    switch (textureType) {
+    case FloorTextureType::Grass:
+        m_texture = Texture(TexturePath::grassTilePath);
+        break;
+    case FloorTextureType::Road:
+        m_texture = Texture(TexturePath::roadTilePath);
+        break;
+    default:
+        break;
+    }
 
-    m_window_width = width;
-    m_window_height = height;
+    m_texture.loadTexture();
+
+    if (width == 0)
+        width = m_texture.getTextureWidth();
+
+    m_plane_width = width;
+    m_plane_height = height;
 
     // S * T * R * T^-1
-    m_trans = glm::scale(m_trans,
-                         glm::vec3(width, height * RatioContant::floorHeightScaleRatio, 0.0f));
+    // Scale will have no effect on translation
+    m_trans = glm::scale(m_trans, glm::vec3(width, height, 0.0f));
     m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
     m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
@@ -47,7 +63,7 @@ Floor::init(ShaderProgram* shader, GLfloat width, GLfloat height)
     glGenVertexArrays(1, &m_floor_vao);
     glBindVertexArray(m_floor_vao);
 
-    // Create the cube vertex buffer
+    // Create the floor vertex buffer
     glGenBuffers(1, &m_floor_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_floor_vbo);
     glBufferData(GL_ARRAY_BUFFER,
@@ -75,18 +91,14 @@ Floor::init(ShaderProgram* shader, GLfloat width, GLfloat height)
                           sizeof(floor_vertex_buffer_data[0]) * 5,
                           (void*) (sizeof(floor_vertex_buffer_data[0]) * 3));
 
-    // Reset state to prevent rogue code from messing with *my*
-    // stuff!
+    // Reset state to prevent rogue code from messing with *my* stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    // Init texture
-    m_grass_texture = Texture("Resource/Texture/Tiles/grassTile.png");
-    m_grass_texture.loadTexture();
-
     CHECK_GL_ERRORS;
 }
+
 void
 Floor::draw()
 {
@@ -97,7 +109,7 @@ Floor::draw()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_grass_texture.useTexture();
+    m_texture.useTexture();
 
     glBindVertexArray(m_floor_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);

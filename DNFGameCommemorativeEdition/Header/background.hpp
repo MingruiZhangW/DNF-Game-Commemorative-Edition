@@ -9,20 +9,28 @@
 class Background : public GeometryNode
 {
 public:
-    Background(const std::string& name);
+    enum class BackgroundTextureType { Mid, Far };
+
+    Background(const std::string& name,
+               ShaderProgram* shader,
+               GLfloat width,
+               GLfloat height,
+               BackgroundTextureType textureType);
     ~Background() {}
 
-    void init(ShaderProgram* shader, GLfloat width, GLfloat height);
     void draw();
+    glm::vec2 getTextureGeo()
+    {
+        return glm::vec2(m_texture.getTextureWidth(), m_texture.getTextureHeight());
+    }
 
 private:
     ShaderProgram* m_shader;
 
-    Texture m_back_texture;
-    Texture m_mid_texture;
+    Texture m_texture;
 
-    GLfloat m_window_width;
-    GLfloat m_window_height;
+    GLfloat m_plane_width;
+    GLfloat m_plane_height;
 
     GLuint m_position_attrib_pos;
     GLuint m_texture_coor_attrib_pos;

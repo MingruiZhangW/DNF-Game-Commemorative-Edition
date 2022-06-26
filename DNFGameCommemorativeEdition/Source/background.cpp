@@ -24,26 +24,37 @@ static const GLfloat background_vertex_buffer_data[] =
 
 // clang-format on
 
-Background::Background(const std::string& name)
+Background::Background(const std::string& name,
+                       ShaderProgram* shader,
+                       GLfloat width,
+                       GLfloat height,
+                       BackgroundTextureType textureType)
     : GeometryNode(name)
-{}
-
-void
-Background::init(ShaderProgram* shader, GLfloat width, GLfloat height)
+    , m_shader(shader)
 {
-    m_shader = shader;
+    // Load texture
+    switch (textureType) {
+    case BackgroundTextureType::Mid:
+        m_texture = Texture(TexturePath::backgoundMidPath);
+        break;
+    case BackgroundTextureType::Far:
+        m_texture = Texture(TexturePath::backgroundFarPath);
+        break;
+    default:
+        break;
+    }
 
-    m_window_width = width;
-    m_window_height = height;
+    m_texture.loadTexture();
 
-    // T * S * T * R * T^-1
+    if (width == 0)
+        width = m_texture.getTextureWidth();
+
+    m_plane_width = width;
+    m_plane_height = height;
+
+    // S * T * R * T^-1
     // Scale will have no effect on translation
-    m_trans = glm::translate(m_trans,
-                             glm::vec3(0.0f,
-                                       height * (1.0f - RatioContant::backgroundHeightScaleRatio),
-                                       0.0f));
-    m_trans = glm::scale(m_trans,
-                         glm::vec3(width, height * RatioContant::backgroundHeightScaleRatio, 0.0f));
+    m_trans = glm::scale(m_trans, glm::vec3(width, height, 0.0f));
     m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
     m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
@@ -86,15 +97,9 @@ Background::init(ShaderProgram* shader, GLfloat width, GLfloat height)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    // Init texture
-    m_back_texture = Texture("Resource/Texture/Background/BackgroundFar.png");
-    m_back_texture.loadTexture();
-
-    m_mid_texture = Texture("Resource/Texture/Background/BackgoundMid.png");
-    m_mid_texture.loadTexture();
-
     CHECK_GL_ERRORS;
 }
+
 void
 Background::draw()
 {
@@ -105,13 +110,7 @@ Background::draw()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_back_texture.useTexture();
-
-    glBindVertexArray(m_background_vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
-    glBindVertexArray(0);
-
-    m_mid_texture.useTexture();
+    m_texture.useTexture();
 
     glBindVertexArray(m_background_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);

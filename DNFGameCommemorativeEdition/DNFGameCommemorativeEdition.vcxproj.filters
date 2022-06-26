@@ -86,6 +86,9 @@
     <ClInclude Include="Header\constant.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\map.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -121,16 +124,22 @@
     <ClCompile Include="Source\scenemanager.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\map.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Texture\Tiles\grassTile.png">
       <Filter>Resource Files\Texture\Tiles</Filter>
     </Image>
-    <Image Include="Resource\Texture\Background\BackgroundFar.png">
+    <Image Include="Resource\Texture\Background\backgroundFar.png">
       <Filter>Resource Files\Texture\Background</Filter>
     </Image>
-    <Image Include="Resource\Texture\Background\BackgoundMid.png">
+    <Image Include="Resource\Texture\Background\backgoundMid.png">
       <Filter>Resource Files\Texture\Background</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Tiles\roadTile.png">
+      <Filter>Resource Files\Texture\Tiles</Filter>
     </Image>
   </ItemGroup>
 </Project>

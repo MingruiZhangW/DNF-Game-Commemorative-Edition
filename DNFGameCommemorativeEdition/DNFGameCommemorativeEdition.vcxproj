@@ -31,6 +31,7 @@
     <ClInclude Include="Header\gamewindow.hpp" />
     <ClInclude Include="Header\geometrynode.hpp" />
     <ClInclude Include="Header\glerrorcheck.hpp" />
+    <ClInclude Include="Header\map.hpp" />
     <ClInclude Include="Header\scenemanager.hpp" />
     <ClInclude Include="Header\scenenode.hpp" />
     <ClInclude Include="Header\shaderexception.hpp" />
@@ -47,15 +48,17 @@
     <ClCompile Include="Source\gamewindow.cpp" />
     <ClCompile Include="Source\geometrynode.cpp" />
     <ClCompile Include="Source\glerrorcheck.cpp" />
+    <ClCompile Include="Source\map.cpp" />
     <ClCompile Include="Source\scenemanager.cpp" />
     <ClCompile Include="Source\scenenode.cpp" />
     <ClCompile Include="Source\shaderprogram.cpp" />
     <ClCompile Include="Source\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Texture\Background\BackgoundMid.png" />
-    <Image Include="Resource\Texture\Background\BackgroundFar.png" />
+    <Image Include="Resource\Texture\Background\backgoundMid.png" />
+    <Image Include="Resource\Texture\Background\backgroundFar.png" />
     <Image Include="Resource\Texture\Tiles\grassTile.png" />
+    <Image Include="Resource\Texture\Tiles\roadTile.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
