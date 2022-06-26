@@ -1,6 +1,7 @@
 #include "scenemanager.hpp"
-#include "stringconstant.hpp"
+#include "constant.hpp"
 #include "background.hpp"
+#include "floor.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -71,4 +72,9 @@ SceneManager::constructSceneOne()
     sceneOneBackground->init(m_shader, m_frame_buffer_width, m_frame_buffer_height);
 
     m_scene_one_root_node->addChild(dynamic_cast<SceneNode*>(sceneOneBackground));
+
+    Floor* sceneOneFloor = new Floor(StringContant::sceneOneFloorName);
+    sceneOneFloor->init(m_shader, m_frame_buffer_width, m_frame_buffer_height);
+
+    m_scene_one_root_node->addChild(dynamic_cast<SceneNode*>(sceneOneFloor));
 }

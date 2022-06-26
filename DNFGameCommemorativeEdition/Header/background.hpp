@@ -21,8 +21,8 @@ private:
     Texture m_back_texture;
     Texture m_mid_texture;
 
-    GLfloat m_background_width;
-    GLfloat m_background_height;
+    GLfloat m_window_width;
+    GLfloat m_window_height;
 
     GLuint m_position_attrib_pos;
     GLuint m_texture_coor_attrib_pos;

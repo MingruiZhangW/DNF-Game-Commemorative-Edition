@@ -1,6 +1,6 @@
 #include "game.hpp"
 #include "glerrorcheck.hpp"
-#include "stringconstant.hpp"
+#include "constant.hpp"
 
 #include <iostream>
 

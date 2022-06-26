@@ -1,5 +1,6 @@
 #include "background.hpp"
 #include "gamewindow.hpp"
+#include "constant.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -32,10 +33,17 @@ Background::init(ShaderProgram* shader, GLfloat width, GLfloat height)
 {
     m_shader = shader;
 
-    m_background_width = width;
-    m_background_height = height;
+    m_window_width = width;
+    m_window_height = height;
 
-    m_trans = glm::scale(m_trans, glm::vec3(width, height, 0.0f));
+    // T * S * T * R * T^-1
+    // Scale will have no effect on translation
+    m_trans = glm::translate(m_trans,
+                             glm::vec3(0.0f,
+                                       height * (1.0f - RatioContant::backgroundHeightScaleRatio),
+                                       0.0f));
+    m_trans = glm::scale(m_trans,
+                         glm::vec3(width, height * RatioContant::backgroundHeightScaleRatio, 0.0f));
     m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
     m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
@@ -108,4 +116,7 @@ Background::draw()
     glBindVertexArray(m_background_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
     glBindVertexArray(0);
+
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
 }

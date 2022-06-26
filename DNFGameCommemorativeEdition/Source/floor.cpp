@@ -1,32 +1,47 @@
 #include "floor.hpp"
 #include "gamewindow.hpp"
+#include "constant.hpp"
 
 #include "glerrorcheck.hpp"
+
+#include <gtc/matrix_transform.hpp>
 
 // clang-format off
 
 // Floor vertex at the live area origin with texture coord
 static const GLfloat floor_vertex_buffer_data[] =
 {
-        // triangle 1
-        // x,     y,    z,    u,    v,
-		0.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-		1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-	    0.0f,  0.0f, 0.0f, 1.0f, 0.0f,
-        // triangle 2
-	    1.0f,  0.0f, 0.0f, 0.0f, 0.0f,
-		1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-	    0.0f,  0.0f, 0.0f, 1.0f, 0.0f
+    // triangle 1
+    // x,    y,    z,    u,    v,
+    0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+    // triangle 2
+    1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+    1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 0.0f, 0.0f, 1.0f, 0.0f
 };
 
 // clang-format on
 
-Floor::Floor() {}
+Floor::Floor(const std::string& name)
+    : SceneNode(name)
+{}
 
 void
-Floor::init(ShaderProgram* shader)
+Floor::init(ShaderProgram* shader, GLfloat width, GLfloat height)
 {
     m_shader = shader;
+
+    m_window_width = width;
+    m_window_height = height;
+
+    // S * T * R * T^-1
+    m_trans = glm::scale(m_trans,
+                         glm::vec3(width, height * RatioContant::floorHeightScaleRatio, 0.0f));
+    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
+    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
 
     // Create the vertex array to record buffer assignments for floor.
     glGenVertexArrays(1, &m_floor_vao);
@@ -75,9 +90,19 @@ Floor::init(ShaderProgram* shader)
 void
 Floor::draw()
 {
+    // Draw transparent backgrounds in blend mode (alpha channel)
+    // https://stackoverflow.com/questions/3388294/opengl-question-about-the-usage-of-gldepthmask
+    glDepthMask(GL_FALSE);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     m_grass_texture.useTexture();
 
     glBindVertexArray(m_floor_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
     glBindVertexArray(0);
+
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
 }
