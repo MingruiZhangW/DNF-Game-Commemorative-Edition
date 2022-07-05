@@ -67,3 +67,9 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
         renderSceneGraphNodes(i, trans);
     }
 }
+
+void
+SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
+{
+    m_player->translate(glm::vec3(10.0f, 0.0f, 0.0f));
+}

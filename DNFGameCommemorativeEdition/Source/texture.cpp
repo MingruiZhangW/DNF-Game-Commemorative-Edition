@@ -1,5 +1,3 @@
-#define STB_IMAGE_IMPLEMENTATION
-
 #include "texture.hpp"
 
 #include "stb_image.h"

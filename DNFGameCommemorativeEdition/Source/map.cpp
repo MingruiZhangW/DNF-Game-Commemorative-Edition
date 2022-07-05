@@ -18,7 +18,7 @@ const std::vector<std::vector<std::vector<int>>> scene_one_floor_tiles = {
 // Scene one background tiles
 // 0 for far, 1 for mid
 const std::vector<std::vector<std::vector<int>>> scene_one_background_tiles = {
-    {{0, 1}, {0, 1}}
+    {{0, 1}, {0, 1}, {0, 1}, {0, 1}}
 };
 
 // clang-format on

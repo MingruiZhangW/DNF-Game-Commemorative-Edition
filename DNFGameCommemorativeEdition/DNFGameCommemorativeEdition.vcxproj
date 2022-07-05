@@ -43,6 +43,8 @@
     <ClInclude Include="Header\stb_image.h" />
     <ClInclude Include="Header\constant.hpp" />
     <ClInclude Include="Header\texture.hpp" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -61,6 +63,8 @@
     <ClCompile Include="Source\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource\Icon\icon.ico" />
+    <Image Include="Resource\Icon\icon.jfif" />
     <Image Include="Resource\Texture\Background\backgoundMid.png" />
     <Image Include="Resource\Texture\Background\backgroundFar.png" />
     <Image Include="Resource\Texture\Player\Stand\stand.png" />

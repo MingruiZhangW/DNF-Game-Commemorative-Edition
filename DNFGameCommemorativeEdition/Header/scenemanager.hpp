@@ -15,9 +15,12 @@ public:
     SceneManager(ShaderProgram* shader, GLfloat frameBufferWidth, GLfloat frameBufferHeight);
     ~SceneManager();
 
+    // Scenes
     void constructScenes();
-
     void drawSceneOne();
+
+    // Player
+    void movePlayer(Player::PlayerMoveDir moveDir);
 
 private:
     void renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat);

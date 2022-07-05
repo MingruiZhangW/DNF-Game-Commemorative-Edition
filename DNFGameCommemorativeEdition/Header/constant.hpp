@@ -2,6 +2,10 @@
 
 #include <string>
 
+namespace IconPath {
+const std::string iconPath {"Resource/Icon/icon.jfif"};
+} // namespace IconPath
+
 namespace StringContant {
 const std::string playerName {"player_fire"};
 const std::string sceneOneRootNodeName {"root_scene_one"};
@@ -46,3 +50,10 @@ const std::string y {"y"};
 const std::string w {"w"};
 const std::string h {"h"};
 } // namespace SSJsonKeys
+
+namespace GLFWArrowKeyRemap {
+const unsigned int upKey {15};
+const unsigned int downKey {28};
+const unsigned int leftKey {39};
+const unsigned int rightKey {42};
+} // namespace GLFWArrowKeyRemap

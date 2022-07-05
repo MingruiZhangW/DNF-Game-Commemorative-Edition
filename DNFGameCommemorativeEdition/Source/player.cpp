@@ -1,6 +1,5 @@
 #include "player.hpp"
 #include "gamewindow.hpp"
-#include "constant.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -46,6 +45,7 @@ Player::Player(ShaderProgram* shader)
     , m_stand_move_speed(100)
     , m_walk_move_speed(50)
     , m_player_mode(PlayerMode::Walk)
+    , m_player_move_dir(PlayerMoveDir::None)
 {
     // Load texture
     std::ifstream ifs(TexturePath::playerWalkJsonPath);
@@ -112,7 +112,6 @@ Player::Player(ShaderProgram* shader)
     CHECK_GL_ERRORS;
 }
 
-#pragma optimize("", off)
 void
 Player::updateTexCoord()
 {
@@ -126,6 +125,7 @@ Player::updateTexCoord()
 
     m_current_walk_frame = frameNumber;
 
+    // get sprite sheet coord
     auto texX
         = m_play_walk_json_parser[SSJsonKeys::frames][frameNumber][SSJsonKeys::frame][SSJsonKeys::x]
               .get<float>();
@@ -139,6 +139,7 @@ Player::updateTexCoord()
         = m_play_walk_json_parser[SSJsonKeys::frames][frameNumber][SSJsonKeys::frame][SSJsonKeys::h]
               .get<float>();
 
+    // update each data point to tex coord
     player_texture_coord_data[0] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
     player_texture_coord_data[1] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
 

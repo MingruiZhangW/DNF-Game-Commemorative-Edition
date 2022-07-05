@@ -42,4 +42,8 @@ protected:
     // Matrices controlling the camera and projection.
     glm::mat4 m_proj;
     glm::mat4 m_view;
+
+    // Player movement
+    std::vector<int> m_player_walk_key_sequence;
+    std::vector<int> m_player_run_key_sequence;
 };

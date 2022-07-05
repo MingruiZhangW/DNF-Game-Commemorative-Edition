@@ -7,6 +7,8 @@
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 #include <sstream>
 #include <iostream>
@@ -347,6 +349,13 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
     // Clear error buffer.
     while (glGetError() != GL_NO_ERROR)
         ;
+
+    // Set Window Icon
+    GLFWimage icons[1];
+    icons[0].pixels = stbi_load(IconPath::iconPath.c_str(), &icons[0].width, &icons[0].height, 0, 4);
+
+    glfwSetWindowIcon(m_window, 1, icons);
+    stbi_image_free(icons[0].pixels);
 
     try {
         // Wait until m_monitor refreshes before swapping front and back buffers.

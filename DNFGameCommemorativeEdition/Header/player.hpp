@@ -3,6 +3,7 @@
 #include "geometrynode.hpp"
 #include "shaderprogram.hpp"
 #include "texture.hpp"
+#include "constant.hpp"
 
 #include "json.hpp"
 
@@ -19,6 +20,19 @@ public:
     ~Player() {}
 
     enum class PlayerMode { Stand, Walk };
+
+    // Make enum instead of enum class
+    enum PlayerMoveDir {
+        None = 0,
+        Left = GLFWArrowKeyRemap::leftKey,
+        LeftUp = GLFWArrowKeyRemap::leftKey + GLFWArrowKeyRemap::upKey,
+        LeftDown = GLFWArrowKeyRemap::leftKey + GLFWArrowKeyRemap::downKey,
+        Right = GLFWArrowKeyRemap::rightKey,
+        RightUp = GLFWArrowKeyRemap::rightKey + GLFWArrowKeyRemap::upKey,
+        RightDown = GLFWArrowKeyRemap::rightKey + GLFWArrowKeyRemap::downKey,
+        Up = GLFWArrowKeyRemap::upKey,
+        Down = GLFWArrowKeyRemap::downKey
+    };
 
     void draw();
 
@@ -41,6 +55,7 @@ private:
     GLfloat m_player_height;
 
     PlayerMode m_player_mode;
+    PlayerMoveDir m_player_move_dir;
 
     json m_play_stand_json_parser;
     unsigned int m_number_of_stand_frames;

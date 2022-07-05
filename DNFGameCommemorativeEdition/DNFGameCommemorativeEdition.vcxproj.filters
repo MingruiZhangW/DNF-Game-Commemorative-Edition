@@ -40,6 +40,9 @@
     <Filter Include="Resource Files\Texture\Player\Stand">
       <UniqueIdentifier>{2b804cf0-2702-43a4-811e-84544cacbed9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Icon">
+      <UniqueIdentifier>{a29c1a76-137b-4b8e-a7e7-86e6e04317e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -110,6 +113,12 @@
     <ClInclude Include="Header\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -173,6 +182,12 @@
     </Image>
     <Image Include="Resource\Texture\Player\Stand\stand.png">
       <Filter>Resource Files\Texture\Player\Stand</Filter>
+    </Image>
+    <Image Include="Resource\Icon\icon.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </Image>
+    <Image Include="Resource\Icon\icon.jfif">
+      <Filter>Resource Files\Icon</Filter>
     </Image>
   </ItemGroup>
 </Project>
