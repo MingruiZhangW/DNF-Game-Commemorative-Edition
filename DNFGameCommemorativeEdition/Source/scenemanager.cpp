@@ -71,5 +71,5 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
 void
 SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
 {
-    m_player->translate(glm::vec3(10.0f, 0.0f, 0.0f));
+    m_player->move(moveDir);
 }

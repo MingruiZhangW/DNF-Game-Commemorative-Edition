@@ -36,7 +36,10 @@ public:
 
     void draw();
 
+    void move(PlayerMoveDir playerMoveDir);
+
 private:
+    void flipSprite();
     void updateTexCoord();
 
     ShaderProgram* m_shader;
@@ -54,18 +57,20 @@ private:
     GLfloat m_player_width;
     GLfloat m_player_height;
 
+    bool m_player_sprite_facing_left_dir;
     PlayerMode m_player_mode;
     PlayerMoveDir m_player_move_dir;
+    float m_player_walk_translate_speed;
 
     json m_play_stand_json_parser;
     unsigned int m_number_of_stand_frames;
-    unsigned int m_stand_move_speed;
+    unsigned int m_stand_animation_move_speed;
     std::string m_current_stand_frame;
     Texture m_stand_textures_sheet;
 
     json m_play_walk_json_parser;
     unsigned int m_number_of_walk_frames;
-    unsigned int m_walk_move_speed;
+    unsigned int m_walk_animation_move_speed;
     std::string m_current_walk_frame;
     Texture m_walk_textures_sheet;
 };

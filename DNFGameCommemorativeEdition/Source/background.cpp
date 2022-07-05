@@ -47,7 +47,7 @@ Background::Background(const std::string& name,
     m_texture.loadTexture();
 
     if (width == 0)
-        width = m_texture.getTextureWidth();
+        width = static_cast<float>(m_texture.getTextureWidth());
 
     m_plane_width = width;
     m_plane_height = height;

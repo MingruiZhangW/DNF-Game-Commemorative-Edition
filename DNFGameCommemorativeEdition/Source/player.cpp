@@ -42,15 +42,18 @@ static GLfloat player_texture_coord_data[] =
 Player::Player(ShaderProgram* shader)
     : GeometryNode(StringContant::playerName)
     , m_shader(shader)
-    , m_stand_move_speed(100)
-    , m_walk_move_speed(50)
+    , m_stand_animation_move_speed(100)
+    , m_walk_animation_move_speed(50)
     , m_player_mode(PlayerMode::Walk)
     , m_player_move_dir(PlayerMoveDir::None)
+    , m_player_sprite_facing_left_dir(true)
+    , m_player_walk_translate_speed(10.0f)
 {
     // Load texture
     std::ifstream ifs(TexturePath::playerWalkJsonPath);
     m_play_walk_json_parser = json::parse(ifs);
-    m_number_of_walk_frames = m_play_walk_json_parser[SSJsonKeys::frames].size();
+    m_number_of_walk_frames = static_cast<unsigned int>(
+        m_play_walk_json_parser[SSJsonKeys::frames].size());
     m_walk_textures_sheet = Texture(TexturePath::playerWalkPNGPath);
     m_walk_textures_sheet.loadTexture();
 
@@ -116,7 +119,7 @@ void
 Player::updateTexCoord()
 {
     auto frameNumber = std::to_string(
-        static_cast<int>((GameWindow::getTimeTickInMs() / m_walk_move_speed)
+        static_cast<int>((GameWindow::getTimeTickInMs() / m_walk_animation_move_speed)
                          % m_number_of_walk_frames)
         + 1);
 
@@ -199,4 +202,68 @@ Player::draw()
 
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
+}
+
+void
+Player::move(PlayerMoveDir playerMoveDir)
+{
+    switch (playerMoveDir) {
+    case Player::None:
+        break;
+    case Player::Left:
+        if (!m_player_sprite_facing_left_dir)
+            flipSprite();
+
+        translate(glm::vec3(-m_player_walk_translate_speed, 0.0, 0.0f));
+        break;
+    case Player::LeftUp:
+        if (!m_player_sprite_facing_left_dir)
+            flipSprite();
+
+        translate(glm::vec3(-m_player_walk_translate_speed, m_player_walk_translate_speed, 0.0f));
+        break;
+    case Player::LeftDown:
+        if (!m_player_sprite_facing_left_dir)
+            flipSprite();
+
+        translate(glm::vec3(-m_player_walk_translate_speed, -m_player_walk_translate_speed, 0.0f));
+        break;
+    case Player::Right:
+        if (m_player_sprite_facing_left_dir)
+            flipSprite();
+
+        translate(glm::vec3(m_player_walk_translate_speed, 0.0f, 0.0f));
+        break;
+    case Player::RightUp:
+        if (m_player_sprite_facing_left_dir)
+            flipSprite();
+
+        translate(glm::vec3(m_player_walk_translate_speed, m_player_walk_translate_speed, 0.0f));
+        break;
+    case Player::RightDown:
+        if (m_player_sprite_facing_left_dir)
+            flipSprite();
+
+        translate(glm::vec3(m_player_walk_translate_speed, -m_player_walk_translate_speed, 0.0f));
+        break;
+    case Player::Up:
+        translate(glm::vec3(0.0f, m_player_walk_translate_speed, 0.0f));
+        break;
+    case Player::Down:
+        translate(glm::vec3(0.0f, -m_player_walk_translate_speed, 0.0f));
+        break;
+    default:
+        break;
+    }
+}
+
+void
+Player::flipSprite()
+{
+    m_player_sprite_facing_left_dir = !m_player_sprite_facing_left_dir;
+
+    m_trans = m_trans = m_trans * glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.0f));
+    m_trans = m_trans
+              * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_trans = m_trans * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
 }

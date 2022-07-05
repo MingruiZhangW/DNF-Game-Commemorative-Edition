@@ -59,7 +59,7 @@ Game::init()
 void
 Game::appLogic()
 {
-    // Place per frame, application logic here ...
+    handleInputKeys();
 }
 
 /*
@@ -172,172 +172,108 @@ Game::keyInputEvent(int key, int action, int mods)
 {
     bool eventHandled(false);
 
+    // Don't accept unknown keys
+    if (key == GLFW_KEY_UNKNOWN)
+        return eventHandled;
+
+    if (action == GLFW_PRESS) {
+        switch (key) {
+        case GLFW_KEY_UP:
+            if (m_player_walk_up_down_key_sequence.size() <= 2)
+                m_player_walk_up_down_key_sequence.emplace_back(GLFWArrowKeyRemap::upKey);
+            break;
+        case GLFW_KEY_DOWN:
+            if (m_player_walk_up_down_key_sequence.size() <= 2)
+                m_player_walk_up_down_key_sequence.emplace_back(GLFWArrowKeyRemap::downKey);
+            break;
+        case GLFW_KEY_LEFT:
+            if (m_player_walk_left_right_key_sequence.size() <= 2)
+                m_player_walk_left_right_key_sequence.emplace_back(GLFWArrowKeyRemap::leftKey);
+            break;
+        case GLFW_KEY_RIGHT:
+            if (m_player_walk_left_right_key_sequence.size() <= 2)
+                m_player_walk_left_right_key_sequence.emplace_back(GLFWArrowKeyRemap::rightKey);
+            break;
+        default:
+            break;
+        }
+
+        eventHandled = true;
+    } else if (action == GLFW_RELEASE) {
+        switch (key) {
+        case GLFW_KEY_UP:
+            for (auto it = m_player_walk_up_down_key_sequence.begin();
+                 it != m_player_walk_up_down_key_sequence.end();) {
+                if (*it == GLFWArrowKeyRemap::upKey) {
+                    m_player_walk_up_down_key_sequence.erase(it);
+                    break;
+                } else {
+                    ++it;
+                }
+            }
+            break;
+        case GLFW_KEY_DOWN:
+            for (auto it = m_player_walk_up_down_key_sequence.begin();
+                 it != m_player_walk_up_down_key_sequence.end();) {
+                if (*it == GLFWArrowKeyRemap::downKey) {
+                    m_player_walk_up_down_key_sequence.erase(it);
+                    break;
+                } else {
+                    ++it;
+                }
+            }
+            std::cout << m_player_walk_up_down_key_sequence[0] << std::endl;
+            break;
+        case GLFW_KEY_LEFT:
+            for (auto it = m_player_walk_left_right_key_sequence.begin();
+                 it != m_player_walk_left_right_key_sequence.end();) {
+                if (*it == GLFWArrowKeyRemap::leftKey) {
+                    m_player_walk_left_right_key_sequence.erase(it);
+                    break;
+                } else {
+                    ++it;
+                }
+            }
+            break;
+        case GLFW_KEY_RIGHT:
+            for (auto it = m_player_walk_left_right_key_sequence.begin();
+                 it != m_player_walk_left_right_key_sequence.end();) {
+                if (*it == GLFWArrowKeyRemap::rightKey) {
+                    m_player_walk_left_right_key_sequence.erase(it);
+                    break;
+                } else {
+                    ++it;
+                }
+            }
+            break;
+        default:
+            break;
+        }
+
+        eventHandled = true;
+    }
+
+    return eventHandled;
+}
+
+void
+Game::handleInputKeys()
+{
     // Use the int property of enum
     // calculate the dir for the player
     int dominant_updown {0};
     int dominant_leftright {0};
-    if (action == GLFW_PRESS) {
-        switch (key) {
-        case GLFW_KEY_UP:
-            if (m_player_walk_key_sequence.size() > 3)
-                return eventHandled;
-            m_player_walk_key_sequence.emplace_back(GLFWArrowKeyRemap::upKey);
 
-            for (auto i : m_player_walk_key_sequence) {
-                if (i == GLFWArrowKeyRemap::upKey || i == GLFWArrowKeyRemap::downKey)
-                    dominant_updown = i;
-                if (i == GLFWArrowKeyRemap::leftKey || i == GLFWArrowKeyRemap::rightKey)
-                    dominant_leftright = i;
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        case GLFW_KEY_DOWN:
-            if (m_player_walk_key_sequence.size() > 3)
-                return eventHandled;
-            ;
-            m_player_walk_key_sequence.emplace_back(GLFWArrowKeyRemap::downKey);
-
-            for (auto i : m_player_walk_key_sequence) {
-                if (i == GLFWArrowKeyRemap::upKey || i == GLFWArrowKeyRemap::downKey)
-                    dominant_updown = i;
-                if (i == GLFWArrowKeyRemap::leftKey || i == GLFWArrowKeyRemap::rightKey)
-                    dominant_leftright = i;
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        case GLFW_KEY_LEFT:
-            if (m_player_walk_key_sequence.size() > 3)
-                return eventHandled;
-            ;
-            m_player_walk_key_sequence.emplace_back(GLFWArrowKeyRemap::leftKey);
-
-            for (auto i : m_player_walk_key_sequence) {
-                if (i == GLFWArrowKeyRemap::upKey || i == GLFWArrowKeyRemap::downKey)
-                    dominant_updown = i;
-                if (i == GLFWArrowKeyRemap::leftKey || i == GLFWArrowKeyRemap::rightKey)
-                    dominant_leftright = i;
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        case GLFW_KEY_RIGHT:
-            if (m_player_walk_key_sequence.size() > 3)
-                return eventHandled;
-            ;
-            m_player_walk_key_sequence.emplace_back(GLFWArrowKeyRemap::rightKey);
-
-            for (auto i : m_player_walk_key_sequence) {
-                if (i == GLFWArrowKeyRemap::upKey || i == GLFWArrowKeyRemap::downKey)
-                    dominant_updown = i;
-                if (i == GLFWArrowKeyRemap::leftKey || i == GLFWArrowKeyRemap::rightKey)
-                    dominant_leftright = i;
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        default:
-            break;
-        }
-    } else if (action == GLFW_RELEASE) {
-        switch (key) {
-        case GLFW_KEY_UP:
-            for (auto it = m_player_walk_key_sequence.begin();
-                 it != m_player_walk_key_sequence.end();) {
-                if (*it == GLFWArrowKeyRemap::downKey)
-                    dominant_updown = *it;
-                if (*it == GLFWArrowKeyRemap::leftKey || *it == GLFWArrowKeyRemap::rightKey)
-                    dominant_leftright = *it;
-
-                if (*it = GLFWArrowKeyRemap::upKey) {
-                    m_player_walk_key_sequence.erase(it);
-                } else {
-                    ++it;
-                }
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        case GLFW_KEY_DOWN:
-            for (auto it = m_player_walk_key_sequence.begin();
-                 it != m_player_walk_key_sequence.end();) {
-                if (*it == GLFWArrowKeyRemap::upKey)
-                    dominant_updown = *it;
-                if (*it == GLFWArrowKeyRemap::leftKey || *it == GLFWArrowKeyRemap::rightKey)
-                    dominant_leftright = *it;
-
-                if (*it = GLFWArrowKeyRemap::downKey) {
-                    m_player_walk_key_sequence.erase(it);
-                } else {
-                    ++it;
-                }
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        case GLFW_KEY_LEFT:
-            for (auto it = m_player_walk_key_sequence.begin();
-                 it != m_player_walk_key_sequence.end();) {
-                if (*it == GLFWArrowKeyRemap::upKey || GLFWArrowKeyRemap::downKey)
-                    dominant_updown = *it;
-                if (*it == GLFWArrowKeyRemap::rightKey)
-                    dominant_leftright = *it;
-
-                if (*it = GLFWArrowKeyRemap::leftKey) {
-                    m_player_walk_key_sequence.erase(it);
-                } else {
-                    ++it;
-                }
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        case GLFW_KEY_RIGHT:
-            for (auto it = m_player_walk_key_sequence.begin();
-                 it != m_player_walk_key_sequence.end();) {
-                if (*it == GLFWArrowKeyRemap::upKey || GLFWArrowKeyRemap::downKey)
-                    dominant_updown = *it;
-                if (*it == GLFWArrowKeyRemap::leftKey)
-                    dominant_leftright = *it;
-
-                if (*it = GLFWArrowKeyRemap::rightKey) {
-                    m_player_walk_key_sequence.erase(it);
-                } else {
-                    ++it;
-                }
-            }
-
-            m_scene_manager->movePlayer(
-                static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
-
-            eventHandled = true;
-            break;
-        default:
-            break;
-        }
+    for (auto i : m_player_walk_up_down_key_sequence) {
+        if (i == GLFWArrowKeyRemap::upKey || i == GLFWArrowKeyRemap::downKey)
+            dominant_updown = i;
     }
 
-    return eventHandled;
+    for (auto i : m_player_walk_left_right_key_sequence) {
+        if (i == GLFWArrowKeyRemap::leftKey || i == GLFWArrowKeyRemap::rightKey)
+            dominant_leftright = i;
+    }
+
+    m_scene_manager->movePlayer(
+        static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
 }

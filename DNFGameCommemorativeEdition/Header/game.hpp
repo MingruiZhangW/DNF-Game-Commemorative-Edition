@@ -32,6 +32,9 @@ protected:
     virtual bool windowResizeEvent(int width, int height) override;
     virtual bool keyInputEvent(int key, int action, int mods) override;
 
+    // Thin layer for input key handling
+    void handleInputKeys();
+
     std::unique_ptr<SceneManager> m_scene_manager;
 
     ShaderProgram m_shader;
@@ -44,6 +47,8 @@ protected:
     glm::mat4 m_view;
 
     // Player movement
-    std::vector<int> m_player_walk_key_sequence;
-    std::vector<int> m_player_run_key_sequence;
+    std::vector<int> m_player_walk_up_down_key_sequence;
+    std::vector<int> m_player_walk_left_right_key_sequence;
+    std::vector<int> m_player_run_key_up_down_sequence;
+    std::vector<int> m_player_run_key_left_right_sequence;
 };
