@@ -1,6 +1,4 @@
 #include "scenemanager.hpp"
-#include "constant.hpp"
-#include "map.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -29,7 +27,7 @@ SceneManager::SceneManager(ShaderProgram* shader,
     : m_shader(shader)
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
-    , m_scene_one_root_node(std::make_unique<SceneNode>(StringContant::sceneOneRootNodeName))
+    , m_player(std::make_unique<Player>(m_shader))
 {}
 
 SceneManager::~SceneManager() {}
@@ -37,13 +35,17 @@ SceneManager::~SceneManager() {}
 void
 SceneManager::constructScenes()
 {
-    constructSceneOne();
+    m_scene_one = std::make_unique<SceneOne>(m_shader,
+                                             m_frame_buffer_width,
+                                             m_frame_buffer_height,
+                                             m_player.get());
 }
 
 void
 SceneManager::drawSceneOne()
 {
-    renderSceneGraphNodes(m_scene_one_root_node.get(), m_scene_one_root_node->getTransform());
+    renderSceneGraphNodes(m_scene_one->getRootSceneNode(),
+                          m_scene_one->getRootSceneNode()->getTransform());
 }
 
 void
@@ -64,13 +66,4 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
     for (auto i : node->m_children) {
         renderSceneGraphNodes(i, trans);
     }
-}
-
-void
-SceneManager::constructSceneOne()
-{
-    Map* sceneOneMap = new Map(m_shader, m_frame_buffer_width, m_frame_buffer_height);
-    sceneOneMap->initSceneOneMap();
-
-    m_scene_one_root_node->addChild(sceneOneMap);
 }

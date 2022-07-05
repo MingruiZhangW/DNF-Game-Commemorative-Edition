@@ -22,6 +22,7 @@
     <None Include="..\README.md" />
     <None Include="Resource\Shaders\shader.frag" />
     <None Include="Resource\Shaders\shader.vert" />
+    <None Include="Resource\Texture\Player\Walk\walk_spritesheet.json" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\background.hpp" />
@@ -31,9 +32,12 @@
     <ClInclude Include="Header\gamewindow.hpp" />
     <ClInclude Include="Header\geometrynode.hpp" />
     <ClInclude Include="Header\glerrorcheck.hpp" />
+    <ClInclude Include="Header\json.hpp" />
     <ClInclude Include="Header\map.hpp" />
+    <ClInclude Include="Header\player.hpp" />
     <ClInclude Include="Header\scenemanager.hpp" />
     <ClInclude Include="Header\scenenode.hpp" />
+    <ClInclude Include="Header\sceneone.h" />
     <ClInclude Include="Header\shaderexception.hpp" />
     <ClInclude Include="Header\shaderprogram.hpp" />
     <ClInclude Include="Header\stb_image.h" />
@@ -49,14 +53,18 @@
     <ClCompile Include="Source\geometrynode.cpp" />
     <ClCompile Include="Source\glerrorcheck.cpp" />
     <ClCompile Include="Source\map.cpp" />
+    <ClCompile Include="Source\player.cpp" />
     <ClCompile Include="Source\scenemanager.cpp" />
     <ClCompile Include="Source\scenenode.cpp" />
+    <ClCompile Include="Source\sceneone.cpp" />
     <ClCompile Include="Source\shaderprogram.cpp" />
     <ClCompile Include="Source\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Texture\Background\backgoundMid.png" />
     <Image Include="Resource\Texture\Background\backgroundFar.png" />
+    <Image Include="Resource\Texture\Player\Stand\stand.png" />
+    <Image Include="Resource\Texture\Player\Walk\walk_spritesheet.png" />
     <Image Include="Resource\Texture\Tiles\grassTile.png" />
     <Image Include="Resource\Texture\Tiles\roadTile.png" />
   </ItemGroup>

@@ -118,7 +118,3 @@ Map::initSceneOneMap()
         }
     }
 }
-
-void
-Map::updateWindowGeo()
-{}

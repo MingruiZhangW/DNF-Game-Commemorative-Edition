@@ -12,11 +12,14 @@
 #include <iostream>
 #include <cstdio>
 #include <ctime>
+#include <chrono>
+#include <limits.h>
 
 #include <Windows.h>
 
 //-- Static member initialization:
 std::string GameWindow::m_exec_dir = ".";
+std::chrono::high_resolution_clock::time_point m_game_clock;
 std::shared_ptr<GameWindow> GameWindow::m_instance = nullptr;
 
 static void printGLInfo();
@@ -259,6 +262,18 @@ GameWindow::launch(int argc,
 }
 
 //----------------------------------------------------------------------------------------
+int
+GameWindow::getTimeTickInMs()
+{
+    auto timeTicks = std::chrono::high_resolution_clock::now() - m_game_clock;
+    auto msTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeTicks).count();
+    if (msTime > INT_MAX - 1000000)
+        m_game_clock = std::chrono::high_resolution_clock::now();
+    return static_cast<int>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(timeTicks).count());
+}
+
+//----------------------------------------------------------------------------------------
 void
 GameWindow::run(int width, int height, const std::string& windowTitle, float desiredFramesPerSecond)
 {
@@ -278,6 +293,7 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     glfwWindowHint(GLFW_SAMPLES, 0);
     glfwWindowHint(GLFW_RED_BITS, 8);
     glfwWindowHint(GLFW_GREEN_BITS, 8);
@@ -341,6 +357,7 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
         init();
 
         // steady_clock::time_point frameStartTime;
+        m_game_clock = std::chrono::high_resolution_clock::now();
         std::clock_t start;
         float duration;
 

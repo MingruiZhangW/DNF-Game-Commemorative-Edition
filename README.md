@@ -7,5 +7,7 @@ Mini DNF Like Game
 - MSVC v143
 - Windows SDK 10.0.19041.0
 - C++ 17
+- https://github.com/nlohmann/json
+- https://www.codeandweb.com/free-sprite-sheet-packer
 
 [Based on CS488 framework](https://student.cs.uwaterloo.ca/~cs488/Spring2022/)

@@ -23,6 +23,8 @@ public:
                        const std::string& title,
                        float fps = 60.0f);
 
+    static int getTimeTickInMs();
+
 protected:
     GameWindow(); // Prevent direct construction.
 

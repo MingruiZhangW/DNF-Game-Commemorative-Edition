@@ -13,7 +13,6 @@ public:
     ~Map();
 
     void initSceneOneMap();
-    void updateWindowGeo();
 
 protected:
     ShaderProgram* m_shader;

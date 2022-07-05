@@ -31,6 +31,15 @@
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{88a28f6f-991c-4fac-ad13-7300c624afbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Player">
+      <UniqueIdentifier>{4a6278e9-bdce-4da1-bbd5-f89414d6b34f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture\Player\Walk">
+      <UniqueIdentifier>{dc084cdf-1a3f-4ebe-91c0-55a2d9c9809c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture\Player\Stand">
+      <UniqueIdentifier>{2b804cf0-2702-43a4-811e-84544cacbed9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -41,6 +50,9 @@
     </None>
     <None Include="Resource\Shaders\shader.vert">
       <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Resource\Texture\Player\Walk\walk_spritesheet.json">
+      <Filter>Resource Files\Texture\Player\Walk</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +101,15 @@
     <ClInclude Include="Header\map.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Header\sceneone.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\player.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -127,6 +148,12 @@
     <ClCompile Include="Source\map.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\sceneone.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\player.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Texture\Tiles\grassTile.png">
@@ -140,6 +167,12 @@
     </Image>
     <Image Include="Resource\Texture\Tiles\roadTile.png">
       <Filter>Resource Files\Texture\Tiles</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Player\Walk\walk_spritesheet.png">
+      <Filter>Resource Files\Texture\Player\Walk</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Player\Stand\stand.png">
+      <Filter>Resource Files\Texture\Player\Stand</Filter>
     </Image>
   </ItemGroup>
 </Project>
