@@ -10,9 +10,9 @@
 // First vector and second vector represents matrix
 // Third vector represents tile map blend at location (arts with alpha channel)
 const std::vector<std::vector<std::vector<int>>> scene_one_floor_tiles = {
-    {{0}, {0}, {0}, {0}, {0}, {0}, {0}},
-    {{0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}},
-    {{0}, {0}, {0}, {0}, {0}, {0}, {0}}
+    {{0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}},
+    {{0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}},
+    {{0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}}
 };
 
 // Scene one background tiles
@@ -28,6 +28,9 @@ Map::Map(ShaderProgram* shader, GLfloat width, GLfloat height)
     , m_shader(shader)
     , m_window_width(width)
     , m_window_height(height)
+    , m_map_boundary(glm::vec4(0.0f))
+    , m_map_top_offset(0.0f)
+    , m_map_right_offset(0.0f)
 {}
 
 Map::~Map() {}
@@ -35,6 +38,8 @@ Map::~Map() {}
 void
 Map::initSceneOneMap()
 {
+    m_map_boundary.z = 0.0f;
+
     // Background tile
     float rowNum = static_cast<float>(scene_one_background_tiles.size());
     float colNum = static_cast<float>(scene_one_background_tiles[0].size());
@@ -60,6 +65,8 @@ Map::initSceneOneMap()
                         glm::vec3(farBack->getTextureGeo().x * j, upTranslation * (i + 1), 0.0f));
 
                     addChild(farBack);
+
+                    m_map_boundary.w = m_map_boundary.w + farBack->getTextureGeo().x;
                 } else if (scene_one_background_tiles[i][j][k] == 1) {
                     Background* midBack = new Background(StringContant::sceneOneBackgroundName
                                                              + std::to_string(i + j + k),
@@ -80,6 +87,10 @@ Map::initSceneOneMap()
     // Floor tile
     rowNum = static_cast<float>(scene_one_floor_tiles.size());
     colNum = static_cast<float>(scene_one_floor_tiles[0].size());
+    m_map_boundary.x = (m_window_height * RatioContant::floorHeightScaleRatio)
+                           * RatioContant::attachOffset
+                       - m_map_top_offset;
+    m_map_boundary.y = 0;
 
     for (size_t i = 0; i < rowNum; i++) {
         for (size_t j = 0; j < colNum; j++) {
@@ -117,4 +128,12 @@ Map::initSceneOneMap()
             }
         }
     }
+
+    m_map_boundary.w = m_map_boundary.w - m_map_right_offset;
+}
+
+glm::vec4
+Map::getMapBoundary()
+{
+    return m_map_boundary;
 }

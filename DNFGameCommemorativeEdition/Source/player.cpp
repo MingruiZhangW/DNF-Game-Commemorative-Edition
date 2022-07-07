@@ -47,7 +47,9 @@ Player::Player(ShaderProgram* shader)
     , m_player_mode(PlayerMode::Walk)
     , m_player_move_dir(PlayerMoveDir::None)
     , m_player_sprite_facing_left_dir(true)
-    , m_player_walk_translate_speed(10.0f)
+    , m_player_dx(0.0f)
+    , m_player_dy(0.0f)
+    , m_current_map_boundary(glm::vec4(0.0f))
 {
     // Load texture
     std::ifstream ifs(TexturePath::playerWalkJsonPath);
@@ -57,8 +59,10 @@ Player::Player(ShaderProgram* shader)
     m_walk_textures_sheet = Texture(TexturePath::playerWalkPNGPath);
     m_walk_textures_sheet.loadTexture();
 
-    m_player_width = 200.0f;
-    m_player_height = 165.0f;
+    m_player_dx = SpriteSize::playerWidth / 2.0f;
+    m_player_dy = SpriteSize::playerHeight / 2.0f;
+    m_player_width = SpriteSize::playerWidth;
+    m_player_height = SpriteSize::playerHeight;
 
     // S * T * R * T^-1
     // Scale will have no effect on translation
@@ -214,43 +218,43 @@ Player::move(PlayerMoveDir playerMoveDir)
         if (!m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(-m_player_walk_translate_speed, 0.0, 0.0f));
+        translate(glm::vec3(-PlayerFollowCameraSpeed::walk, 0.0, 0.0f));
         break;
     case Player::LeftUp:
         if (!m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(-m_player_walk_translate_speed, m_player_walk_translate_speed, 0.0f));
+        translate(glm::vec3(-PlayerFollowCameraSpeed::walk, PlayerFollowCameraSpeed::walk, 0.0f));
         break;
     case Player::LeftDown:
         if (!m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(-m_player_walk_translate_speed, -m_player_walk_translate_speed, 0.0f));
+        translate(glm::vec3(-PlayerFollowCameraSpeed::walk, -PlayerFollowCameraSpeed::walk, 0.0f));
         break;
     case Player::Right:
         if (m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(m_player_walk_translate_speed, 0.0f, 0.0f));
+        translate(glm::vec3(PlayerFollowCameraSpeed::walk, 0.0f, 0.0f));
         break;
     case Player::RightUp:
         if (m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(m_player_walk_translate_speed, m_player_walk_translate_speed, 0.0f));
+        translate(glm::vec3(PlayerFollowCameraSpeed::walk, PlayerFollowCameraSpeed::walk, 0.0f));
         break;
     case Player::RightDown:
         if (m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(m_player_walk_translate_speed, -m_player_walk_translate_speed, 0.0f));
+        translate(glm::vec3(PlayerFollowCameraSpeed::walk, -PlayerFollowCameraSpeed::walk, 0.0f));
         break;
     case Player::Up:
-        translate(glm::vec3(0.0f, m_player_walk_translate_speed, 0.0f));
+        translate(glm::vec3(0.0f, PlayerFollowCameraSpeed::walk, 0.0f));
         break;
     case Player::Down:
-        translate(glm::vec3(0.0f, -m_player_walk_translate_speed, 0.0f));
+        translate(glm::vec3(0.0f, -PlayerFollowCameraSpeed::walk, 0.0f));
         break;
     default:
         break;
@@ -266,4 +270,40 @@ Player::flipSprite()
     m_trans = m_trans
               * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     m_trans = m_trans * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
+}
+
+void
+Player::translate(const glm::vec3& amount)
+{
+    auto finalTrans = amount;
+    if (m_player_dx + amount.x < m_current_map_boundary.z
+        || m_player_dx + amount.x > m_current_map_boundary.w)
+        finalTrans.x = 0.0f;
+    else
+        m_player_dx = m_player_dx + finalTrans.x;
+
+    if (m_player_dy + amount.y > m_current_map_boundary.x
+        || m_player_dy + amount.y < m_current_map_boundary.y)
+        finalTrans.y = 0.0f;
+    else
+        m_player_dy = m_player_dy + finalTrans.y;
+
+    SceneNode::translate(finalTrans);
+}
+
+void
+Player::setCurrentMapBoundary(glm::vec4 mapBoundary)
+{
+    m_current_map_boundary = mapBoundary;
+    m_current_map_boundary.x = m_current_map_boundary.x;
+    m_current_map_boundary.y = m_current_map_boundary.y + SpriteSize::playerHeight / 2.0f;
+
+    m_current_map_boundary.z = m_current_map_boundary.z + SpriteSize::playerWidth / 2.0f;
+    m_current_map_boundary.w = m_current_map_boundary.w - SpriteSize::playerWidth / 2.0f;
+}
+
+float
+Player::getPlayerDx()
+{
+    return m_player_dx;
 }

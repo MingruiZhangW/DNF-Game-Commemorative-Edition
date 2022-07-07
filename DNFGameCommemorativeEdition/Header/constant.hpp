@@ -1,6 +1,16 @@
 #pragma once
 
 #include <string>
+#include <limits>
+#include <cmath>
+
+namespace Utils {
+static bool
+areSame(float a, float b)
+{
+    return fabs(a - b) < std::numeric_limits<float>::epsilon();
+}
+} // namespace Utils
 
 namespace IconPath {
 const std::string iconPath {"Resource/Icon/icon.jfif"};
@@ -38,8 +48,8 @@ const std::string playerWalkJsonPath {"Resource/Texture/Player/Walk/walk_sprites
 } // namespace TexturePath
 
 namespace SpriteSize {
-const float playerHeight {200.0f};
-const float playerWidth {165.0f};
+const float playerHeight {165.0f};
+const float playerWidth {200.0f};
 } // namespace SpriteSize
 
 namespace SSJsonKeys {
@@ -57,3 +67,8 @@ const unsigned int downKey {28};
 const unsigned int leftKey {39};
 const unsigned int rightKey {42};
 } // namespace GLFWArrowKeyRemap
+
+namespace PlayerFollowCameraSpeed {
+const float walk {10.0f};
+const float run {20.0f};
+} // namespace PlayerFollowCameraSpeed

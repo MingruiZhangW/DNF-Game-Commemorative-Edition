@@ -30,9 +30,9 @@ public:
     void removeChild(SceneNode* child);
 
     //-- Transformations:
-    void rotate(char axis, float angle);
-    void scale(const glm::vec3& amount);
-    void translate(const glm::vec3& amount);
+    virtual void rotate(char axis, float angle);
+    virtual void scale(const glm::vec3& amount);
+    virtual void translate(const glm::vec3& amount);
 
     static void nAryChildTraversal(SceneNode* sceneNode,
                                    std::function<void(SceneNode*)> callbackFunc);

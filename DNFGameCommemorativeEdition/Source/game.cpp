@@ -10,7 +10,10 @@
 #include <gtx/string_cast.hpp>
 
 // Constructor
-Game::Game() {}
+Game::Game()
+    : m_camera_pos(glm::vec3(0.0f, 0.0f, 0.0f))
+    , m_camera_front(glm::vec3(0.0f, 0.0f, -1.0f))
+{}
 
 // Destructor
 Game::~Game() {}
@@ -34,11 +37,8 @@ Game::init()
 
     // Set up initial view and projection matrices (need to do this here,
     // since it depends on the GLFW window being set up correctly).
-    // m_view = glm::lookAt(glm::vec3(0.0f, 16.0f, 16.0f),
-    //                     glm::vec3(0.0f, 0.0f, 0.0f),
-    //                     glm::vec3(0.0f, 1.0f, 0.0f));
+    m_view = glm::lookAt(m_camera_pos, m_camera_pos + m_camera_front, glm::vec3(0.0f, 1.0f, 0.0f));
 
-    m_view = glm::mat4(1.0f);
     m_proj = glm::ortho(0.0f,
                         static_cast<float>(m_framebufferWidth),
                         0.0f,
@@ -60,6 +60,7 @@ void
 Game::appLogic()
 {
     handleInputKeys();
+    m_view = glm::lookAt(m_camera_pos, m_camera_pos + m_camera_front, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 /*
@@ -95,7 +96,7 @@ Game::draw()
     glUniformMatrix4fv(V_uni, 1, GL_FALSE, value_ptr(m_view));
 
     // Main drawing
-    m_scene_manager->drawSceneOne();
+    m_scene_manager->drawCurrentScene();
 
     m_shader.disable();
 
@@ -222,7 +223,6 @@ Game::keyInputEvent(int key, int action, int mods)
                     ++it;
                 }
             }
-            std::cout << m_player_walk_up_down_key_sequence[0] << std::endl;
             break;
         case GLFW_KEY_LEFT:
             for (auto it = m_player_walk_left_right_key_sequence.begin();
@@ -276,4 +276,19 @@ Game::handleInputKeys()
 
     m_scene_manager->movePlayer(
         static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
+
+    processCameraMove();
+}
+
+void
+Game::processCameraMove()
+{
+    auto playDx = m_scene_manager->getPlayerDx();
+    auto mapWidthBound = m_scene_manager->getCurrentSceneMapBoundary().w
+                         - m_framebufferWidth / 2.0f;
+    auto halfWidthLine = m_framebufferWidth / 2.0f;
+
+    if (playDx > halfWidthLine && playDx < mapWidthBound) {
+        m_camera_pos.x = playDx - halfWidthLine;
+    }
 }

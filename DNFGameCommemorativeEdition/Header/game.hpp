@@ -35,6 +35,9 @@ protected:
     // Thin layer for input key handling
     void handleInputKeys();
 
+    // Handle player-follow camera
+    void processCameraMove();
+
     std::unique_ptr<SceneManager> m_scene_manager;
 
     ShaderProgram m_shader;
@@ -45,6 +48,8 @@ protected:
     // Matrices controlling the camera and projection.
     glm::mat4 m_proj;
     glm::mat4 m_view;
+    glm::vec3 m_camera_pos;
+    glm::vec3 m_camera_front;
 
     // Player movement
     std::vector<int> m_player_walk_up_down_key_sequence;

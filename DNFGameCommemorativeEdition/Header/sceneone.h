@@ -23,6 +23,11 @@ public:
         return m_scene_one_root_node.get();
     }
 
+    glm::vec4 getSceneOneMapBoundary()
+    {
+        return m_scene_one_map_boundary;
+    }
+
 private:
     void construct();
 
@@ -30,6 +35,8 @@ private:
     Player* m_player;
     GLfloat m_frame_buffer_width;
     GLfloat m_frame_buffer_height;
+
+    glm::vec4 m_scene_one_map_boundary;
 
     std::unique_ptr<SceneNode> m_scene_one_root_node;
 };

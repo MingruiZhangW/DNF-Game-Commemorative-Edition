@@ -28,6 +28,7 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(std::make_unique<Player>(m_shader))
+    , m_current_scene(CurrentScene::SceneOne)
 {}
 
 SceneManager::~SceneManager() {}
@@ -39,6 +40,18 @@ SceneManager::constructScenes()
                                              m_frame_buffer_width,
                                              m_frame_buffer_height,
                                              m_player.get());
+}
+
+void
+SceneManager::drawCurrentScene()
+{
+    switch (m_current_scene) {
+    case CurrentScene::SceneOne:
+        drawSceneOne();
+        break;
+    default:
+        break;
+    }
 }
 
 void
@@ -72,4 +85,23 @@ void
 SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
 {
     m_player->move(moveDir);
+}
+
+float
+SceneManager::getPlayerDx()
+{
+    return m_player->getPlayerDx();
+}
+
+glm::vec4
+SceneManager::getCurrentSceneMapBoundary()
+{
+    switch (m_current_scene) {
+    case SceneManager::CurrentScene::SceneOne:
+        return m_scene_one->getSceneOneMapBoundary();
+    default:
+        break;
+    }
+
+    return glm::vec4(0.0f);
 }

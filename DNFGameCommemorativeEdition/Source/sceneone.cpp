@@ -10,6 +10,7 @@ SceneOne::SceneOne(ShaderProgram* shader,
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(player)
+    , m_scene_one_map_boundary(glm::vec4(0.0f))
     , m_scene_one_root_node(std::make_unique<SceneNode>(StringContant::sceneOneRootNodeName))
 {
     construct();
@@ -29,4 +30,7 @@ SceneOne::construct()
 
     m_scene_one_root_node->addChild(sceneOneMap);
     m_scene_one_root_node->addChild(m_player);
+
+    m_scene_one_map_boundary = sceneOneMap->getMapBoundary();
+    m_player->setCurrentMapBoundary(m_scene_one_map_boundary);
 }
