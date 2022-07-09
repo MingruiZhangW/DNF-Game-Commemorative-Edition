@@ -23,6 +23,7 @@
 std::string GameWindow::m_exec_dir = ".";
 std::chrono::high_resolution_clock::time_point m_game_clock;
 std::shared_ptr<GameWindow> GameWindow::m_instance = nullptr;
+float m_game_delta_time {0.0f};
 
 static void printGLInfo();
 
@@ -264,15 +265,10 @@ GameWindow::launch(int argc,
 }
 
 //----------------------------------------------------------------------------------------
-int
-GameWindow::getTimeTickInMs()
+float
+GameWindow::getDeltaTime()
 {
-    auto timeTicks = std::chrono::high_resolution_clock::now() - m_game_clock;
-    auto msTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeTicks).count();
-    if (msTime > INT_MAX - 1000000)
-        m_game_clock = std::chrono::high_resolution_clock::now();
-    return static_cast<int>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(timeTicks).count());
+    return m_game_delta_time;
 }
 
 //----------------------------------------------------------------------------------------
@@ -399,6 +395,8 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
             if (FPS::frameDelay > duration) {
                 Sleep(FPS::frameDelay - duration);
             }
+
+            m_game_delta_time = (std::clock() - start) / static_cast<float>(CLOCKS_PER_SEC);
         }
 
     } catch (const std::exception& e) {

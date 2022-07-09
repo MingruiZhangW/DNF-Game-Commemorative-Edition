@@ -52,11 +52,14 @@ static const float m_player_shadow_shift_y{-110.0f};
 Player::Player(ShaderProgram* shader)
     : GeometryNode(StringContant::playerName)
     , m_shader(shader)
-    , m_stand_animation_move_speed(100)
-    , m_walk_animation_move_speed(50)
-    , m_player_mode(PlayerMode::Walk)
+    , m_stand_animation_move_speed(0.05f)
+    , m_walk_animation_move_speed(0.05f)
+    , m_player_mode(PlayerMode::Stand)
     , m_player_move_dir(PlayerMoveDir::None)
     , m_player_sprite_facing_left_dir(true)
+    , m_current_stand_frame("0")
+    , m_current_walk_frame("0")
+    , m_animation_cursor(0.0f)
     , m_player_dx(0.0f)
     , m_player_dy(0.0f)
     , m_player_center(SpriteSize::playerWidth / 2.0f, SpriteSize::playerHeight / 2.0f)
@@ -74,9 +77,17 @@ Player::Player(ShaderProgram* shader)
     m_shadow_v_uni = m_shadow_shader.getUniformLocation("V");
     m_shadow_m_uni = m_shadow_shader.getUniformLocation("M");
 
-    // Load texture
-    std::ifstream ifs(TexturePath::playerWalkJsonPath);
-    m_play_walk_json_parser = json::parse(ifs);
+    // Load texture - stand
+    std::ifstream ifs_s(TexturePath::playerStandJsonath);
+    m_play_stand_json_parser = json::parse(ifs_s);
+    m_number_of_stand_frames = static_cast<unsigned int>(
+        m_play_stand_json_parser[SSJsonKeys::frames].size());
+    m_stand_textures_sheet = Texture(TexturePath::playerStandPNGPath);
+    m_stand_textures_sheet.loadTexture();
+
+    // Load texture - walk
+    std::ifstream ifs_w(TexturePath::playerWalkJsonPath);
+    m_play_walk_json_parser = json::parse(ifs_w);
     m_number_of_walk_frames = static_cast<unsigned int>(
         m_play_walk_json_parser[SSJsonKeys::frames].size());
     m_walk_textures_sheet = Texture(TexturePath::playerWalkPNGPath);
@@ -143,50 +154,112 @@ Player::Player(ShaderProgram* shader)
 }
 
 void
+Player::updateFrame()
+{
+    m_animation_cursor = m_animation_cursor + GameWindow::getDeltaTime();
+
+    switch (m_player_mode) {
+    case Player::PlayerMode::Stand:
+        if (m_animation_cursor > m_stand_animation_move_speed) {
+            m_current_stand_frame = std::to_string((std::stoi(m_current_stand_frame) + 1)
+                                                   % m_number_of_stand_frames);
+            m_animation_cursor = 0;
+        } else
+            return;
+        break;
+    case Player::PlayerMode::Walk:
+        if (m_animation_cursor > m_walk_animation_move_speed) {
+            m_current_walk_frame = std::to_string((std::stoi(m_current_walk_frame) + 1)
+                                                  % m_number_of_walk_frames);
+            m_animation_cursor = 0;
+        } else
+            return;
+        break;
+    default:
+        break;
+    }
+
+    updateTexCoord();
+}
+
+void
 Player::updateTexCoord()
 {
-    auto frameNumber = std::to_string(
-        static_cast<int>((GameWindow::getTimeTickInMs() / m_walk_animation_move_speed)
-                         % m_number_of_walk_frames)
-        + 1);
+    float texX, texY, texW, texH;
 
-    if (frameNumber == m_current_walk_frame)
-        return;
+    switch (m_player_mode) {
+    case Player::PlayerMode::Stand:
+        // get sprite sheet coord
+        texX = m_play_stand_json_parser[SSJsonKeys::frames][m_current_stand_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::x]
+                                           .get<float>();
+        texY = m_play_stand_json_parser[SSJsonKeys::frames][m_current_stand_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::y]
+                                           .get<float>();
+        texW = m_play_stand_json_parser[SSJsonKeys::frames][m_current_stand_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::w]
+                                           .get<float>();
+        texH = m_play_stand_json_parser[SSJsonKeys::frames][m_current_stand_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::h]
+                                           .get<float>();
 
-    m_current_walk_frame = frameNumber;
+        // update each data point to tex coord
+        player_texture_coord_data[0] = (texX + texW) / m_stand_textures_sheet.getTextureWidth();
+        player_texture_coord_data[1] = (texY + texH) / m_stand_textures_sheet.getTextureHeight();
 
-    // get sprite sheet coord
-    auto texX
-        = m_play_walk_json_parser[SSJsonKeys::frames][frameNumber][SSJsonKeys::frame][SSJsonKeys::x]
-              .get<float>();
-    auto texY
-        = m_play_walk_json_parser[SSJsonKeys::frames][frameNumber][SSJsonKeys::frame][SSJsonKeys::y]
-              .get<float>();
-    auto texW
-        = m_play_walk_json_parser[SSJsonKeys::frames][frameNumber][SSJsonKeys::frame][SSJsonKeys::w]
-              .get<float>();
-    auto texH
-        = m_play_walk_json_parser[SSJsonKeys::frames][frameNumber][SSJsonKeys::frame][SSJsonKeys::h]
-              .get<float>();
+        player_texture_coord_data[2] = texX / m_stand_textures_sheet.getTextureWidth();
+        player_texture_coord_data[3] = (texY + texH) / m_stand_textures_sheet.getTextureHeight();
 
-    // update each data point to tex coord
-    player_texture_coord_data[0] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
-    player_texture_coord_data[1] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+        player_texture_coord_data[4] = (texX + texW) / m_stand_textures_sheet.getTextureWidth();
+        player_texture_coord_data[5] = texY / m_stand_textures_sheet.getTextureHeight();
 
-    player_texture_coord_data[2] = texX / m_walk_textures_sheet.getTextureWidth();
-    player_texture_coord_data[3] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+        player_texture_coord_data[6] = texX / m_stand_textures_sheet.getTextureWidth();
+        player_texture_coord_data[7] = texY / m_stand_textures_sheet.getTextureHeight();
 
-    player_texture_coord_data[4] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
-    player_texture_coord_data[5] = texY / m_walk_textures_sheet.getTextureHeight();
+        player_texture_coord_data[8] = texX / m_stand_textures_sheet.getTextureWidth();
+        player_texture_coord_data[9] = (texY + texH) / m_stand_textures_sheet.getTextureHeight();
 
-    player_texture_coord_data[6] = texX / m_walk_textures_sheet.getTextureWidth();
-    player_texture_coord_data[7] = texY / m_walk_textures_sheet.getTextureHeight();
+        player_texture_coord_data[10] = (texX + texW) / m_stand_textures_sheet.getTextureWidth();
+        player_texture_coord_data[11] = texY / m_stand_textures_sheet.getTextureHeight();
 
-    player_texture_coord_data[8] = texX / m_walk_textures_sheet.getTextureWidth();
-    player_texture_coord_data[9] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+        break;
+    case Player::PlayerMode::Walk:
+        // get sprite sheet coord
+        texX = m_play_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame][SSJsonKeys::frame]
+                                      [SSJsonKeys::x]
+                                          .get<float>();
+        texY = m_play_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame][SSJsonKeys::frame]
+                                      [SSJsonKeys::y]
+                                          .get<float>();
+        texW = m_play_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame][SSJsonKeys::frame]
+                                      [SSJsonKeys::w]
+                                          .get<float>();
+        texH = m_play_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame][SSJsonKeys::frame]
+                                      [SSJsonKeys::h]
+                                          .get<float>();
 
-    player_texture_coord_data[10] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
-    player_texture_coord_data[11] = texY / m_walk_textures_sheet.getTextureHeight();
+        // update each data point to tex coord
+        player_texture_coord_data[0] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
+        player_texture_coord_data[1] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[2] = texX / m_walk_textures_sheet.getTextureWidth();
+        player_texture_coord_data[3] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[4] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
+        player_texture_coord_data[5] = texY / m_walk_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[6] = texX / m_walk_textures_sheet.getTextureWidth();
+        player_texture_coord_data[7] = texY / m_walk_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[8] = texX / m_walk_textures_sheet.getTextureWidth();
+        player_texture_coord_data[9] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[10] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
+        player_texture_coord_data[11] = texY / m_walk_textures_sheet.getTextureHeight();
+        break;
+    default:
+        break;
+    }
 
     glBindVertexArray(m_player_vao);
 
@@ -206,7 +279,7 @@ Player::updateTexCoord()
 void
 Player::draw()
 {
-    updateTexCoord();
+    updateFrame();
 
     /* Draw shadow texture */
     m_shader->disable();
@@ -220,6 +293,9 @@ Player::draw()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     switch (m_player_mode) {
+    case PlayerMode::Stand:
+        m_stand_textures_sheet.useTexture();
+        break;
     case PlayerMode::Walk:
         m_walk_textures_sheet.useTexture();
         break;
@@ -247,6 +323,9 @@ Player::draw()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     switch (m_player_mode) {
+    case PlayerMode::Stand:
+        m_stand_textures_sheet.useTexture();
+        break;
     case PlayerMode::Walk:
         m_walk_textures_sheet.useTexture();
         break;
@@ -455,4 +534,19 @@ Player::updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans
     m_shader->enable();
 
     CHECK_GL_ERRORS
+}
+
+void
+Player::setPlayerMode(PlayerMode mode)
+{
+    if (m_player_mode == mode)
+        return;
+
+    m_player_mode = mode;
+
+    m_current_walk_frame = "0";
+    m_current_stand_frame = "0";
+    m_animation_cursor = 0;
+
+    updateTexCoord();
 }

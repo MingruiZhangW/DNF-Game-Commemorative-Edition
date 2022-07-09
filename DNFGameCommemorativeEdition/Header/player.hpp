@@ -34,6 +34,8 @@ public:
         Down = GLFWArrowKeyRemap::downKey
     };
 
+    void setPlayerMode(PlayerMode mode);
+
     // Implement virtual function from base class
     void draw();
     void translate(const glm::vec3& amount);
@@ -65,6 +67,7 @@ public:
 private:
     void flipSprite();
     void updateTexCoord();
+    void updateFrame();
 
     ShaderProgram* m_shader;
 
@@ -89,22 +92,27 @@ private:
     GLfloat m_player_width;
     GLfloat m_player_height;
 
+    // Animation
+    // Animation speed here is divided by 1000
     bool m_player_sprite_facing_left_dir;
     PlayerMode m_player_mode;
     PlayerMoveDir m_player_move_dir;
 
     json m_play_stand_json_parser;
     unsigned int m_number_of_stand_frames;
-    unsigned int m_stand_animation_move_speed;
+    float m_stand_animation_move_speed;
     std::string m_current_stand_frame;
     Texture m_stand_textures_sheet;
 
     json m_play_walk_json_parser;
     unsigned int m_number_of_walk_frames;
-    unsigned int m_walk_animation_move_speed;
+    float m_walk_animation_move_speed;
     std::string m_current_walk_frame;
     Texture m_walk_textures_sheet;
 
+    float m_animation_cursor;
+
+    // Move and collision
     float m_player_dx;
     float m_player_dy;
     glm::vec2 m_player_center;

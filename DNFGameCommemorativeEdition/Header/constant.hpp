@@ -107,7 +107,8 @@ const std::string backgroundFarPath {"Resource/Texture/Background/backgroundFar.
 const std::string backgoundMidPath {"Resource/Texture/Background/backgoundMid.png"};
 const std::string grassTilePath {"Resource/Texture/Tiles/grassTile.png"};
 const std::string roadTilePath {"Resource/Texture/Tiles/roadTile.png"};
-const std::string playerStandPNGPath {"Resource/Texture/Player/Stand/stand.png"};
+const std::string playerStandPNGPath {"Resource/Texture/Player/Stand/stand_spritesheet.png"};
+const std::string playerStandJsonath {"Resource/Texture/Player/Stand/stand_spritesheet.json"};
 const std::string playerWalkPNGPath {"Resource/Texture/Player/Walk/walk_spritesheet.png"};
 const std::string playerWalkJsonPath {"Resource/Texture/Player/Walk/walk_spritesheet.json"};
 } // namespace TexturePath

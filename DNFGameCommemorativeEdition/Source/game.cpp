@@ -269,10 +269,18 @@ Game::handleInputKeys()
             dominant_leftright = i;
     }
 
-    m_scene_manager->movePlayer(
-        static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
+    if (dominant_updown + dominant_leftright != 0) {
+        m_scene_manager->getPlayer()->setPlayerMode(Player::PlayerMode::Walk);
 
-    processCameraMove();
+        m_scene_manager->movePlayer(
+            static_cast<Player::PlayerMoveDir>(dominant_updown + dominant_leftright));
+
+        processCameraMove();
+
+        return;
+    }
+
+    m_scene_manager->getPlayer()->setPlayerMode(Player::PlayerMode::Stand);
 }
 
 void

@@ -24,6 +24,7 @@
     <None Include="Resource\Shaders\shader.vert" />
     <None Include="Resource\Shaders\shadow_shader.frag" />
     <None Include="Resource\Shaders\shadow_shader.vert" />
+    <None Include="Resource\Texture\Player\Stand\stand_spritesheet.json" />
     <None Include="Resource\Texture\Player\Walk\walk_spritesheet.json" />
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +77,7 @@
     <Image Include="Resource\Texture\Door\sideDoorEffectNormal.png" />
     <Image Include="Resource\Texture\Door\sideDoorTree.png" />
     <Image Include="Resource\Texture\FloorObj\tree.png" />
-    <Image Include="Resource\Texture\Player\Stand\stand.png" />
+    <Image Include="Resource\Texture\Player\Stand\stand_spritesheet.png" />
     <Image Include="Resource\Texture\Player\Walk\walk_spritesheet.png" />
     <Image Include="Resource\Texture\Tiles\grassTile.png" />
     <Image Include="Resource\Texture\Tiles\roadTile.png" />
