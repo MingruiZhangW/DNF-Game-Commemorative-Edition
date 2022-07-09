@@ -22,6 +22,8 @@
     <None Include="..\README.md" />
     <None Include="Resource\Shaders\shader.frag" />
     <None Include="Resource\Shaders\shader.vert" />
+    <None Include="Resource\Shaders\shadow_shader.frag" />
+    <None Include="Resource\Shaders\shadow_shader.vert" />
     <None Include="Resource\Texture\Player\Walk\walk_spritesheet.json" />
   </ItemGroup>
   <ItemGroup>

@@ -20,8 +20,8 @@ public:
     void drawCurrentScene();
 
     // Player
+    Player* getPlayer();
     void movePlayer(Player::PlayerMoveDir moveDir);
-    float getPlayerDx();
 
     // Map
     glm::vec4 getCurrentSceneMapBoundary();

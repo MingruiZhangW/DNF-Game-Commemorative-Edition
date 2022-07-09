@@ -58,11 +58,23 @@ public:
     // Movement sign
     glm::vec2 getPlayerMovementAmount();
 
+    // Update shadow shader matrix uniforms
+    void updateShadowShaderModelMat(const glm::mat4& nodeTrans);
+    void updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans);
+
 private:
     void flipSprite();
     void updateTexCoord();
 
     ShaderProgram* m_shader;
+
+    // Uniform location for PVM matrix for shadow shader.
+    // Shadow is created by shear transformation and assign black/alpha value
+    // in fragement shader
+    GLint m_shadow_p_uni;
+    GLint m_shadow_v_uni;
+    GLint m_shadow_m_uni;
+    ShaderProgram m_shadow_shader;
 
     GLuint m_position_attrib_pos;
     GLuint m_texture_coor_attrib_pos;

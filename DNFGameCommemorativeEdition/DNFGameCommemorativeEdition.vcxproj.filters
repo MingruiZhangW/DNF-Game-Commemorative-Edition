@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Shader">
-      <UniqueIdentifier>{1e15b98e-c891-4550-8983-183851996181}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Texture">
       <UniqueIdentifier>{ae75959e-70dd-4422-b665-df5e5075e19a}</UniqueIdentifier>
     </Filter>
@@ -49,19 +46,28 @@
     <Filter Include="Resource Files\Texture\FloorObj">
       <UniqueIdentifier>{e536b9f0-cba2-4726-8df1-15619f28811d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{1e15b98e-c891-4550-8983-183851996181}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Resource\Shaders\shader.frag">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Resource\Shaders\shader.vert">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Resource\Texture\Player\Walk\walk_spritesheet.json">
       <Filter>Resource Files\Texture\Player\Walk</Filter>
+    </None>
+    <None Include="Resource\Shaders\shadow_shader.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resource\Shaders\shadow_shader.vert">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

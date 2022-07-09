@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 
 // clang-format off
 
@@ -37,9 +38,14 @@ static GLfloat player_texture_coord_data[] =
     1.0f, 0.0f
 };
 
-const float m_player_collide_width{60.0f};
-const float m_player_collide_height{30.0f};
-const float m_player_collide_x_offset{30.0f};
+// Collide const
+static const float m_player_collide_width{60.0f};
+static const float m_player_collide_height{30.0f};
+static const float m_player_collide_x_offset{30.0f};
+
+// Shadow shift const
+static const float m_player_shadow_shift_x{80.0f};
+static const float m_player_shadow_shift_y{-110.0f};
 
 // clang-format on
 
@@ -57,6 +63,17 @@ Player::Player(ShaderProgram* shader)
     , m_current_map_boundary(glm::vec4(0.0f))
     , m_last_player_trans(glm::vec3(0.0f))
 {
+    // Create shadow shader
+    m_shadow_shader.generateProgramObject();
+    m_shadow_shader.attachVertexShader(ShadowShaderPath::vertexShader.c_str());
+    m_shadow_shader.attachFragmentShader(ShadowShaderPath::fragmentShader.c_str());
+    m_shadow_shader.link();
+
+    // Set up the uniforms
+    m_shadow_p_uni = m_shadow_shader.getUniformLocation("P");
+    m_shadow_v_uni = m_shadow_shader.getUniformLocation("V");
+    m_shadow_m_uni = m_shadow_shader.getUniformLocation("M");
+
     // Load texture
     std::ifstream ifs(TexturePath::playerWalkJsonPath);
     m_play_walk_json_parser = json::parse(ifs);
@@ -190,6 +207,37 @@ void
 Player::draw()
 {
     updateTexCoord();
+
+    /* Draw shadow texture */
+    m_shader->disable();
+    m_shadow_shader.enable();
+
+    // Draw transparent backgrounds in blend mode (alpha channel)
+    // https://stackoverflow.com/questions/3388294/opengl-question-about-the-usage-of-gldepthmask
+    glDepthMask(GL_FALSE);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    switch (m_player_mode) {
+    case PlayerMode::Walk:
+        m_walk_textures_sheet.useTexture();
+        break;
+    default:
+        break;
+    }
+
+    glBindVertexArray(m_player_vao);
+    glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
+    glBindVertexArray(0);
+
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
+
+    m_shadow_shader.disable();
+    m_shader->enable();
+
+    /* Draw actual texture */
 
     // Draw transparent backgrounds in blend mode (alpha channel)
     // https://stackoverflow.com/questions/3388294/opengl-question-about-the-usage-of-gldepthmask
@@ -368,4 +416,43 @@ glm::vec2
 Player::getPlayerMovementAmount()
 {
     return glm::vec2(m_last_player_trans.x, m_last_player_trans.y);
+}
+
+void
+Player::updateShadowShaderModelMat(const glm::mat4& nodeTrans)
+{
+    m_shader->disable();
+    m_shadow_shader.enable();
+
+    //-- Set ModelView matrix:
+    glUniformMatrix4fv(m_shadow_m_uni,
+                       1,
+                       GL_FALSE,
+                       value_ptr(glm::translate(glm::mat4(1.0f),
+                                                glm::vec3(m_player_sprite_facing_left_dir
+                                                              ? m_player_shadow_shift_x
+                                                              : -m_player_shadow_shift_x,
+                                                          m_player_shadow_shift_y,
+                                                          0.0f))
+                                 * nodeTrans));
+    m_shadow_shader.disable();
+    m_shader->enable();
+
+    CHECK_GL_ERRORS;
+}
+
+void
+Player::updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans)
+{
+    m_shader->disable();
+    m_shadow_shader.enable();
+
+    //-- Set PV matrix:
+    glUniformMatrix4fv(m_shadow_p_uni, 1, GL_FALSE, value_ptr(pTrans));
+    glUniformMatrix4fv(m_shadow_v_uni, 1, GL_FALSE, value_ptr(vTrans));
+
+    m_shadow_shader.disable();
+    m_shader->enable();
+
+    CHECK_GL_ERRORS
 }

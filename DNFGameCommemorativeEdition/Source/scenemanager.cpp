@@ -71,6 +71,7 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
     if (node->m_node_type == NodeType::GeometryNode) {
         trans = modelMat * node->getTransform();
         updateShaderUniforms(m_shader, trans);
+        m_player->updateShadowShaderModelMat(trans);
 
         node->draw();
     }
@@ -88,12 +89,6 @@ SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
     m_player->reverseMove(m_scene_one->sceneOneCollisionTest(m_player->getPlayerMovementAmount()));
 
     reorderCurrentSceneLayerNode();
-}
-
-float
-SceneManager::getPlayerDx()
-{
-    return m_player->getPlayerDx();
 }
 
 glm::vec4
@@ -118,4 +113,10 @@ SceneManager::reorderCurrentSceneLayerNode()
     default:
         break;
     }
+}
+
+Player*
+SceneManager::getPlayer()
+{
+    return m_player.get();
 }

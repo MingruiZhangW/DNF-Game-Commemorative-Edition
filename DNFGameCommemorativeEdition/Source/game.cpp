@@ -76,12 +76,6 @@ Game::guiLogic()
 void
 Game::draw()
 {
-    //// Create a global transformation for the model (centre it).
-    // glm::mat4 W {1.0f};
-    //// W = glm::translate(W, glm::vec3(-float(16) / 2.0f, 0, -float(16) / 2.0f));
-    // W = glm::scale(W, glm::vec3(m_framebufferWidth, m_framebufferHeight, 0.0f));
-    //// W = glm::rotate(W, glm::radians(60.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -94,6 +88,7 @@ Game::draw()
 
     glUniformMatrix4fv(P_uni, 1, GL_FALSE, value_ptr(m_proj));
     glUniformMatrix4fv(V_uni, 1, GL_FALSE, value_ptr(m_view));
+    m_scene_manager->getPlayer()->updateShadowShaderPVMat(m_proj, m_view);
 
     // Main drawing
     m_scene_manager->drawCurrentScene();
@@ -283,7 +278,7 @@ Game::handleInputKeys()
 void
 Game::processCameraMove()
 {
-    auto playDx = m_scene_manager->getPlayerDx();
+    auto playDx = m_scene_manager->getPlayer()->getPlayerDx();
     auto mapWidthBound = m_scene_manager->getCurrentSceneMapBoundary().w
                          - m_framebufferWidth / 2.0f;
     auto halfWidthLine = m_framebufferWidth / 2.0f;

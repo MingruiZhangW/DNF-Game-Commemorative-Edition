@@ -112,6 +112,11 @@ const std::string playerWalkPNGPath {"Resource/Texture/Player/Walk/walk_spritesh
 const std::string playerWalkJsonPath {"Resource/Texture/Player/Walk/walk_spritesheet.json"};
 } // namespace TexturePath
 
+namespace ShadowShaderPath {
+const std::string vertexShader {"Resource/Shaders/shadow_shader.vert"};
+const std::string fragmentShader {"Resource/Shaders/shadow_shader.frag"};
+} // namespace ShadowShaderPath
+
 namespace SpriteSize {
 const float playerHeight {165.0f};
 const float playerWidth {200.0f};
