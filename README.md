@@ -10,6 +10,7 @@ Mini DNF Like Game
 - https://github.com/nlohmann/json
 - https://www.codeandweb.com/free-sprite-sheet-packer
 
-[Art: 章墨卿](http://huashilm.com/u/120434/art)
+[Main Artist: 章墨卿](http://huashilm.com/u/120434/art)
+[Other Art Resources](https://gitee.com/danielbrain/dnfsingle)
 
 [Based on CS488 framework](https://student.cs.uwaterloo.ca/~cs488/Spring2022/)
