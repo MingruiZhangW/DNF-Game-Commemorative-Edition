@@ -2,17 +2,18 @@
 #include "constant.hpp"
 #include "floor.hpp"
 #include "background.hpp"
+#include "floorobj.hpp"
 
 // clang-format off
 
-// Scene one floor tiles
-// 0 for glass, 1 for road
-// First vector and second vector represents matrix
-// Third vector represents tile map blend at location (arts with alpha channel)
+// Scene one floor tiles.
+// 0 for glass, 1 for road, 2 for tree, 3 for normal door, 4 for boss door, 5 for door tree.
+// First vector and second vector represents matrix.
+// Third vector represents tile map blend at location (arts with alpha channel).
 const std::vector<std::vector<std::vector<int>>> scene_one_floor_tiles = {
-    {{0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}},
-    {{0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}},
-    {{0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}}
+    {{0}, {0}, {0}, {0}, {0}, {0}, {0}, {0, 2}, {0}},
+    {{0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1, 3}, {0, 1}, {0, 1}, {0, 1}, {0, 1}},
+    {{0}, {0}, {0}, {0}, {0, 2}, {0}, {0}, {0}, {0}}
 };
 
 // Scene one background tiles
@@ -38,6 +39,8 @@ Map::~Map() {}
 void
 Map::initSceneOneMap()
 {
+    m_floor_obj_list.clear();
+
     m_map_boundary.z = 0.0f;
 
     // Background tile
@@ -129,6 +132,28 @@ Map::initSceneOneMap()
         }
     }
 
+    // Floor obj
+    for (size_t i = 0; i < rowNum; i++) {
+        for (size_t j = 0; j < colNum; j++) {
+            auto heightScale = (m_window_height * RatioContant::floorHeightScaleRatio) / rowNum;
+
+            for (size_t k = 0; k < scene_one_floor_tiles[i][j].size(); k++) {
+                if (scene_one_floor_tiles[i][j][k] == 2) {
+                    FloorObj* doorTree = new FloorObj(StringContant::sceneOneFloorObjName
+                                                          + std::to_string(i + j + k),
+                                                      m_shader,
+                                                      FloorObj::FloorObjType::Tree);
+                    doorTree->translate(
+                        glm::vec3(doorTree->getTextureGeo().x * j, heightScale * i, 0.0f));
+
+                    m_floor_obj_list.push_back(
+                        std::make_pair(doorTree,
+                                       glm::vec2(doorTree->getTextureGeo().x * j, heightScale * i)));
+                }
+            }
+        }
+    }
+
     m_map_boundary.w = m_map_boundary.w - m_map_right_offset;
 }
 
@@ -136,4 +161,10 @@ glm::vec4
 Map::getMapBoundary()
 {
     return m_map_boundary;
+}
+
+const std::vector<std::pair<FloorObj*, glm::vec2>>&
+Map::getFloorObjs()
+{
+    return m_floor_obj_list;
 }

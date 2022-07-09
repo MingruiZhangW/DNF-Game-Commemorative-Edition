@@ -27,7 +27,11 @@ public:
 
     void addChild(SceneNode* child);
 
+    void addChildFront(SceneNode* child);
+
     void removeChild(SceneNode* child);
+
+    void cleanChild();
 
     //-- Transformations:
     virtual void rotate(char axis, float angle);

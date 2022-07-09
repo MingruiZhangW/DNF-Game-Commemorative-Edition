@@ -39,8 +39,24 @@ public:
     void translate(const glm::vec3& amount);
 
     void move(PlayerMoveDir playerMoveDir);
-    float getPlayerDx();
+    void reverseMove(std::pair<bool, bool> dirToReverse);
     void setCurrentMapBoundary(glm::vec4 mapBoundary);
+
+    glm::vec2 getPlayerCenter();
+    float getPlayerDx();
+    float getPlayerDy();
+
+    // x, y -> x, y, x,y at bottom - left corner
+    // z -> width
+    // w -> height
+    glm::vec4 getPlayerGeo();
+
+    // x, y -> x, y, x,y at bottom - left corner with offset
+    // z -> width - offset * 2
+    glm::vec4 getPlayerFloorObjCollideGeo();
+
+    // Movement sign
+    glm::vec2 getPlayerMovementAmount();
 
 private:
     void flipSprite();
@@ -79,5 +95,10 @@ private:
 
     float m_player_dx;
     float m_player_dy;
+    glm::vec2 m_player_center;
     glm::vec4 m_current_map_boundary;
+
+    // Record the last player trans amount
+    // in order to revert it for collision test succeeded
+    glm::vec3 m_last_player_trans;
 };

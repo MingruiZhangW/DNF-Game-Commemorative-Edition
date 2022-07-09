@@ -43,6 +43,12 @@
     <Filter Include="Resource Files\Icon">
       <UniqueIdentifier>{a29c1a76-137b-4b8e-a7e7-86e6e04317e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Door">
+      <UniqueIdentifier>{7b2362d9-f249-488b-b15c-e5bb29daa470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture\FloorObj">
+      <UniqueIdentifier>{e536b9f0-cba2-4726-8df1-15619f28811d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -95,16 +101,13 @@
     <ClInclude Include="Header\scenemanager.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Header\floor.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Header\constant.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\map.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Header\sceneone.h">
+    <ClInclude Include="Header\sceneone.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Header\player.hpp">
@@ -118,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\floor.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\floorobj.hpp">
+      <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +151,6 @@
     <ClCompile Include="Source\background.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\floor.cpp">
-      <Filter>Source Files\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\geometrynode.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
@@ -161,6 +167,12 @@
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\player.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\floor.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\floorobj.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,6 +200,21 @@
     </Image>
     <Image Include="Resource\Icon\icon.jfif">
       <Filter>Resource Files\Icon</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Door\sideDoor.png">
+      <Filter>Resource Files\Texture\Door</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Door\sideDoorEffectBoss.png">
+      <Filter>Resource Files\Texture\Door</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Door\sideDoorEffectNormal.png">
+      <Filter>Resource Files\Texture\Door</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Door\sideDoorTree.png">
+      <Filter>Resource Files\Texture\Door</Filter>
+    </Image>
+    <Image Include="Resource\Texture\FloorObj\tree.png">
+      <Filter>Resource Files\Texture\FloorObj</Filter>
     </Image>
   </ItemGroup>
 </Project>

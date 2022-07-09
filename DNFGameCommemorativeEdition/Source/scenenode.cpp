@@ -57,9 +57,21 @@ SceneNode::addChild(SceneNode* child)
 }
 
 void
+SceneNode::addChildFront(SceneNode* child)
+{
+    m_children.insert(m_children.begin(), child);
+}
+
+void
 SceneNode::removeChild(SceneNode* child)
 {
     m_children.remove(child);
+}
+
+void
+SceneNode::cleanChild()
+{
+    m_children.clear();
 }
 
 void

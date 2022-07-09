@@ -28,6 +28,7 @@
     <ClInclude Include="Header\background.hpp" />
     <ClInclude Include="Header\exception.hpp" />
     <ClInclude Include="Header\floor.hpp" />
+    <ClInclude Include="Header\floorobj.hpp" />
     <ClInclude Include="Header\game.hpp" />
     <ClInclude Include="Header\gamewindow.hpp" />
     <ClInclude Include="Header\geometrynode.hpp" />
@@ -37,7 +38,7 @@
     <ClInclude Include="Header\player.hpp" />
     <ClInclude Include="Header\scenemanager.hpp" />
     <ClInclude Include="Header\scenenode.hpp" />
-    <ClInclude Include="Header\sceneone.h" />
+    <ClInclude Include="Header\sceneone.hpp" />
     <ClInclude Include="Header\shaderexception.hpp" />
     <ClInclude Include="Header\shaderprogram.hpp" />
     <ClInclude Include="Header\stb_image.h" />
@@ -50,6 +51,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\background.cpp" />
     <ClCompile Include="Source\floor.cpp" />
+    <ClCompile Include="Source\floorobj.cpp" />
     <ClCompile Include="Source\game.cpp" />
     <ClCompile Include="Source\gamewindow.cpp" />
     <ClCompile Include="Source\geometrynode.cpp" />
@@ -67,6 +69,11 @@
     <Image Include="Resource\Icon\icon.jfif" />
     <Image Include="Resource\Texture\Background\backgoundMid.png" />
     <Image Include="Resource\Texture\Background\backgroundFar.png" />
+    <Image Include="Resource\Texture\Door\sideDoor.png" />
+    <Image Include="Resource\Texture\Door\sideDoorEffectBoss.png" />
+    <Image Include="Resource\Texture\Door\sideDoorEffectNormal.png" />
+    <Image Include="Resource\Texture\Door\sideDoorTree.png" />
+    <Image Include="Resource\Texture\FloorObj\tree.png" />
     <Image Include="Resource\Texture\Player\Stand\stand.png" />
     <Image Include="Resource\Texture\Player\Walk\walk_spritesheet.png" />
     <Image Include="Resource\Texture\Tiles\grassTile.png" />

@@ -6,6 +6,8 @@
 
 #include <glm.hpp>
 
+class FloorObj;
+
 class Map : public SceneNode
 {
 public:
@@ -15,6 +17,7 @@ public:
     void initSceneOneMap();
 
     glm::vec4 getMapBoundary();
+    const std::vector<std::pair<FloorObj*, glm::vec2>>& getFloorObjs();
 
 protected:
     ShaderProgram* m_shader;
@@ -29,4 +32,8 @@ protected:
     glm::vec4 m_map_boundary;
     float m_map_top_offset;
     float m_map_right_offset;
+
+    // Use to detect collision and depth layer
+    // x, y -> x, y, x,y at bottom - left corner
+    std::vector<std::pair<FloorObj*, glm::vec2>> m_floor_obj_list;
 };

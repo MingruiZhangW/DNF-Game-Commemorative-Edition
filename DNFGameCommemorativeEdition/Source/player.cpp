@@ -37,6 +37,10 @@ static GLfloat player_texture_coord_data[] =
     1.0f, 0.0f
 };
 
+const float m_player_collide_width{60.0f};
+const float m_player_collide_height{30.0f};
+const float m_player_collide_x_offset{30.0f};
+
 // clang-format on
 
 Player::Player(ShaderProgram* shader)
@@ -49,7 +53,9 @@ Player::Player(ShaderProgram* shader)
     , m_player_sprite_facing_left_dir(true)
     , m_player_dx(0.0f)
     , m_player_dy(0.0f)
+    , m_player_center(SpriteSize::playerWidth / 2.0f, SpriteSize::playerHeight / 2.0f)
     , m_current_map_boundary(glm::vec4(0.0f))
+    , m_last_player_trans(glm::vec3(0.0f))
 {
     // Load texture
     std::ifstream ifs(TexturePath::playerWalkJsonPath);
@@ -59,8 +65,8 @@ Player::Player(ShaderProgram* shader)
     m_walk_textures_sheet = Texture(TexturePath::playerWalkPNGPath);
     m_walk_textures_sheet.loadTexture();
 
-    m_player_dx = SpriteSize::playerWidth / 2.0f;
-    m_player_dy = SpriteSize::playerHeight / 2.0f;
+    m_player_dx = m_player_center.x;
+    m_player_dy = m_player_center.y;
     m_player_width = SpriteSize::playerWidth;
     m_player_height = SpriteSize::playerHeight;
 
@@ -213,52 +219,63 @@ Player::move(PlayerMoveDir playerMoveDir)
 {
     switch (playerMoveDir) {
     case Player::None:
+        m_last_player_trans = glm::vec3(0.0f);
         break;
     case Player::Left:
         if (!m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(-PlayerFollowCameraSpeed::walk, 0.0, 0.0f));
+        m_last_player_trans = glm::vec3(-PlayerFollowCameraSpeed::walk, 0.0, 0.0f);
         break;
     case Player::LeftUp:
         if (!m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(-PlayerFollowCameraSpeed::walk, PlayerFollowCameraSpeed::walk, 0.0f));
+        m_last_player_trans = glm::vec3(-PlayerFollowCameraSpeed::walk,
+                                        PlayerFollowCameraSpeed::walk,
+                                        0.0f);
         break;
     case Player::LeftDown:
         if (!m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(-PlayerFollowCameraSpeed::walk, -PlayerFollowCameraSpeed::walk, 0.0f));
+        m_last_player_trans = glm::vec3(-PlayerFollowCameraSpeed::walk,
+                                        -PlayerFollowCameraSpeed::walk,
+                                        0.0f);
         break;
     case Player::Right:
         if (m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(PlayerFollowCameraSpeed::walk, 0.0f, 0.0f));
+        m_last_player_trans = glm::vec3(PlayerFollowCameraSpeed::walk, 0.0f, 0.0f);
         break;
     case Player::RightUp:
         if (m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(PlayerFollowCameraSpeed::walk, PlayerFollowCameraSpeed::walk, 0.0f));
+        m_last_player_trans = glm::vec3(PlayerFollowCameraSpeed::walk,
+                                        PlayerFollowCameraSpeed::walk,
+                                        0.0f);
         break;
     case Player::RightDown:
         if (m_player_sprite_facing_left_dir)
             flipSprite();
 
-        translate(glm::vec3(PlayerFollowCameraSpeed::walk, -PlayerFollowCameraSpeed::walk, 0.0f));
+        m_last_player_trans = glm::vec3(PlayerFollowCameraSpeed::walk,
+                                        -PlayerFollowCameraSpeed::walk,
+                                        0.0f);
         break;
     case Player::Up:
-        translate(glm::vec3(0.0f, PlayerFollowCameraSpeed::walk, 0.0f));
+        m_last_player_trans = glm::vec3(0.0f, PlayerFollowCameraSpeed::walk, 0.0f);
         break;
     case Player::Down:
-        translate(glm::vec3(0.0f, -PlayerFollowCameraSpeed::walk, 0.0f));
+        m_last_player_trans = glm::vec3(0.0f, -PlayerFollowCameraSpeed::walk, 0.0f);
         break;
     default:
         break;
     }
+
+    translate(m_last_player_trans);
 }
 
 void
@@ -296,14 +313,59 @@ Player::setCurrentMapBoundary(glm::vec4 mapBoundary)
 {
     m_current_map_boundary = mapBoundary;
     m_current_map_boundary.x = m_current_map_boundary.x;
-    m_current_map_boundary.y = m_current_map_boundary.y + SpriteSize::playerHeight / 2.0f;
+    m_current_map_boundary.y = m_current_map_boundary.y + m_player_center.y;
 
-    m_current_map_boundary.z = m_current_map_boundary.z + SpriteSize::playerWidth / 2.0f;
-    m_current_map_boundary.w = m_current_map_boundary.w - SpriteSize::playerWidth / 2.0f;
+    m_current_map_boundary.z = m_current_map_boundary.z + m_player_center.x;
+    m_current_map_boundary.w = m_current_map_boundary.w - m_player_center.x;
+}
+
+void
+Player::reverseMove(std::pair<bool, bool> dirToReverse)
+{
+    auto toReverseMove = glm::vec3(dirToReverse.first ? -m_last_player_trans.x : 0.0f,
+                                   dirToReverse.second ? -m_last_player_trans.y : 0.0f,
+                                   0.0f);
+    translate(toReverseMove);
 }
 
 float
 Player::getPlayerDx()
 {
     return m_player_dx;
+}
+
+float
+Player::getPlayerDy()
+{
+    return m_player_dy;
+}
+
+glm::vec2
+Player::getPlayerCenter()
+{
+    return m_player_center;
+}
+
+glm::vec4
+Player::getPlayerGeo()
+{
+    return glm::vec4(m_player_dx - m_player_center.x,
+                     m_player_dy - m_player_center.y,
+                     m_player_width,
+                     m_player_height);
+}
+
+glm::vec4
+Player::getPlayerFloorObjCollideGeo()
+{
+    return glm::vec4(m_player_dx - m_player_collide_x_offset,
+                     m_player_dy - m_player_center.y,
+                     m_player_collide_width,
+                     m_player_collide_height);
+}
+
+glm::vec2
+Player::getPlayerMovementAmount()
+{
+    return glm::vec2(m_last_player_trans.x, m_last_player_trans.y);
 }

@@ -3,7 +3,7 @@
 #include "scenenode.hpp"
 #include "shaderprogram.hpp"
 #include "player.hpp"
-#include "sceneone.h"
+#include "sceneone.hpp"
 
 #include "GL/glew.h"
 
@@ -30,6 +30,7 @@ private:
     enum class CurrentScene { SceneOne };
 
     void drawSceneOne();
+    void reorderCurrentSceneLayerNode();
     void renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat);
 
     ShaderProgram* m_shader;

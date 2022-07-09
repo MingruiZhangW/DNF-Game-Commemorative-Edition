@@ -85,6 +85,9 @@ void
 SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
 {
     m_player->move(moveDir);
+    m_player->reverseMove(m_scene_one->sceneOneCollisionTest(m_player->getPlayerMovementAmount()));
+
+    reorderCurrentSceneLayerNode();
 }
 
 float
@@ -104,4 +107,15 @@ SceneManager::getCurrentSceneMapBoundary()
     }
 
     return glm::vec4(0.0f);
+}
+
+void
+SceneManager::reorderCurrentSceneLayerNode()
+{
+    switch (m_current_scene) {
+    case SceneManager::CurrentScene::SceneOne:
+        return m_scene_one->reorderLayerNodeChild();
+    default:
+        break;
+    }
 }

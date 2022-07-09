@@ -4,11 +4,69 @@
 #include <limits>
 #include <cmath>
 
+#include <glm.hpp>
+#include <gtx/string_cast.hpp>
+#include <limits>
+
 namespace Utils {
 static bool
 areSame(float a, float b)
 {
     return fabs(a - b) < std::numeric_limits<float>::epsilon();
+}
+
+static std::pair<bool, bool>
+AABBFloorObjCollision(const glm::vec4& vecA, const glm::vec4& vecB, const glm::vec2& movement)
+{
+    // x, y -> x, y, x,y at bottom - left corner
+    // z -> width
+    // w -> height
+    // we want the feet of the player to collide with the bottom of the object.
+    // the bounding box of the object B and A will not be the texture or the plane size.
+    // return which direction (horizontal or vertical) are collided
+    if ((vecA.x + vecA.z >= vecB.x) && (vecB.x + vecB.z >= vecA.x)
+        && (vecA.y + vecA.w >= vecB.y + vecB.w) && (vecB.y + vecB.w >= vecA.y)) {
+        float dxEntry, dxExit;
+        float dyEntry, dyExit;
+        float txEntry, txExit;
+        float tyEntry, tyExit;
+        if (movement.x > 0.0f) {
+            dxEntry = vecB.x - (vecA.x + vecA.z);
+            dxExit = (vecB.x + vecB.z) - vecA.x;
+        } else {
+            dxEntry = (vecB.x + vecB.z) - vecA.x;
+            dxExit = vecB.x - (vecA.x + vecA.z);
+        }
+        if (movement.y > 0.0f) {
+            dyEntry = vecB.y - (vecA.y + vecA.w);
+            dyExit = (vecB.y + vecB.w) - vecA.y;
+
+        } else {
+            dyEntry = (vecB.y + vecB.w) - vecA.y;
+            dyExit = vecB.y - (vecA.y + vecA.w);
+        }
+
+        if (movement.x == 0.0f) {
+            txEntry = -std::numeric_limits<float>::infinity();
+            txExit = std::numeric_limits<float>::infinity();
+        } else {
+            txEntry = dxEntry / movement.x;
+            txExit = dyExit / movement.x;
+        }
+
+        if (movement.y == 0.0f) {
+            tyEntry = -std::numeric_limits<float>::infinity();
+            tyExit = std::numeric_limits<float>::infinity();
+        } else {
+            tyEntry = dyEntry / movement.y;
+            tyExit = dyExit / movement.y;
+        }
+
+        // horizontal, vertical
+        return std::make_pair(txEntry > tyEntry, txEntry <= tyEntry);
+    }
+
+    return std::make_pair(false, false);
 }
 } // namespace Utils
 
@@ -19,9 +77,11 @@ const std::string iconPath {"Resource/Icon/icon.jfif"};
 namespace StringContant {
 const std::string playerName {"player_fire"};
 const std::string sceneOneRootNodeName {"root_scene_one"};
+const std::string sceneOneLayerNodeName {"scene_one_layer_node"};
 const std::string sceneOneBackgroundName {"scene_one_background"};
 const std::string sceneOneFloorName {"scene_one_floor"};
 const std::string sceneOneMapName {"scene_one_map"};
+const std::string sceneOneFloorObjName {"scene_one_floor_obj"};
 } // namespace StringContant
 
 namespace RatioContant {
@@ -38,6 +98,11 @@ const float frameDelay {1000.0f / fps};
 } // namespace FPS
 
 namespace TexturePath {
+const std::string doorPath {"Resource/Texture/Door/sideDoor.png"};
+const std::string doorNormalEffectPath {"Resource/Texture/Door/sideDoorEffectNormal.png"};
+const std::string doorBossEffectPath {"Resource/Texture/Door/sideDoorEffectBoss.png"};
+const std::string doorTreePath {"Resource/Texture/Door/sideDoorTree.png"};
+const std::string treePath {"Resource/Texture/FloorObj/tree.png"};
 const std::string backgroundFarPath {"Resource/Texture/Background/backgroundFar.png"};
 const std::string backgoundMidPath {"Resource/Texture/Background/backgoundMid.png"};
 const std::string grassTilePath {"Resource/Texture/Tiles/grassTile.png"};
@@ -51,6 +116,11 @@ namespace SpriteSize {
 const float playerHeight {165.0f};
 const float playerWidth {200.0f};
 } // namespace SpriteSize
+
+namespace CollisionOffset {
+const float horizontalCollisionOffset {2.5f};
+const float verticalCollisionOffset {2.5f};
+} // namespace CollisionOffset
 
 namespace SSJsonKeys {
 const std::string frames {"frames"};

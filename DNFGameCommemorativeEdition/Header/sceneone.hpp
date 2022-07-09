@@ -8,6 +8,8 @@
 
 #include <memory>
 
+class Map;
+
 class SceneOne
 {
 public:
@@ -28,6 +30,10 @@ public:
         return m_scene_one_map_boundary;
     }
 
+    std::pair<bool, bool> sceneOneCollisionTest(const glm::vec2& movement);
+
+    void reorderLayerNodeChild();
+
 private:
     void construct();
 
@@ -39,4 +45,7 @@ private:
     glm::vec4 m_scene_one_map_boundary;
 
     std::unique_ptr<SceneNode> m_scene_one_root_node;
+    SceneNode* m_scene_one_layer_node;
+
+    Map* m_scene_one_map;
 };
