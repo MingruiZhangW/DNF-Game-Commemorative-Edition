@@ -3,6 +3,7 @@
 #include "scenenode.hpp"
 #include "shaderprogram.hpp"
 #include "player.hpp"
+#include "npc.hpp"
 
 #include "GL/glew.h"
 
@@ -16,7 +17,8 @@ public:
     SceneOne(ShaderProgram* shader,
              GLfloat frameBufferWidth,
              GLfloat frameBufferHeight,
-             Player* player);
+             Player* player,
+             NPC* npc);
 
     ~SceneOne();
 
@@ -39,6 +41,7 @@ private:
 
     ShaderProgram* m_shader;
     Player* m_player;
+    NPC* m_npc;
     GLfloat m_frame_buffer_width;
     GLfloat m_frame_buffer_height;
 

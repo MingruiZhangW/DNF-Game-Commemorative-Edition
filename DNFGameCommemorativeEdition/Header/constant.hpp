@@ -24,8 +24,8 @@ AABBFloorObjCollision(const glm::vec4& vecA, const glm::vec4& vecB, const glm::v
     // we want the feet of the player to collide with the bottom of the object.
     // the bounding box of the object B and A will not be the texture or the plane size.
     // return which direction (horizontal or vertical) are collided
-    if ((vecA.x + vecA.z >= vecB.x) && (vecB.x + vecB.z >= vecA.x)
-        && (vecA.y + vecA.w >= vecB.y + vecB.w) && (vecB.y + vecB.w >= vecA.y)) {
+    if ((vecA.x + vecA.z >= vecB.x) && (vecB.x + vecB.z >= vecA.x) && (vecA.y + vecA.w >= vecB.y)
+        && (vecB.y + vecB.w >= vecA.y)) {
         float dxEntry, dxExit;
         float dyEntry, dyExit;
         float txEntry, txExit;
@@ -75,6 +75,7 @@ const std::string iconPath {"Resource/Icon/icon.jfif"};
 } // namespace IconPath
 
 namespace StringContant {
+const std::string npcName {"npc_linus"};
 const std::string playerName {"player_fire"};
 const std::string sceneOneRootNodeName {"root_scene_one"};
 const std::string sceneOneLayerNodeName {"scene_one_layer_node"};
@@ -98,15 +99,17 @@ const float frameDelay {1000.0f / fps};
 } // namespace FPS
 
 namespace TexturePath {
-const std::string doorPath {"Resource/Texture/Door/sideDoor.png"};
-const std::string doorNormalEffectPath {"Resource/Texture/Door/sideDoorEffectNormal.png"};
-const std::string doorBossEffectPath {"Resource/Texture/Door/sideDoorEffectBoss.png"};
-const std::string doorTreePath {"Resource/Texture/Door/sideDoorTree.png"};
+const std::string doorBushPath {"Resource/Texture/Door/doorBush.png"};
+const std::string sideDoorNormalPath {"Resource/Texture/Door/sideNormalDoor.png"};
+const std::string sideDoorBossPath {"Resource/Texture/Door/sideBossDoor.png"};
 const std::string treePath {"Resource/Texture/FloorObj/tree.png"};
 const std::string backgroundFarPath {"Resource/Texture/Background/backgroundFar.png"};
 const std::string backgoundMidPath {"Resource/Texture/Background/backgoundMid.png"};
 const std::string grassTilePath {"Resource/Texture/Tiles/grassTile.png"};
 const std::string roadTilePath {"Resource/Texture/Tiles/roadTile.png"};
+const std::string npcPNGPath {"Resource/Texture/NPC/npc_spritesheet.png"};
+const std::string npcJsonPath {"Resource/Texture/NPC/npc_spritesheet.json"};
+const std::string npcDialogHeadPath {"Resource/Texture/NPC/npcDialogHead.png"};
 const std::string playerStandPNGPath {"Resource/Texture/Player/Stand/stand_spritesheet.png"};
 const std::string playerStandJsonath {"Resource/Texture/Player/Stand/stand_spritesheet.json"};
 const std::string playerWalkPNGPath {"Resource/Texture/Player/Walk/walk_spritesheet.png"};
@@ -119,6 +122,8 @@ const std::string fragmentShader {"Resource/Shaders/shadow_shader.frag"};
 } // namespace ShadowShaderPath
 
 namespace SpriteSize {
+const float npcHeight {278.0f};
+const float npcWidth {150.0f};
 const float playerHeight {165.0f};
 const float playerWidth {200.0f};
 } // namespace SpriteSize

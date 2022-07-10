@@ -54,7 +54,8 @@ public:
     glm::vec4 getPlayerGeo();
 
     // x, y -> x, y, x,y at bottom - left corner with offset
-    // z -> width - offset * 2
+    // z -> width
+    // w -> height
     glm::vec4 getPlayerFloorObjCollideGeo();
 
     // Movement sign

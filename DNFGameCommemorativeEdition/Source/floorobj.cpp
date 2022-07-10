@@ -32,27 +32,21 @@ FloorObj::FloorObj(const std::string& name, ShaderProgram* shader, FloorObjType 
 {
     // Load texture
     switch (m_floor_obj_type) {
-    case FloorObjType::BossDoor:
-        m_texture = Texture(TexturePath::doorPath);
-        m_door_effect_texture = Texture(TexturePath::doorBossEffectPath);
-
+    case FloorObjType::SideBossDoor:
+        m_texture = Texture(TexturePath::sideDoorBossPath);
         m_texture.loadTexture();
-        m_door_effect_texture.loadTexture();
         break;
-    case FloorObjType::NormalDoor:
-        m_texture = Texture(TexturePath::doorPath);
-        m_door_effect_texture = Texture(TexturePath::doorNormalEffectPath);
-
-        m_texture.loadTexture();
-        m_door_effect_texture.loadTexture();
-        break;
-    case FloorObjType::DoorTree:
-        m_texture = Texture(TexturePath::doorTreePath);
-
+    case FloorObjType::SideNormalDoor:
+        m_texture = Texture(TexturePath::sideDoorNormalPath);
         m_texture.loadTexture();
         break;
     case FloorObjType::Tree:
         m_texture = Texture(TexturePath::treePath);
+
+        m_texture.loadTexture();
+        break;
+    case FloorObjType::DoorBush:
+        m_texture = Texture(TexturePath::doorBushPath);
 
         m_texture.loadTexture();
         break;
@@ -125,19 +119,6 @@ FloorObj::draw()
     glBindVertexArray(m_floor_obj_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
     glBindVertexArray(0);
-
-    switch (m_floor_obj_type) {
-    case FloorObjType::NormalDoor:
-    case FloorObjType::BossDoor:
-        m_door_effect_texture.useTexture();
-
-        glBindVertexArray(m_floor_obj_vao);
-        glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
-        glBindVertexArray(0);
-        break;
-    default:
-        break;
-    }
 
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);

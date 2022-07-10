@@ -89,6 +89,7 @@ Game::draw()
     glUniformMatrix4fv(P_uni, 1, GL_FALSE, value_ptr(m_proj));
     glUniformMatrix4fv(V_uni, 1, GL_FALSE, value_ptr(m_view));
     m_scene_manager->getPlayer()->updateShadowShaderPVMat(m_proj, m_view);
+    m_scene_manager->getNPC()->updateShadowShaderPVMat(m_proj, m_view);
 
     // Main drawing
     m_scene_manager->drawCurrentScene();

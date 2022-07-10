@@ -28,6 +28,7 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(std::make_unique<Player>(m_shader))
+    , m_npc(std::make_unique<NPC>(m_shader))
     , m_current_scene(CurrentScene::SceneOne)
 {}
 
@@ -39,7 +40,8 @@ SceneManager::constructScenes()
     m_scene_one = std::make_unique<SceneOne>(m_shader,
                                              m_frame_buffer_width,
                                              m_frame_buffer_height,
-                                             m_player.get());
+                                             m_player.get(),
+                                             m_npc.get());
 }
 
 void
@@ -72,6 +74,7 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
         trans = modelMat * node->getTransform();
         updateShaderUniforms(m_shader, trans);
         m_player->updateShadowShaderModelMat(trans);
+        m_npc->updateShadowShaderModelMat(trans);
 
         node->draw();
     }
@@ -119,4 +122,10 @@ Player*
 SceneManager::getPlayer()
 {
     return m_player.get();
+}
+
+NPC*
+SceneManager::getNPC()
+{
+    return m_npc.get();
 }

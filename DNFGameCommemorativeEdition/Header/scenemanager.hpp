@@ -3,6 +3,7 @@
 #include "scenenode.hpp"
 #include "shaderprogram.hpp"
 #include "player.hpp"
+#include "npc.hpp"
 #include "sceneone.hpp"
 
 #include "GL/glew.h"
@@ -23,6 +24,9 @@ public:
     Player* getPlayer();
     void movePlayer(Player::PlayerMoveDir moveDir);
 
+    // NPC
+    NPC* getNPC();
+
     // Map
     glm::vec4 getCurrentSceneMapBoundary();
 
@@ -40,6 +44,7 @@ private:
     CurrentScene m_current_scene;
 
     std::unique_ptr<Player> m_player;
+    std::unique_ptr<NPC> m_npc;
 
     std::unique_ptr<SceneOne> m_scene_one;
 };

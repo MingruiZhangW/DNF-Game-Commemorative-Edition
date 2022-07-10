@@ -49,6 +49,9 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{1e15b98e-c891-4550-8983-183851996181}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\NPC">
+      <UniqueIdentifier>{35677b1f-0202-473a-a916-68eea5c7a244}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -71,6 +74,9 @@
     </None>
     <None Include="Resource\Texture\Player\Stand\stand_spritesheet.json">
       <Filter>Resource Files\Texture\Player\Stand</Filter>
+    </None>
+    <None Include="Resource\Texture\NPC\npc_spritesheet.json">
+      <Filter>Resource Files\Texture\NPC</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +143,9 @@
     <ClInclude Include="Header\floorobj.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Header\npc.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -184,6 +193,9 @@
     <ClCompile Include="Source\floorobj.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\npc.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Texture\Tiles\grassTile.png">
@@ -207,23 +219,26 @@
     <Image Include="Resource\Icon\icon.jfif">
       <Filter>Resource Files\Icon</Filter>
     </Image>
-    <Image Include="Resource\Texture\Door\sideDoor.png">
-      <Filter>Resource Files\Texture\Door</Filter>
-    </Image>
-    <Image Include="Resource\Texture\Door\sideDoorEffectBoss.png">
-      <Filter>Resource Files\Texture\Door</Filter>
-    </Image>
-    <Image Include="Resource\Texture\Door\sideDoorEffectNormal.png">
-      <Filter>Resource Files\Texture\Door</Filter>
-    </Image>
-    <Image Include="Resource\Texture\Door\sideDoorTree.png">
-      <Filter>Resource Files\Texture\Door</Filter>
-    </Image>
     <Image Include="Resource\Texture\FloorObj\tree.png">
       <Filter>Resource Files\Texture\FloorObj</Filter>
     </Image>
     <Image Include="Resource\Texture\Player\Stand\stand_spritesheet.png">
       <Filter>Resource Files\Texture\Player\Stand</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Door\sideBossDoor.png">
+      <Filter>Resource Files\Texture\Door</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Door\sideNormalDoor.png">
+      <Filter>Resource Files\Texture\Door</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Door\doorBush.png">
+      <Filter>Resource Files\Texture\Door</Filter>
+    </Image>
+    <Image Include="Resource\Texture\NPC\npc_spritesheet.png">
+      <Filter>Resource Files\Texture\NPC</Filter>
+    </Image>
+    <Image Include="Resource\Texture\NPC\npcDialogHead.png">
+      <Filter>Resource Files\Texture\NPC</Filter>
     </Image>
   </ItemGroup>
 </Project>
