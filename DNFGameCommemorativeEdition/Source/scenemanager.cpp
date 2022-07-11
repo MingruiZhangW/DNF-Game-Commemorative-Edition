@@ -29,6 +29,8 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(std::make_unique<Player>(m_shader))
     , m_npc(std::make_unique<NPC>(m_shader))
+    , m_dialog_scene_node(
+          std::make_unique<DialogSceneNode>(m_shader, frameBufferWidth, frameBufferHeight))
     , m_current_scene(CurrentScene::SceneOne)
 {}
 
@@ -41,7 +43,8 @@ SceneManager::constructScenes()
                                              m_frame_buffer_width,
                                              m_frame_buffer_height,
                                              m_player.get(),
-                                             m_npc.get());
+                                             m_npc.get(),
+                                             m_dialog_scene_node.get());
 }
 
 void
@@ -122,6 +125,12 @@ void
 SceneManager::processMouseMove(glm::vec2 mousePos)
 {
     m_npc->checkOnTop(mousePos);
+}
+
+void
+SceneManager::moveDialog(float dx)
+{
+    m_dialog_scene_node->moveDialog(glm::vec3(dx, 0.0f, 0.0f));
 }
 
 Player*

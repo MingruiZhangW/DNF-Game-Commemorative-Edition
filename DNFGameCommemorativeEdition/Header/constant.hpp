@@ -77,6 +77,9 @@ const std::string iconPath {"Resource/Icon/icon.jfif"};
 namespace StringContant {
 const std::string npcName {"npc_linus"};
 const std::string playerName {"player_fire"};
+const std::string dialogUIName {"dialog_ui"};
+const std::string dialogUIImageName {"dialog_ui_image"};
+const std::string dialogRootNodeName {"root_dialog"};
 const std::string sceneOneRootNodeName {"root_scene_one"};
 const std::string sceneOneLayerNodeName {"scene_one_layer_node"};
 const std::string sceneOneBackgroundName {"scene_one_background"};
@@ -99,6 +102,8 @@ const float frameDelay {1000.0f / fps};
 } // namespace FPS
 
 namespace TexturePath {
+const std::string dialogUIPath {"Resource/Texture/UI/dialog.png"};
+const std::string npcDialogHeadPath {"Resource/Texture/NPC/npcDialogHead.png"};
 const std::string doorBushPath {"Resource/Texture/Door/doorBush.png"};
 const std::string sideDoorNormalPath {"Resource/Texture/Door/sideNormalDoor.png"};
 const std::string sideDoorBossPath {"Resource/Texture/Door/sideBossDoor.png"};
@@ -109,7 +114,6 @@ const std::string grassTilePath {"Resource/Texture/Tiles/grassTile.png"};
 const std::string roadTilePath {"Resource/Texture/Tiles/roadTile.png"};
 const std::string npcPNGPath {"Resource/Texture/NPC/npc_spritesheet.png"};
 const std::string npcJsonPath {"Resource/Texture/NPC/npc_spritesheet.json"};
-const std::string npcDialogHeadPath {"Resource/Texture/NPC/npcDialogHead.png"};
 const std::string playerStandPNGPath {"Resource/Texture/Player/Stand/stand_spritesheet.png"};
 const std::string playerStandJsonath {"Resource/Texture/Player/Stand/stand_spritesheet.json"};
 const std::string playerWalkPNGPath {"Resource/Texture/Player/Walk/walk_spritesheet.png"};
@@ -120,6 +124,13 @@ namespace ShadowShaderPath {
 const std::string vertexShader {"Resource/Shaders/shadow_shader.vert"};
 const std::string fragmentShader {"Resource/Shaders/shadow_shader.frag"};
 } // namespace ShadowShaderPath
+
+namespace DialogSize {
+const float dialogWidthRatio {2.0f / 3.0f};
+const float dialogHeight {200.0f};
+const float imageHeight {222.0f};
+const float imageWidth {185.0f};
+} // namespace DialogSize
 
 namespace SpriteSize {
 const float npcHeight {278.0f};

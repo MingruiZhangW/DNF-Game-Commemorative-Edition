@@ -2,17 +2,22 @@
 #include "constant.hpp"
 #include "map.hpp"
 #include "floorobj.hpp"
+#include "player.hpp"
+#include "npc.hpp"
+#include "dialogscenenode.hpp"
 
 SceneOne::SceneOne(ShaderProgram* shader,
                    GLfloat frameBufferWidth,
                    GLfloat frameBufferHeight,
                    Player* player,
-                   NPC* npc)
+                   NPC* npc,
+                   DialogSceneNode* dialogSceneNode)
     : m_shader(shader)
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(player)
     , m_npc(npc)
+    , m_dialog_scene_node(dialogSceneNode)
     , m_scene_one_map_boundary(glm::vec4(0.0f))
     , m_scene_one_root_node(std::make_unique<SceneNode>(StringContant::sceneOneRootNodeName))
     , m_scene_one_layer_node(new SceneNode(StringContant::sceneOneLayerNodeName))
@@ -22,9 +27,10 @@ SceneOne::SceneOne(ShaderProgram* shader,
 
 SceneOne::~SceneOne()
 {
-    // Prevent the player and the npc from being deleted.
+    // Prevent the const per scene node from being deleted.
     m_scene_one_layer_node->removeChild(m_player);
     m_scene_one_layer_node->removeChild(m_npc);
+    m_scene_one_layer_node->removeChild(m_dialog_scene_node->getRoot());
 }
 
 void
@@ -64,6 +70,9 @@ SceneOne::reorderLayerNodeChild()
             m_scene_one_layer_node->addChild(floorItem.first);
         }
     }
+
+    // TODO
+    m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 }
 
 std::pair<bool, bool>

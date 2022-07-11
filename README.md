@@ -9,6 +9,7 @@ Mini DNF Like Game
 - C++ 17
 - https://github.com/nlohmann/json
 - https://www.codeandweb.com/free-sprite-sheet-packer
+- https://github.com/ubawurinna/freetype-windows-binaries
 
 [Main Artist: 章墨卿](http://huashilm.com/u/120434/art) <br>
 

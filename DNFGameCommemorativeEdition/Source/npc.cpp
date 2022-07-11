@@ -58,7 +58,6 @@ NPC::NPC(ShaderProgram* shader)
     , m_animation_speed(0.1f)
     , m_current_frame("0")
     , m_animation_cursor(0.0f)
-    , m_dialog_box_triggered(false)
 {
     // Create shadow shader
     m_shadow_shader.generateProgramObject();

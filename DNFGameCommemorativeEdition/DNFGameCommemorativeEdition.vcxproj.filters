@@ -52,6 +52,15 @@
     <Filter Include="Resource Files\Texture\NPC">
       <UniqueIdentifier>{35677b1f-0202-473a-a916-68eea5c7a244}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\UI">
+      <UniqueIdentifier>{c850cd70-fd09-4463-96f6-680ae516e5a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{c2924414-5d7b-47b6-8e1e-4d94519b1f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{d5aa4e63-7956-4a0d-9b94-ef2bbdf0df96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -146,6 +155,18 @@
     <ClInclude Include="Header\npc.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Header\dialog.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\dialogimage.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\dialogscenenode.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\dialogtext.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -196,6 +217,18 @@
     <ClCompile Include="Source\npc.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\dialog.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dialogimage.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dialogscenenode.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dialogtext.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Texture\Tiles\grassTile.png">
@@ -239,6 +272,15 @@
     </Image>
     <Image Include="Resource\Texture\NPC\npcDialogHead.png">
       <Filter>Resource Files\Texture\NPC</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dialog.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dialogButton.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dialogButtonClicked.png">
+      <Filter>Resource Files\Texture\UI</Filter>
     </Image>
   </ItemGroup>
 </Project>

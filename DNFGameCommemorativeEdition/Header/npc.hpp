@@ -99,7 +99,6 @@ private:
 
     float m_animation_cursor;
 
-    // Hover outline and Dialog
+    // Hover outline
     bool m_npc_show_outline;
-    bool m_dialog_box_triggered;
 };

@@ -312,8 +312,10 @@ Game::processCameraMove()
     auto mapWidthBound = m_scene_manager->getCurrentSceneMapBoundary().w
                          - m_framebufferWidth / 2.0f;
     auto halfWidthLine = m_framebufferWidth / 2.0f;
+    auto cameraXNow = m_camera_pos.x;
 
     if (playDx > halfWidthLine && playDx < mapWidthBound) {
         m_camera_pos.x = playDx - halfWidthLine;
+        m_scene_manager->moveDialog(m_camera_pos.x - cameraXNow);
     }
 }

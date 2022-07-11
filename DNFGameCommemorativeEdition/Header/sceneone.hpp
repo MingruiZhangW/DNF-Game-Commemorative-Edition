@@ -2,14 +2,15 @@
 
 #include "scenenode.hpp"
 #include "shaderprogram.hpp"
-#include "player.hpp"
-#include "npc.hpp"
 
 #include "GL/glew.h"
 
 #include <memory>
 
 class Map;
+class Player;
+class NPC;
+class DialogSceneNode;
 
 class SceneOne
 {
@@ -18,7 +19,8 @@ public:
              GLfloat frameBufferWidth,
              GLfloat frameBufferHeight,
              Player* player,
-             NPC* npc);
+             NPC* npc,
+             DialogSceneNode* dialogSceneNode);
 
     ~SceneOne();
 
@@ -40,8 +42,11 @@ private:
     void construct();
 
     ShaderProgram* m_shader;
+
     Player* m_player;
     NPC* m_npc;
+    DialogSceneNode* m_dialog_scene_node;
+
     GLfloat m_frame_buffer_width;
     GLfloat m_frame_buffer_height;
 
