@@ -44,15 +44,21 @@ static const float m_npc_shadow_shift_y{-170.0f};
 static const float m_npc_collide_height{15.0f};
 static const float m_npc_collide_y_offset{30.0f};
 
+// Hover offset const
+static const float m_npc_hover_x_offset{30.0f};
+static const float m_npc_hover_y_offset{30.0f};
+
 // clang-format on
 
 NPC::NPC(ShaderProgram* shader)
     : GeometryNode(StringContant::npcName)
     , m_shader(shader)
     , m_npc_center(SpriteSize::npcWidth / 2.0f, SpriteSize::npcWidth / 2.0f)
-    , m_animation_speed(0.05f)
+    , m_npc_show_outline(false)
+    , m_animation_speed(0.1f)
     , m_current_frame("0")
     , m_animation_cursor(0.0f)
+    , m_dialog_box_triggered(false)
 {
     // Create shadow shader
     m_shadow_shader.generateProgramObject();
@@ -124,6 +130,10 @@ NPC::NPC(ShaderProgram* shader)
                           GL_FALSE,
                           sizeof(npc_texture_coord_data[0]) * 2,
                           nullptr);
+
+    m_show_outline_id = m_shader->getUniformLocation("showOutline");
+
+    updateTexCoord();
 
     // Reset state to prevent rogue code from messing with *my* stuff!
     glBindVertexArray(0);
@@ -239,7 +249,12 @@ NPC::draw()
     m_textures_sheet.useTexture();
 
     glBindVertexArray(m_npc_vao);
+    // Outline here
+    glUniform1i(m_show_outline_id, m_npc_show_outline);
+
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
+
+    glUniform1i(m_show_outline_id, false);
     glBindVertexArray(0);
 
     glDepthMask(GL_TRUE);
@@ -299,4 +314,19 @@ NPC::getNPCCollideGeo()
                      m_npc_dy + m_npc_collide_y_offset,
                      SpriteSize::npcWidth,
                      m_npc_collide_height);
+}
+
+void
+NPC::checkOnTop(glm::vec2 mousePos)
+{
+    if (m_npc_hover_x_offset + m_npc_dx < mousePos.x
+        && mousePos.x < m_npc_dx + SpriteSize::npcWidth - m_npc_hover_x_offset) {
+        if (m_npc_hover_y_offset + m_npc_dy < mousePos.y
+            && mousePos.y < m_npc_dy + SpriteSize::npcHeight - m_npc_hover_y_offset) {
+            m_npc_show_outline = true;
+            return;
+        }
+    }
+
+    m_npc_show_outline = false;
 }

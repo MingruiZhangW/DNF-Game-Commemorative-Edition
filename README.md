@@ -12,8 +12,6 @@ Mini DNF Like Game
 
 [Main Artist: 章墨卿](http://huashilm.com/u/120434/art) <br>
 
-[Dialog UI Art Resources](https://www.aigei.com/view/63206-30666838.html) <br>
-
-[Other Art Resources](https://gitee.com/danielbrain/dnfsingle) <br>
+[Other Art Resources](https://www.aigei.com/view/63206-30666838.html) <br>
 
 [Based on CS488 framework](https://student.cs.uwaterloo.ca/~cs488/Spring2022/)

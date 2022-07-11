@@ -30,6 +30,9 @@ public:
     // Map
     glm::vec4 getCurrentSceneMapBoundary();
 
+    // Process mouse move
+    void processMouseMove(glm::vec2 mousePos);
+
 private:
     enum class CurrentScene { SceneOne };
 

@@ -146,6 +146,8 @@ Player::Player(ShaderProgram* shader)
                           sizeof(player_texture_coord_data[0]) * 2,
                           nullptr);
 
+    updateTexCoord();
+
     // Reset state to prevent rogue code from messing with *my* stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);

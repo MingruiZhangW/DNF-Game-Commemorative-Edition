@@ -38,6 +38,9 @@ protected:
     // Handle player-follow camera
     void processCameraMove();
 
+    // Transform mouse pos to world space
+    glm::vec2 convertMousePos(double xPos, double yPos);
+
     std::unique_ptr<SceneManager> m_scene_manager;
 
     ShaderProgram m_shader;

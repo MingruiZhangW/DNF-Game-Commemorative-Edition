@@ -12,6 +12,7 @@ in vec2 textureCoor;
 out vec2 TextureCoor;
 
 void main() {
+	// Do shear transformation
 	mat3 mat_scale = mat3(vec3(1.0,0.0,0.0),vec3(0.0,1.0,0.0),vec3(0.0,0.0,1.0));
 	mat3 mat_tilt = mat3(vec3(1.0, tilt, 0.0), vec3(0.0, scale, 0.0), vec3(0.0, 0.0, 1.0));
 	mat3 mul = mat_scale * mat_tilt;

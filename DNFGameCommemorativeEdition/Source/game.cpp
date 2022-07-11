@@ -100,6 +100,25 @@ Game::draw()
 }
 
 /*
+ * Transform mouse pos to world space
+ */
+glm::vec2
+Game::convertMousePos(double xPos, double yPos)
+{
+    // To NDC and perspective divide is ignored
+    glm::vec4 ndcMouse = glm::vec4(((2.0f * xPos) / m_framebufferWidth - 1.0f),
+                                   (1.0f - (2.0f * yPos) / m_framebufferHeight),
+                                   -1.0f,
+                                   1.0f);
+
+    // Inverse proj, view
+    auto invPV = glm::inverse(m_view)
+                 * glm::vec4(glm::vec2(glm::inverse(m_proj) * ndcMouse), -1.0f, 0.0f);
+
+    return glm::vec2(invPV.x + m_camera_pos.x, invPV.y);
+}
+
+/*
  * Called once, after program is signaled to terminate.
  */
 void
@@ -124,6 +143,8 @@ bool
 Game::mouseMoveEvent(double xPos, double yPos)
 {
     bool eventHandled(false);
+
+    m_scene_manager->processMouseMove(convertMousePos(xPos, yPos));
 
     return eventHandled;
 }

@@ -51,6 +51,11 @@ public:
     void updateShadowShaderModelMat(const glm::mat4& nodeTrans);
     void updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans);
 
+    // Dialog
+    bool isDialogBoxTriggered();
+
+    void checkOnTop(glm::vec2 mousePos);
+
 private:
     void updateTexCoord();
     void updateFrame();
@@ -65,6 +70,8 @@ private:
     GLint m_shadow_m_uni;
     ShaderProgram m_shadow_shader;
 
+    // Uniforms and Attrib
+    GLuint m_show_outline_id;
     GLuint m_position_attrib_pos;
     GLuint m_texture_coor_attrib_pos;
 
@@ -91,4 +98,8 @@ private:
     Texture m_textures_sheet;
 
     float m_animation_cursor;
+
+    // Hover outline and Dialog
+    bool m_npc_show_outline;
+    bool m_dialog_box_triggered;
 };

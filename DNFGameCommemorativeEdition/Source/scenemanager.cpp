@@ -118,6 +118,12 @@ SceneManager::reorderCurrentSceneLayerNode()
     }
 }
 
+void
+SceneManager::processMouseMove(glm::vec2 mousePos)
+{
+    m_npc->checkOnTop(mousePos);
+}
+
 Player*
 SceneManager::getPlayer()
 {
