@@ -30,7 +30,8 @@ SceneOne::~SceneOne()
     // Prevent the const per scene node from being deleted.
     m_scene_one_layer_node->removeChild(m_player);
     m_scene_one_layer_node->removeChild(m_npc);
-    m_scene_one_layer_node->removeChild(m_dialog_scene_node->getRoot());
+    if (m_dialog_scene_node->getShown())
+        m_scene_one_layer_node->removeChild(m_dialog_scene_node->getRoot());
 }
 
 void
@@ -71,7 +72,8 @@ SceneOne::reorderLayerNodeChild()
         }
     }
 
-    m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
+    if (m_dialog_scene_node->getShown())
+        m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 }
 
 std::pair<bool, bool>
@@ -98,4 +100,33 @@ SceneOne::sceneOneCollisionTest(const glm::vec2& movement)
     }
 
     return result;
+}
+
+void
+SceneOne::moveDialog(float dx)
+{
+    m_dialog_scene_node->moveDialog(glm::vec3(dx, 0.0f, 0.0f));
+}
+
+void
+SceneOne::processHover(const glm::vec2& mousePos)
+{
+    m_npc->checkOnTop(mousePos);
+}
+
+void
+SceneOne::processClick()
+{
+    if (m_npc->checkOnTop() && !m_dialog_scene_node->getShown()) {
+        m_dialog_scene_node->setCurrentDialogSpeaker(StringContant::fancyNPCChineseName);
+        m_dialog_scene_node->setCurrentDialogText(Conversation::sceneOneClick);
+
+        m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
+
+        m_dialog_scene_node->setShown(true);
+    } else if (m_dialog_scene_node->getShown()) {
+        m_scene_one_layer_node->removeChild(m_dialog_scene_node->getRoot());
+
+        m_dialog_scene_node->setShown(false);
+    }
 }

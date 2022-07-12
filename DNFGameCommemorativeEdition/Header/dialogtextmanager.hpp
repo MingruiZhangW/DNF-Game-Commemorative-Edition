@@ -39,6 +39,11 @@ public:
     void setDialogNameShift(const glm::vec2& nameShift);
     void setDialogTextShift(const glm::vec2& textShift);
 
+    glm::vec2 getDialogTextInitialTrans()
+    {
+        return m_char_trans;
+    }
+
     // Assume the string text is for english chars,
     // wstring is for chinese chars (names).
     std::vector<DialogChar*> getDialogTextCharNodeListFromString(const std::string& string);

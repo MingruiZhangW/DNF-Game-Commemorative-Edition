@@ -122,15 +122,39 @@ SceneManager::reorderCurrentSceneLayerNode()
 }
 
 void
-SceneManager::processMouseMove(glm::vec2 mousePos)
+SceneManager::processMouseMove(const glm::vec2& mousePos)
 {
-    m_npc->checkOnTop(mousePos);
+    switch (m_current_scene) {
+    case SceneManager::CurrentScene::SceneOne:
+        m_scene_one->processHover(mousePos);
+        break;
+    default:
+        break;
+    }
+}
+
+void
+SceneManager::processLeftMouseClick()
+{
+    switch (m_current_scene) {
+    case SceneManager::CurrentScene::SceneOne:
+        m_scene_one->processClick();
+        break;
+    default:
+        break;
+    }
 }
 
 void
 SceneManager::moveDialog(float dx)
 {
-    m_dialog_scene_node->moveDialog(glm::vec3(dx, 0.0f, 0.0f));
+    switch (m_current_scene) {
+    case SceneManager::CurrentScene::SceneOne:
+        m_scene_one->moveDialog(dx);
+        break;
+    default:
+        break;
+    }
 }
 
 Player*

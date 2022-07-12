@@ -31,8 +31,9 @@ public:
     // Map
     glm::vec4 getCurrentSceneMapBoundary();
 
-    // Process mouse move
-    void processMouseMove(glm::vec2 mousePos);
+    // Process mouse move and left mouse click.
+    void processMouseMove(const glm::vec2& mousePos);
+    void processLeftMouseClick();
 
     // Dialog
     void moveDialog(float dx);

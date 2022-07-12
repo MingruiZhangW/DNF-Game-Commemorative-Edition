@@ -184,9 +184,19 @@ DialogTextManager::getDialogTextCharNodeListFromString(const std::string& string
                       m_char_trans.y + m_char_text_trans.y - yAdvanceTotal - yCharOffsetFromOrigin,
                       0.0f));
 
-        // Now advance cursors for next glyph (note that advance is number of 1/64 pixels),
-        // so we need to divide by 64 (right shift is faster here)
-        xCharSpace = static_cast<float>(m_glyph_tex_map_eng[*charC].advance >> 6);
+        // Now advance cursors for next glyph.
+        if (m_glyph_tex_map_eng[*charC].textureWidth == 0) {
+            // Note that advance is number of 1 / 64 pixels,
+            // so we need to divide by 64 (right shift is faster here)
+            // Use advance only for spaces
+            xCharSpace = static_cast<float>(m_glyph_tex_map_eng[*charC].advance >> 6);
+        } else {
+            // Advance by actual char width
+            xCharSpace = Fonts::fontTextScale
+                         * (static_cast<float>(m_glyph_tex_map_eng[*charC].textureWidth)
+                            / static_cast<float>(Fonts::fontTextSize));
+        }
+
         xAdvanceTotal = xAdvanceTotal + xCharSpace;
 
         // Multi-line

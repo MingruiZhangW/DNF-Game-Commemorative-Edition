@@ -51,10 +51,9 @@ public:
     void updateShadowShaderModelMat(const glm::mat4& nodeTrans);
     void updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans);
 
-    // Dialog
-    bool isDialogBoxTriggered();
-
-    void checkOnTop(glm::vec2 mousePos);
+    // If mouse is on top of the NPC.
+    bool checkOnTop();
+    bool checkOnTop(const glm::vec2& mousePos);
 
 private:
     void updateTexCoord();

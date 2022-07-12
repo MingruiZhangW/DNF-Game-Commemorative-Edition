@@ -1,6 +1,8 @@
 #include "dialogscenenode.hpp"
 #include "constant.hpp"
 
+#include <gtx/transform.hpp>
+
 DialogSceneNode::DialogSceneNode(ShaderProgram* shader,
                                  GLfloat frameBufferWidth,
                                  GLfloat frameBufferHeight)
@@ -9,6 +11,7 @@ DialogSceneNode::DialogSceneNode(ShaderProgram* shader,
     , m_frame_buffer_height(frameBufferHeight)
     , m_dialog(new Dialog(shader, frameBufferWidth, frameBufferHeight))
     , m_dialog_image(new DialogImage(shader))
+    , m_is_dialog_shown(false)
     , m_dialog_text_manager(std::make_unique<DialogTextManager>(shader))
     , m_dialog_root_node(std::make_unique<SceneNode>(StringContant::dialogRootNodeName))
 {
@@ -31,19 +34,6 @@ DialogSceneNode::construct()
 
     m_dialog_root_node->addChild(m_dialog);
     m_dialog_root_node->addChild(m_dialog_image);
-
-    m_current_dialog_speaker_chars = m_dialog_text_manager->getDialogNameCharNodeListFromString(
-        L"ÖËçü");
-    for (auto i : m_current_dialog_speaker_chars) {
-        m_dialog_root_node->addChild(i);
-    }
-
-    m_current_dialog_text_chars = m_dialog_text_manager->getDialogTextCharNodeListFromString(
-        "Hi, my name is dsjksdjksdjskdjk. sdkakldjaklsdjaklsfnsad "
-        "sdaddafffffffffffffffffffffffffffffffffffffsrgtrgfsefeafdaefa");
-    for (auto i : m_current_dialog_text_chars) {
-        m_dialog_root_node->addChild(i);
-    }
 }
 
 void
@@ -52,13 +42,20 @@ DialogSceneNode::moveDialog(const glm::vec3& amount)
     m_dialog->translate(amount);
     m_dialog_image->translate(amount);
 
-    for (auto& i : m_current_dialog_text_chars) {
-        i->translate(amount);
+    if (m_is_dialog_shown) {
+        for (auto& i : m_current_dialog_text_chars) {
+            i->translate(amount);
+        }
+
+        for (auto& i : m_current_dialog_speaker_chars) {
+            i->translate(amount);
+        }
     }
 
-    for (auto& i : m_current_dialog_speaker_chars) {
-        i->translate(amount);
-    }
+    auto currentTextTrans = m_dialog_text_manager->getDialogTextInitialTrans();
+
+    m_dialog_text_manager->setDialogTextInitialTrans(
+        glm::vec2(currentTextTrans.x + amount.x, currentTextTrans.y + amount.y));
 }
 
 void
@@ -74,6 +71,10 @@ DialogSceneNode::setCurrentDialogText(const std::string& dialogText)
     m_current_dialog_text_chars.clear();
     m_current_dialog_text_chars = m_dialog_text_manager->getDialogTextCharNodeListFromString(
         m_current_dialog_string);
+
+    for (auto i : m_current_dialog_text_chars) {
+        m_dialog_root_node->addChild(i);
+    }
 }
 
 void
@@ -89,4 +90,8 @@ DialogSceneNode::setCurrentDialogSpeaker(const std::wstring& speakerName)
     m_current_dialog_speaker_chars.clear();
     m_current_dialog_speaker_chars = m_dialog_text_manager->getDialogNameCharNodeListFromString(
         m_current_dialog_speaker_string);
+
+    for (auto i : m_current_dialog_speaker_chars) {
+        m_dialog_root_node->addChild(i);
+    }
 }

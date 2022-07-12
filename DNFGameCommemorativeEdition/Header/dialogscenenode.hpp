@@ -24,10 +24,22 @@ public:
     void setCurrentDialogText(const std::string& dialogText);
     void setCurrentDialogSpeaker(const std::wstring& speakerName);
 
+    void setShown(bool shown)
+    {
+        m_is_dialog_shown = shown;
+    }
+
+    bool getShown()
+    {
+        return m_is_dialog_shown;
+    }
+
 private:
     void construct();
 
     ShaderProgram* m_shader;
+
+    bool m_is_dialog_shown;
 
     std::unique_ptr<SceneNode> m_dialog_root_node;
 

@@ -36,7 +36,15 @@ public:
 
     std::pair<bool, bool> sceneOneCollisionTest(const glm::vec2& movement);
 
+    // Layered drawing
     void reorderLayerNodeChild();
+
+    // NPC click, hover event handle
+    void processHover(const glm::vec2& mousePos);
+    void processClick();
+
+    // Dialog
+    void moveDialog(float dx);
 
 private:
     void construct();

@@ -157,6 +157,13 @@ Game::mouseButtonInputEvent(int button, int actions, int mods)
 {
     bool eventHandled(false);
 
+    if (actions == GLFW_PRESS) {
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
+            m_scene_manager->processLeftMouseClick();
+            eventHandled = true;
+        }
+    }
+
     return eventHandled;
 }
 
@@ -194,6 +201,7 @@ Game::keyInputEvent(int key, int action, int mods)
     if (key == GLFW_KEY_UNKNOWN)
         return eventHandled;
 
+    // Store key sequences and deal with them in handleInputKeys()
     if (action == GLFW_PRESS) {
         switch (key) {
         case GLFW_KEY_UP:
@@ -308,6 +316,8 @@ Game::handleInputKeys()
 void
 Game::processCameraMove()
 {
+    // Start to move the camera when the player is in the middle of the window.
+    // Do not move when the player reaches the edges.
     auto playDx = m_scene_manager->getPlayer()->getPlayerDx();
     auto mapWidthBound = m_scene_manager->getCurrentSceneMapBoundary().w
                          - m_framebufferWidth / 2.0f;

@@ -154,6 +154,10 @@ const std::string vertexShader {"Resource/Shaders/shadow_shader.vert"};
 const std::string fragmentShader {"Resource/Shaders/shadow_shader.frag"};
 } // namespace ShadowShaderPath
 
+namespace Conversation {
+const std::string sceneOneClick {"Please! Save us from the dangerous and aggressive monsters!"};
+} // namespace Conversation
+
 namespace DialogSize {
 const float dialogNameXOffset {230.0f};
 const float dialogTextXOffset {230.0f};

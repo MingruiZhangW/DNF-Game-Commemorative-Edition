@@ -315,17 +315,24 @@ NPC::getNPCCollideGeo()
                      m_npc_collide_height);
 }
 
-void
-NPC::checkOnTop(glm::vec2 mousePos)
+bool
+NPC::checkOnTop()
+{
+    return m_npc_show_outline;
+}
+
+bool
+NPC::checkOnTop(const glm::vec2& mousePos)
 {
     if (m_npc_hover_x_offset + m_npc_dx < mousePos.x
         && mousePos.x < m_npc_dx + SpriteSize::npcWidth - m_npc_hover_x_offset) {
         if (m_npc_hover_y_offset + m_npc_dy < mousePos.y
             && mousePos.y < m_npc_dy + SpriteSize::npcHeight - m_npc_hover_y_offset) {
             m_npc_show_outline = true;
-            return;
+            return m_npc_show_outline;
         }
     }
 
     m_npc_show_outline = false;
+    return m_npc_show_outline;
 }
