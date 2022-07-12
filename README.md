@@ -10,6 +10,8 @@ Mini DNF Like Game
 - https://github.com/nlohmann/json
 - https://www.codeandweb.com/free-sprite-sheet-packer
 - https://github.com/ubawurinna/freetype-windows-binaries
+- https://chinesefonts.org/
+- ![alt text](https://learnopengl.com/img/in-practice/glyph_offset.png)
 
 [Main Artist: 章墨卿](http://huashilm.com/u/120434/art) <br>
 

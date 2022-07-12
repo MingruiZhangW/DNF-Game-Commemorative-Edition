@@ -31,9 +31,10 @@
   <ItemGroup>
     <ClInclude Include="Header\background.hpp" />
     <ClInclude Include="Header\dialog.hpp" />
+    <ClInclude Include="Header\dialogchar.hpp" />
     <ClInclude Include="Header\dialogimage.hpp" />
     <ClInclude Include="Header\dialogscenenode.hpp" />
-    <ClInclude Include="Header\dialogtext.hpp" />
+    <ClInclude Include="Header\dialogtextmanager.hpp" />
     <ClInclude Include="Header\exception.hpp" />
     <ClInclude Include="Header\floor.hpp" />
     <ClInclude Include="Header\floorobj.hpp" />
@@ -60,9 +61,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\background.cpp" />
     <ClCompile Include="Source\dialog.cpp" />
+    <ClCompile Include="Source\dialogchar.cpp" />
     <ClCompile Include="Source\dialogimage.cpp" />
     <ClCompile Include="Source\dialogscenenode.cpp" />
-    <ClCompile Include="Source\dialogtext.cpp" />
+    <ClCompile Include="Source\dialogtextmanager.cpp" />
     <ClCompile Include="Source\floor.cpp" />
     <ClCompile Include="Source\floorobj.cpp" />
     <ClCompile Include="Source\game.cpp" />
@@ -96,6 +98,10 @@
     <Image Include="Resource\Texture\UI\dialog.png" />
     <Image Include="Resource\Texture\UI\dialogButton.png" />
     <Image Include="Resource\Texture\UI\dialogButtonClicked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\Fonts\ARLRDBD.ttf" />
+    <Font Include="Resource\Fonts\FZFangSong-Z02T-Regular.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

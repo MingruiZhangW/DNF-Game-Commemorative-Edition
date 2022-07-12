@@ -75,11 +75,15 @@ const std::string iconPath {"Resource/Icon/icon.jfif"};
 } // namespace IconPath
 
 namespace StringContant {
+// Wide character string is used here for chinese names
+const std::wstring fancyPlayerChineseName {L"炙琰之灵"};
+const std::wstring fancyNPCChineseName {L"莫邪的老公"};
 const std::string npcName {"npc_linus"};
 const std::string playerName {"player_fire"};
 const std::string dialogUIName {"dialog_ui"};
 const std::string dialogUIImageName {"dialog_ui_image"};
 const std::string dialogRootNodeName {"root_dialog"};
+const std::string dialogCharNodeName {"dialog_char"};
 const std::string sceneOneRootNodeName {"root_scene_one"};
 const std::string sceneOneLayerNodeName {"scene_one_layer_node"};
 const std::string sceneOneBackgroundName {"scene_one_background"};
@@ -100,6 +104,31 @@ const float fps {60.0f};
 // One frame takes how many milliseconds
 const float frameDelay {1000.0f / fps};
 } // namespace FPS
+
+namespace Fonts {
+struct CharacterInfo
+{
+    GLuint textureID;     // Texture ID
+    GLuint textureWidth;  // Width of glyph texture
+    GLuint textureHeight; // Height of glyph texture
+    int bearingX;         // Offset from baseline to left of glyph (only used in english)
+    int bearingY;         // Offset from baseline to top of glyph (only used in english)
+    long advance;         // Offset to advance to next glyph (only used in english)
+};
+
+const int fontTextSize {24};
+const float fontNameScale {24.0f};
+const float fontTextScale {24.0f};
+const float fontNameAdvance {3.0f};
+const float fontTextLineWidth {500.0f};
+const float fontTextLineHeight {27.0f};
+
+const std::string chineseFontPath {"Resource/Fonts/FZFangSong-Z02T-Regular.ttf"};
+const std::string englishFontPath {"Resource/Fonts/ARLRDBD.ttf"};
+// Wide character string is used here for chinese names
+const std::wstring chineseLetters {L"炙琰之灵莫邪的老公"};
+const std::string englishLetters {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.! "};
+} // namespace Fonts
 
 namespace TexturePath {
 const std::string dialogUIPath {"Resource/Texture/UI/dialog.png"};
@@ -126,6 +155,10 @@ const std::string fragmentShader {"Resource/Shaders/shadow_shader.frag"};
 } // namespace ShadowShaderPath
 
 namespace DialogSize {
+const float dialogNameXOffset {230.0f};
+const float dialogTextXOffset {230.0f};
+const float dialogNameYOffset {-10.0f};
+const float dialogTextYOffset {-20.0f - Fonts::fontNameScale};
 const float dialogWidthRatio {2.0f / 3.0f};
 const float dialogHeight {200.0f};
 const float imageHeight {222.0f};

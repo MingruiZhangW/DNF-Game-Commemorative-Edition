@@ -61,6 +61,9 @@
     <Filter Include="Source Files\UI">
       <UniqueIdentifier>{d5aa4e63-7956-4a0d-9b94-ef2bbdf0df96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Fonts">
+      <UniqueIdentifier>{c787dcbd-a5db-4156-b1f6-dea8a16acc00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -164,7 +167,10 @@
     <ClInclude Include="Header\dialogscenenode.hpp">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Header\dialogtext.hpp">
+    <ClInclude Include="Header\dialogtextmanager.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\dialogchar.hpp">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -226,7 +232,10 @@
     <ClCompile Include="Source\dialogscenenode.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\dialogtext.cpp">
+    <ClCompile Include="Source\dialogtextmanager.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dialogchar.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -282,5 +291,13 @@
     <Image Include="Resource\Texture\UI\dialogButtonClicked.png">
       <Filter>Resource Files\Texture\UI</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\Fonts\FZFangSong-Z02T-Regular.ttf">
+      <Filter>Resource Files\Fonts</Filter>
+    </Font>
+    <Font Include="Resource\Fonts\ARLRDBD.ttf">
+      <Filter>Resource Files\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

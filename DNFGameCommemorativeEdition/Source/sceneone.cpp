@@ -71,7 +71,6 @@ SceneOne::reorderLayerNodeChild()
         }
     }
 
-    // TODO
     m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 }
 
