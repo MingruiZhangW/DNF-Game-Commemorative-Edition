@@ -24,6 +24,11 @@ public:
     void setCurrentDialogText(const std::string& dialogText);
     void setCurrentDialogSpeaker(const std::wstring& speakerName);
 
+    void showDialogImage(bool show)
+    {
+        m_dialog_image->setShouldDraw(show);
+    }
+
     void setShown(bool shown)
     {
         m_is_dialog_shown = shown;

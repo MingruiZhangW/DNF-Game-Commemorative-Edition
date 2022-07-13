@@ -31,6 +31,7 @@ static const float m_dialog_image_y_offset {10.0f};
 DialogImage::DialogImage(ShaderProgram* shader)
     : GeometryNode(StringContant::dialogUIImageName)
     , m_shader(shader)
+    , m_should_draw(false)
 {
     // Load texture
     m_texture = Texture(TexturePath::npcDialogHeadPath);
@@ -89,6 +90,9 @@ DialogImage::DialogImage(ShaderProgram* shader)
 void
 DialogImage::draw()
 {
+    if (!m_should_draw)
+        return;
+
     // Draw transparent backgrounds in blend mode (alpha channel)
     // https://stackoverflow.com/questions/3388294/opengl-question-about-the-usage-of-gldepthmask
     glDepthMask(GL_FALSE);

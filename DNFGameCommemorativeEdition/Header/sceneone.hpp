@@ -15,6 +15,18 @@ class DialogSceneNode;
 class SceneOne
 {
 public:
+    // TODO: add finite state machine.
+    enum class DialogConvMode {
+        ConvOne,
+        ConvTwo,
+        ConvThree,
+        ConvFour,
+        ConvFive,
+        ConvSix,
+        ConvSeven,
+        ConvEight
+    };
+
     SceneOne(ShaderProgram* shader,
              GLfloat frameBufferWidth,
              GLfloat frameBufferHeight,
@@ -46,10 +58,15 @@ public:
     // Dialog
     void moveDialog(float dx);
 
+    // Initial display, should call first.
+    void prepareInitialDisplay();
+
 private:
     void construct();
 
     ShaderProgram* m_shader;
+
+    DialogConvMode m_current_dialog_mode;
 
     Player* m_player;
     NPC* m_npc;

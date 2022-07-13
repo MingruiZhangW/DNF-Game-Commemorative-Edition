@@ -31,7 +31,7 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_npc(std::make_unique<NPC>(m_shader))
     , m_dialog_scene_node(
           std::make_unique<DialogSceneNode>(m_shader, frameBufferWidth, frameBufferHeight))
-    , m_current_scene(CurrentScene::SceneOne)
+    , m_current_scene_state(CurrentSceneState::SceneOnePrep)
 {}
 
 SceneManager::~SceneManager() {}
@@ -50,8 +50,13 @@ SceneManager::constructScenes()
 void
 SceneManager::drawCurrentScene()
 {
-    switch (m_current_scene) {
-    case CurrentScene::SceneOne:
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneOnePrep:
+        m_scene_one->prepareInitialDisplay();
+
+        m_current_scene_state = CurrentSceneState::SceneOneReady;
+        break;
+    case CurrentSceneState::SceneOneReady:
         drawSceneOne();
         break;
     default:
@@ -100,8 +105,8 @@ SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
 glm::vec4
 SceneManager::getCurrentSceneMapBoundary()
 {
-    switch (m_current_scene) {
-    case SceneManager::CurrentScene::SceneOne:
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneOneReady:
         return m_scene_one->getSceneOneMapBoundary();
     default:
         break;
@@ -113,8 +118,8 @@ SceneManager::getCurrentSceneMapBoundary()
 void
 SceneManager::reorderCurrentSceneLayerNode()
 {
-    switch (m_current_scene) {
-    case SceneManager::CurrentScene::SceneOne:
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneOneReady:
         return m_scene_one->reorderLayerNodeChild();
     default:
         break;
@@ -124,8 +129,8 @@ SceneManager::reorderCurrentSceneLayerNode()
 void
 SceneManager::processMouseMove(const glm::vec2& mousePos)
 {
-    switch (m_current_scene) {
-    case SceneManager::CurrentScene::SceneOne:
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneOneReady:
         m_scene_one->processHover(mousePos);
         break;
     default:
@@ -136,8 +141,8 @@ SceneManager::processMouseMove(const glm::vec2& mousePos)
 void
 SceneManager::processLeftMouseClick()
 {
-    switch (m_current_scene) {
-    case SceneManager::CurrentScene::SceneOne:
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneOneReady:
         m_scene_one->processClick();
         break;
     default:
@@ -148,8 +153,8 @@ SceneManager::processLeftMouseClick()
 void
 SceneManager::moveDialog(float dx)
 {
-    switch (m_current_scene) {
-    case SceneManager::CurrentScene::SceneOne:
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneOneReady:
         m_scene_one->moveDialog(dx);
         break;
     default:

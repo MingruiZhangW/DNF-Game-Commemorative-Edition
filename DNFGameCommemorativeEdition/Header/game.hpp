@@ -18,6 +18,8 @@ public:
     Game();
     virtual ~Game();
 
+    static void enableKeyBoardEvent(bool enable);
+
 protected:
     virtual void init() override;
     virtual void appLogic() override;

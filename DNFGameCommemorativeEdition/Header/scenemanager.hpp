@@ -39,7 +39,7 @@ public:
     void moveDialog(float dx);
 
 private:
-    enum class CurrentScene { SceneOne };
+    enum class CurrentSceneState { SceneOnePrep, SceneOneReady };
 
     void drawSceneOne();
     void reorderCurrentSceneLayerNode();
@@ -49,7 +49,7 @@ private:
     GLfloat m_frame_buffer_width;
     GLfloat m_frame_buffer_height;
 
-    CurrentScene m_current_scene;
+    CurrentSceneState m_current_scene_state;
 
     // Const per scene
     std::unique_ptr<Player> m_player;

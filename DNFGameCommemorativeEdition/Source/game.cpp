@@ -9,6 +9,14 @@
 #include <gtx/io.hpp>
 #include <gtx/string_cast.hpp>
 
+static bool m_enable_keyboard_event = true;
+
+void
+Game::enableKeyBoardEvent(bool enable)
+{
+    m_enable_keyboard_event = enable;
+}
+
 // Constructor
 Game::Game()
     : m_camera_pos(glm::vec3(0.0f, 0.0f, 0.0f))
@@ -198,7 +206,7 @@ Game::keyInputEvent(int key, int action, int mods)
     bool eventHandled(false);
 
     // Don't accept unknown keys
-    if (key == GLFW_KEY_UNKNOWN)
+    if (!m_enable_keyboard_event || key == GLFW_KEY_UNKNOWN)
         return eventHandled;
 
     // Store key sequences and deal with them in handleInputKeys()

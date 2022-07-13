@@ -127,7 +127,7 @@ const std::string chineseFontPath {"Resource/Fonts/FZFangSong-Z02T-Regular.ttf"}
 const std::string englishFontPath {"Resource/Fonts/ARLRDBD.ttf"};
 // Wide character string is used here for chinese names
 const std::wstring chineseLetters {L"炙琰之灵莫邪的老公"};
-const std::string englishLetters {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.! "};
+const std::string englishLetters {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.! ?"};
 } // namespace Fonts
 
 namespace TexturePath {
@@ -155,7 +155,15 @@ const std::string fragmentShader {"Resource/Shaders/shadow_shader.frag"};
 } // namespace ShadowShaderPath
 
 namespace Conversation {
-const std::string sceneOneClick {"Please! Save us from the dangerous and aggressive monsters!"};
+const std::string sceneOneS1 {"Where.....am I ? ? ?"};
+const std::string sceneOneS2 {"I...should be at the Kether."};
+const std::string sceneOneS3 {"My head....I need to check this place around..."};
+const std::string sceneOneS4 {"Do you know where is this place ? Human."};
+const std::string sceneOneS5 {"Yeah, Human hmm... Here is Lorraine. "
+                              + std::string("If you want to know more...Show me your strength ! ")
+                              + "There are a bunch of monsters ahead. Kill them !"};
+const std::string sceneOneS6 {"Well. Consider it as a gift... Human."};
+const std::string sceneOneClick {"Kill these dangerous and aggressive monsters !"};
 } // namespace Conversation
 
 namespace DialogSize {

@@ -13,6 +13,10 @@ public:
     void draw();
 
     void setDialogOrigin(glm::vec2 dialogOrigin);
+    void setShouldDraw(bool show)
+    {
+        m_should_draw = show;
+    }
 
     glm::vec2 getTextureGeo()
     {
@@ -21,6 +25,8 @@ public:
 
 private:
     ShaderProgram* m_shader;
+
+    bool m_should_draw;
 
     glm::vec2 m_dialog_origin;
 
