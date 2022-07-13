@@ -1,6 +1,8 @@
 #pragma once
 
 #include "scenenode.hpp"
+#include "scenezero.hpp"
+#include "gamewindow.hpp"
 #include "shaderprogram.hpp"
 #include "player.hpp"
 #include "npc.hpp"
@@ -14,7 +16,10 @@
 class SceneManager
 {
 public:
-    SceneManager(ShaderProgram* shader, GLfloat frameBufferWidth, GLfloat frameBufferHeight);
+    SceneManager(ShaderProgram* shader,
+                 GLfloat frameBufferWidth,
+                 GLfloat frameBufferHeight,
+                 GLFWwindow* window);
     ~SceneManager();
 
     // Scenes
@@ -39,9 +44,10 @@ public:
     void moveDialog(float dx);
 
 private:
-    enum class CurrentSceneState { SceneOnePrep, SceneOneReady };
+    enum class CurrentSceneState { SceneZeroPrep, SceneZeroReady, SceneOnePrep, SceneOneReady };
 
     void drawSceneOne();
+    void drawSceneZero();
     void reorderCurrentSceneLayerNode();
     void renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat);
 
@@ -56,5 +62,9 @@ private:
     std::unique_ptr<NPC> m_npc;
     std::unique_ptr<DialogSceneNode> m_dialog_scene_node;
 
+    // Scenes
     std::unique_ptr<SceneOne> m_scene_one;
+    std::unique_ptr<SceneZero> m_scene_zero;
+
+    GLFWwindow* m_window;
 };

@@ -8,7 +8,7 @@
 
 // clang-format off
 
-// Floor vertex at the live area origin with texture coord
+// Background vertex at the live area origin with texture coord
 static const GLfloat background_vertex_buffer_data[] =
 {
     // triangle 1
@@ -39,6 +39,9 @@ Background::Background(const std::string& name,
         break;
     case BackgroundTextureType::Far:
         m_texture = Texture(TexturePath::backgroundFarPath);
+        break;
+    case BackgroundTextureType::SceneZero:
+        m_texture = Texture(TexturePath::sceneZeroBackgroundPath);
         break;
     default:
         break;

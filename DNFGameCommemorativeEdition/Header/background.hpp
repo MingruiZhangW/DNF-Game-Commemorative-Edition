@@ -9,7 +9,7 @@
 class Background : public GeometryNode
 {
 public:
-    enum class BackgroundTextureType { Mid, Far };
+    enum class BackgroundTextureType { Mid, Far, SceneZero };
 
     Background(const std::string& name,
                ShaderProgram* shader,

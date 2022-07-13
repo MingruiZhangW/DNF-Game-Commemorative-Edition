@@ -65,8 +65,9 @@ public:
     void updateShadowShaderModelMat(const glm::mat4& nodeTrans);
     void updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans);
 
-private:
     void flipSprite();
+
+private:
     void updateTexCoord();
     void updateFrame();
 

@@ -7,6 +7,9 @@
 #include "dialogscenenode.hpp"
 #include "game.hpp"
 
+// Offset
+const static float m_player_scene_one_initial_y {175.0f};
+
 SceneOne::SceneOne(ShaderProgram* shader,
                    GLfloat frameBufferWidth,
                    GLfloat frameBufferHeight,
@@ -56,6 +59,8 @@ SceneOne::prepareInitialDisplay()
     m_dialog_scene_node->setCurrentDialogText(Conversation::sceneOneS1);
     m_dialog_scene_node->showDialogImage(false);
     m_dialog_scene_node->setShown(true);
+    m_player->flipSprite();
+    m_player->translate(glm::vec3(0.0f, m_player_scene_one_initial_y, 0.0f));
     m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 
     m_scene_one_root_node->addChild(m_scene_one_layer_node);

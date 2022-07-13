@@ -23,7 +23,8 @@ updateShaderUniforms(const ShaderProgram* shader, const glm::mat4& nodeTrans)
 
 SceneManager::SceneManager(ShaderProgram* shader,
                            GLfloat frameBufferWidth,
-                           GLfloat frameBufferHeight)
+                           GLfloat frameBufferHeight,
+                           GLFWwindow* window)
     : m_shader(shader)
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
@@ -31,7 +32,8 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_npc(std::make_unique<NPC>(m_shader))
     , m_dialog_scene_node(
           std::make_unique<DialogSceneNode>(m_shader, frameBufferWidth, frameBufferHeight))
-    , m_current_scene_state(CurrentSceneState::SceneOnePrep)
+    , m_current_scene_state(CurrentSceneState::SceneZeroPrep)
+    , m_window(window)
 {}
 
 SceneManager::~SceneManager() {}
@@ -45,12 +47,24 @@ SceneManager::constructScenes()
                                              m_player.get(),
                                              m_npc.get(),
                                              m_dialog_scene_node.get());
+
+    m_scene_zero = std::make_unique<SceneZero>(m_shader,
+                                               m_frame_buffer_width,
+                                               m_frame_buffer_height);
 }
 
 void
 SceneManager::drawCurrentScene()
 {
     switch (m_current_scene_state) {
+    case CurrentSceneState::SceneZeroPrep:
+        m_scene_zero->prepareInitialDisplay();
+
+        m_current_scene_state = CurrentSceneState::SceneZeroReady;
+        break;
+    case CurrentSceneState::SceneZeroReady:
+        drawSceneZero();
+        break;
     case CurrentSceneState::SceneOnePrep:
         m_scene_one->prepareInitialDisplay();
 
@@ -69,6 +83,13 @@ SceneManager::drawSceneOne()
 {
     renderSceneGraphNodes(m_scene_one->getRootSceneNode(),
                           m_scene_one->getRootSceneNode()->getTransform());
+}
+
+void
+SceneManager::drawSceneZero()
+{
+    renderSceneGraphNodes(m_scene_zero->getRootSceneNode(),
+                          m_scene_zero->getRootSceneNode()->getTransform());
 }
 
 void
@@ -130,6 +151,9 @@ void
 SceneManager::processMouseMove(const glm::vec2& mousePos)
 {
     switch (m_current_scene_state) {
+    case CurrentSceneState::SceneZeroReady:
+        m_scene_zero->processHover(mousePos);
+        break;
     case CurrentSceneState::SceneOneReady:
         m_scene_one->processHover(mousePos);
         break;
@@ -142,6 +166,13 @@ void
 SceneManager::processLeftMouseClick()
 {
     switch (m_current_scene_state) {
+    case CurrentSceneState::SceneZeroReady:
+        if (m_scene_zero->processClick() == Scene::SceneEvents::QuitGame) {
+            glfwSetWindowShouldClose(m_window, GL_TRUE);
+        } else {
+            m_current_scene_state = CurrentSceneState::SceneOnePrep;
+        }
+        break;
     case CurrentSceneState::SceneOneReady:
         m_scene_one->processClick();
         break;

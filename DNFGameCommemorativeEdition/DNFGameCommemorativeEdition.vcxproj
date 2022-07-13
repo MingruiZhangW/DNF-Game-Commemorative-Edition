@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\background.hpp" />
+    <ClInclude Include="Header\button.hpp" />
     <ClInclude Include="Header\dialog.hpp" />
     <ClInclude Include="Header\dialogchar.hpp" />
     <ClInclude Include="Header\dialogimage.hpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Header\scenemanager.hpp" />
     <ClInclude Include="Header\scenenode.hpp" />
     <ClInclude Include="Header\sceneone.hpp" />
+    <ClInclude Include="Header\scenezero.hpp" />
     <ClInclude Include="Header\shaderexception.hpp" />
     <ClInclude Include="Header\shaderprogram.hpp" />
     <ClInclude Include="Header\stb_image.h" />
@@ -60,6 +62,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\background.cpp" />
+    <ClCompile Include="Source\button.cpp" />
     <ClCompile Include="Source\dialog.cpp" />
     <ClCompile Include="Source\dialogchar.cpp" />
     <ClCompile Include="Source\dialogimage.cpp" />
@@ -77,6 +80,7 @@
     <ClCompile Include="Source\scenemanager.cpp" />
     <ClCompile Include="Source\scenenode.cpp" />
     <ClCompile Include="Source\sceneone.cpp" />
+    <ClCompile Include="Source\scenezero.cpp" />
     <ClCompile Include="Source\shaderprogram.cpp" />
     <ClCompile Include="Source\texture.cpp" />
   </ItemGroup>
@@ -85,6 +89,7 @@
     <Image Include="Resource\Icon\icon.jfif" />
     <Image Include="Resource\Texture\Background\backgoundMid.png" />
     <Image Include="Resource\Texture\Background\backgroundFar.png" />
+    <Image Include="Resource\Texture\Background\sceneZeroBackground.png" />
     <Image Include="Resource\Texture\Door\doorBush.png" />
     <Image Include="Resource\Texture\Door\sideBossDoor.png" />
     <Image Include="Resource\Texture\Door\sideNormalDoor.png" />
@@ -98,6 +103,11 @@
     <Image Include="Resource\Texture\UI\dialog.png" />
     <Image Include="Resource\Texture\UI\dialogButton.png" />
     <Image Include="Resource\Texture\UI\dialogButtonClicked.png" />
+    <Image Include="Resource\Texture\UI\dnfLogo.png" />
+    <Image Include="Resource\Texture\UI\exitButtonHover.png" />
+    <Image Include="Resource\Texture\UI\exitButtonNormal.png" />
+    <Image Include="Resource\Texture\UI\playButtonHover.png" />
+    <Image Include="Resource\Texture\UI\playButtonNormal.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resource\Fonts\ARLRDBD.ttf" />

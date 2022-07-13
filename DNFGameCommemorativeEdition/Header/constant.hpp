@@ -84,12 +84,15 @@ const std::string dialogUIName {"dialog_ui"};
 const std::string dialogUIImageName {"dialog_ui_image"};
 const std::string dialogRootNodeName {"root_dialog"};
 const std::string dialogCharNodeName {"dialog_char"};
+const std::string sceneZeroRootNodeName {"root_scene_zero"};
+const std::string sceneZeroBackgroundName {"scene_zero_background"};
 const std::string sceneOneRootNodeName {"root_scene_one"};
 const std::string sceneOneLayerNodeName {"scene_one_layer_node"};
 const std::string sceneOneBackgroundName {"scene_one_background"};
 const std::string sceneOneFloorName {"scene_one_floor"};
 const std::string sceneOneMapName {"scene_one_map"};
 const std::string sceneOneFloorObjName {"scene_one_floor_obj"};
+const std::string buttonName {"button"};
 } // namespace StringContant
 
 namespace RatioContant {
@@ -104,6 +107,10 @@ const float fps {60.0f};
 // One frame takes how many milliseconds
 const float frameDelay {1000.0f / fps};
 } // namespace FPS
+
+namespace Scene {
+enum class SceneEvents { QuitGame, SceneTransit };
+} // namespace Scene
 
 namespace Fonts {
 struct CharacterInfo
@@ -131,6 +138,11 @@ const std::string englishLetters {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRS
 } // namespace Fonts
 
 namespace TexturePath {
+const std::string dnfLogoPath {"Resource/Texture/UI/dnfLogo.png"};
+const std::string exitButtonNormalUIPath {"Resource/Texture/UI/exitButtonNormal.png"};
+const std::string exitButtonHoverUIPath {"Resource/Texture/UI/exitButtonHover.png"};
+const std::string playButtonNormalUIPath {"Resource/Texture/UI/playButtonNormal.png"};
+const std::string playButtonHoverUIPath {"Resource/Texture/UI/playButtonHover.png"};
 const std::string dialogUIPath {"Resource/Texture/UI/dialog.png"};
 const std::string npcDialogHeadPath {"Resource/Texture/NPC/npcDialogHead.png"};
 const std::string doorBushPath {"Resource/Texture/Door/doorBush.png"};
@@ -139,6 +151,7 @@ const std::string sideDoorBossPath {"Resource/Texture/Door/sideBossDoor.png"};
 const std::string treePath {"Resource/Texture/FloorObj/tree.png"};
 const std::string backgroundFarPath {"Resource/Texture/Background/backgroundFar.png"};
 const std::string backgoundMidPath {"Resource/Texture/Background/backgoundMid.png"};
+const std::string sceneZeroBackgroundPath {"Resource/Texture/Background/sceneZeroBackground.png"};
 const std::string grassTilePath {"Resource/Texture/Tiles/grassTile.png"};
 const std::string roadTilePath {"Resource/Texture/Tiles/roadTile.png"};
 const std::string npcPNGPath {"Resource/Texture/NPC/npc_spritesheet.png"};

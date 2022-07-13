@@ -173,6 +173,12 @@
     <ClInclude Include="Header\dialogchar.hpp">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Header\scenezero.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\button.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -238,6 +244,12 @@
     <ClCompile Include="Source\dialogchar.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\scenezero.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Texture\Tiles\grassTile.png">
@@ -289,6 +301,24 @@
       <Filter>Resource Files\Texture\UI</Filter>
     </Image>
     <Image Include="Resource\Texture\UI\dialogButtonClicked.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Background\sceneZeroBackground.png">
+      <Filter>Resource Files\Texture\Background</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dnfLogo.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\playButtonHover.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\playButtonNormal.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\exitButtonHover.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\exitButtonNormal.png">
       <Filter>Resource Files\Texture\UI</Filter>
     </Image>
   </ItemGroup>

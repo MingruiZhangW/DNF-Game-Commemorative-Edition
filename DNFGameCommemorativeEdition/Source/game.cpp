@@ -56,7 +56,8 @@ Game::init()
 
     m_scene_manager = std::make_unique<SceneManager>(&m_shader,
                                                      static_cast<float>(m_framebufferWidth),
-                                                     static_cast<float>(m_framebufferHeight));
+                                                     static_cast<float>(m_framebufferHeight),
+                                                     m_window);
 
     m_scene_manager->constructScenes();
 }
