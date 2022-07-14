@@ -200,7 +200,20 @@ SceneManager::processLeftMouseClick()
         }
         break;
     case CurrentSceneState::SceneOneReady:
-        m_scene_one->processClick();
+        if (m_scene_one->processClick()) {
+            if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_click)) {
+                m_button_click_sound->stop();
+                m_button_click_sound = Game::getSoundEngine()->play2D(m_button_click,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            } else {
+                m_button_click_sound = Game::getSoundEngine()->play2D(m_button_click,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            }
+        }
         break;
     default:
         break;
