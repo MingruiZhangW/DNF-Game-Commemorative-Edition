@@ -31,6 +31,7 @@ Game::Game()
     : m_camera_pos(glm::vec3(0.0f, 0.0f, 0.0f))
     , m_camera_front(glm::vec3(0.0f, 0.0f, -1.0f))
     , m_play_doing_basic_attack(false)
+    , m_play_doing_skill_attack(false)
 {}
 
 // Destructor
@@ -246,6 +247,9 @@ Game::keyInputEvent(int key, int action, int mods)
         case GLFW_KEY_X:
             m_play_doing_basic_attack = true;
             break;
+        case GLFW_KEY_Z:
+            m_play_doing_skill_attack = true;
+            break;
         default:
             break;
         }
@@ -317,6 +321,11 @@ Game::handleInputKeys()
     if (m_play_doing_basic_attack) {
         m_scene_manager->getPlayer()->setPlayerMode(Player::PlayerMode::BasicAttack);
         m_play_doing_basic_attack = false;
+
+        return;
+    } else if (m_play_doing_skill_attack) {
+        m_scene_manager->getPlayer()->setPlayerMode(Player::PlayerMode::Skill);
+        m_play_doing_skill_attack = false;
 
         return;
     }

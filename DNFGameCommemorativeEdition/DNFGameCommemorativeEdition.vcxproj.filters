@@ -70,6 +70,9 @@
     <Filter Include="Resource Files\Texture\Player\BasicAttack">
       <UniqueIdentifier>{37a06431-52ab-4d94-ae9e-45e7c651c968}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Player\Skill">
+      <UniqueIdentifier>{3b42d8f0-727c-453e-b40b-c8d48c019644}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -107,6 +110,9 @@
     </None>
     <None Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.json">
       <Filter>Resource Files\Texture\Player\BasicAttack</Filter>
+    </None>
+    <None Include="Resource\Texture\Player\Skill\skill_spritesheet.json">
+      <Filter>Resource Files\Texture\Player\Skill</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +347,9 @@
     </Image>
     <Image Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.png">
       <Filter>Resource Files\Texture\Player\BasicAttack</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Player\Skill\skill_spritesheet.png">
+      <Filter>Resource Files\Texture\Player\Skill</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

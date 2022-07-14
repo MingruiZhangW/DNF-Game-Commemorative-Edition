@@ -55,12 +55,14 @@ Player::Player(ShaderProgram* shader)
     , m_stand_animation_move_speed(0.05f)
     , m_walk_animation_move_speed(0.05f)
     , m_basic_attack_animation_move_speed(0.05f)
+    , m_skill_animation_move_speed(0.018f)
     , m_player_mode(PlayerMode::Stand)
     , m_player_move_dir(PlayerMoveDir::None)
     , m_player_sprite_facing_left_dir(true)
     , m_current_stand_frame("0")
     , m_current_walk_frame("0")
     , m_current_basic_attack_frame("0")
+    , m_current_skill_frame("0")
     , m_animation_cursor(0.0f)
     , m_player_dx(0.0f)
     , m_player_dy(0.0f)
@@ -102,6 +104,14 @@ Player::Player(ShaderProgram* shader)
         m_play_basic_attack_json_parser[SSJsonKeys::frames].size());
     m_basic_attack_textures_sheet = Texture(TexturePath::playerBasicAttackPNGPath);
     m_basic_attack_textures_sheet.loadTexture();
+
+    // Load texture - skill
+    std::ifstream ifs_sk(TexturePath::playerSKillJsonPath);
+    m_play_skill_json_parser = json::parse(ifs_sk);
+    m_number_of_skill_frames = static_cast<unsigned int>(
+        m_play_skill_json_parser[SSJsonKeys::frames].size());
+    m_skill_textures_sheet = Texture(TexturePath::playerSkillPNGPath);
+    m_skill_textures_sheet.loadTexture();
 
     m_player_dx = m_player_center.x;
     m_player_dy = m_player_center.y;
@@ -186,6 +196,14 @@ Player::updateFrame()
         if (m_animation_cursor > m_basic_attack_animation_move_speed) {
             m_current_basic_attack_frame = std::to_string(
                 (std::stoi(m_current_basic_attack_frame) + 1) % m_number_of_basic_attack_frames);
+            m_animation_cursor = 0;
+        } else
+            return;
+        break;
+    case Player::PlayerMode::Skill:
+        if (m_animation_cursor > m_skill_animation_move_speed) {
+            m_current_skill_frame = std::to_string((std::stoi(m_current_skill_frame) + 1)
+                                                   % m_number_of_skill_frames);
             m_animation_cursor = 0;
         } else
             return;
@@ -312,6 +330,40 @@ Player::updateTexCoord()
                                         / m_basic_attack_textures_sheet.getTextureWidth();
         player_texture_coord_data[11] = texY / m_basic_attack_textures_sheet.getTextureHeight();
         break;
+    case Player::PlayerMode::Skill:
+        // get sprite sheet coord
+        texX = m_play_skill_json_parser[SSJsonKeys::frames][m_current_skill_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::x]
+                                           .get<float>();
+        texY = m_play_skill_json_parser[SSJsonKeys::frames][m_current_skill_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::y]
+                                           .get<float>();
+        texW = m_play_skill_json_parser[SSJsonKeys::frames][m_current_skill_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::w]
+                                           .get<float>();
+        texH = m_play_skill_json_parser[SSJsonKeys::frames][m_current_skill_frame]
+                                       [SSJsonKeys::frame][SSJsonKeys::h]
+                                           .get<float>();
+
+        // update each data point to tex coord
+        player_texture_coord_data[0] = (texX + texW) / m_skill_textures_sheet.getTextureWidth();
+        player_texture_coord_data[1] = (texY + texH) / m_skill_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[2] = texX / m_skill_textures_sheet.getTextureWidth();
+        player_texture_coord_data[3] = (texY + texH) / m_skill_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[4] = (texX + texW) / m_skill_textures_sheet.getTextureWidth();
+        player_texture_coord_data[5] = texY / m_skill_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[6] = texX / m_skill_textures_sheet.getTextureWidth();
+        player_texture_coord_data[7] = texY / m_skill_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[8] = texX / m_skill_textures_sheet.getTextureWidth();
+        player_texture_coord_data[9] = (texY + texH) / m_skill_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[10] = (texX + texW) / m_skill_textures_sheet.getTextureWidth();
+        player_texture_coord_data[11] = texY / m_skill_textures_sheet.getTextureHeight();
+        break;
     default:
         break;
     }
@@ -360,6 +412,9 @@ Player::draw()
     case PlayerMode::BasicAttack:
         m_basic_attack_textures_sheet.useTexture();
         break;
+    case PlayerMode::Skill:
+        m_skill_textures_sheet.useTexture();
+        break;
     default:
         break;
     }
@@ -393,6 +448,9 @@ Player::draw()
     case PlayerMode::BasicAttack:
         m_basic_attack_textures_sheet.useTexture();
         break;
+    case PlayerMode::Skill:
+        m_skill_textures_sheet.useTexture();
+        break;
     default:
         break;
     }
@@ -412,6 +470,9 @@ Player::afterDraw()
 {
     if (m_player_mode == PlayerMode::BasicAttack
         && std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames)
+        setPlayerMode(PlayerMode::Stand);
+    if (m_player_mode == PlayerMode::Skill
+        && std::stoi(m_current_skill_frame) + 1 == m_number_of_skill_frames)
         setPlayerMode(PlayerMode::Stand);
 }
 
@@ -616,6 +677,7 @@ Player::setPlayerMode(PlayerMode mode)
     m_current_walk_frame = "0";
     m_current_stand_frame = "0";
     m_current_basic_attack_frame = "0";
+    m_current_skill_frame = "0";
     m_animation_cursor = 0;
 
     updateTexCoord();
@@ -624,7 +686,7 @@ Player::setPlayerMode(PlayerMode mode)
 bool
 Player::lockForMovement()
 {
-    if (m_player_mode == PlayerMode::BasicAttack)
+    if (m_player_mode == PlayerMode::BasicAttack || m_player_mode == PlayerMode::Skill)
         return true;
     return false;
 }

@@ -164,6 +164,8 @@ const std::string playerBasicAttackPNGPath {
     "Resource/Texture/Player/BasicAttack/basicattack_spritesheet.png"};
 const std::string playerBasicAttackJsonPath {
     "Resource/Texture/Player/BasicAttack/basicattack_spritesheet.json"};
+const std::string playerSkillPNGPath {"Resource/Texture/Player/Skill/skill_spritesheet.png"};
+const std::string playerSKillJsonPath {"Resource/Texture/Player/Skill/skill_spritesheet.json"};
 } // namespace TexturePath
 
 namespace ShadowShaderPath {

@@ -66,5 +66,6 @@ protected:
     std::vector<int> m_player_run_key_left_right_sequence;
 
     // Player attack
+    bool m_play_doing_skill_attack;
     bool m_play_doing_basic_attack;
 };

@@ -19,7 +19,7 @@ public:
     Player(ShaderProgram* shader);
     ~Player() {}
 
-    enum class PlayerMode { Stand, Walk, BasicAttack };
+    enum class PlayerMode { Stand, Walk, BasicAttack, Skill };
 
     // Make enum instead of enum class
     enum PlayerMoveDir {
@@ -126,6 +126,13 @@ private:
     float m_basic_attack_animation_move_speed;
     std::string m_current_basic_attack_frame;
     Texture m_basic_attack_textures_sheet;
+
+    // Skill
+    json m_play_skill_json_parser;
+    unsigned int m_number_of_skill_frames;
+    float m_skill_animation_move_speed;
+    std::string m_current_skill_frame;
+    Texture m_skill_textures_sheet;
 
     // Override getTransform()
     // Due to a mistake for not separating the player and the weapon,
