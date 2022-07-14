@@ -18,7 +18,7 @@ public:
                BackgroundTextureType textureType);
     ~Background() {}
 
-    void draw();
+    void draw() override;
     glm::vec2 getTextureGeo()
     {
         return glm::vec2(m_texture.getTextureWidth(), m_texture.getTextureHeight());

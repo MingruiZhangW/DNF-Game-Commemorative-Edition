@@ -54,11 +54,13 @@ Player::Player(ShaderProgram* shader)
     , m_shader(shader)
     , m_stand_animation_move_speed(0.05f)
     , m_walk_animation_move_speed(0.05f)
+    , m_basic_attack_animation_move_speed(0.05f)
     , m_player_mode(PlayerMode::Stand)
     , m_player_move_dir(PlayerMoveDir::None)
     , m_player_sprite_facing_left_dir(true)
     , m_current_stand_frame("0")
     , m_current_walk_frame("0")
+    , m_current_basic_attack_frame("0")
     , m_animation_cursor(0.0f)
     , m_player_dx(0.0f)
     , m_player_dy(0.0f)
@@ -93,17 +95,20 @@ Player::Player(ShaderProgram* shader)
     m_walk_textures_sheet = Texture(TexturePath::playerWalkPNGPath);
     m_walk_textures_sheet.loadTexture();
 
+    // Load texture - basic attack
+    std::ifstream ifs_ba(TexturePath::playerBasicAttackJsonPath);
+    m_play_basic_attack_json_parser = json::parse(ifs_ba);
+    m_number_of_basic_attack_frames = static_cast<unsigned int>(
+        m_play_basic_attack_json_parser[SSJsonKeys::frames].size());
+    m_basic_attack_textures_sheet = Texture(TexturePath::playerBasicAttackPNGPath);
+    m_basic_attack_textures_sheet.loadTexture();
+
     m_player_dx = m_player_center.x;
     m_player_dy = m_player_center.y;
     m_player_width = SpriteSize::playerWidth;
     m_player_height = SpriteSize::playerHeight;
-
-    // S * T * R * T^-1
-    // Scale will have no effect on translation
-    m_trans = glm::scale(m_trans, glm::vec3(m_player_width, m_player_height, 0.0f));
-    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
-    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
+    m_current_scale_x = m_player_width;
+    m_current_scale_y = m_player_height;
 
     // Create the vertex array to record buffer assignments for floor.
     glGenVertexArrays(1, &m_player_vao);
@@ -173,6 +178,14 @@ Player::updateFrame()
         if (m_animation_cursor > m_walk_animation_move_speed) {
             m_current_walk_frame = std::to_string((std::stoi(m_current_walk_frame) + 1)
                                                   % m_number_of_walk_frames);
+            m_animation_cursor = 0;
+        } else
+            return;
+        break;
+    case Player::PlayerMode::BasicAttack:
+        if (m_animation_cursor > m_basic_attack_animation_move_speed) {
+            m_current_basic_attack_frame = std::to_string(
+                (std::stoi(m_current_basic_attack_frame) + 1) % m_number_of_basic_attack_frames);
             m_animation_cursor = 0;
         } else
             return;
@@ -259,9 +272,52 @@ Player::updateTexCoord()
         player_texture_coord_data[10] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
         player_texture_coord_data[11] = texY / m_walk_textures_sheet.getTextureHeight();
         break;
+    case Player::PlayerMode::BasicAttack:
+        // get sprite sheet coord
+        texX = m_play_basic_attack_json_parser[SSJsonKeys::frames][m_current_basic_attack_frame]
+                                              [SSJsonKeys::frame][SSJsonKeys::x]
+                                                  .get<float>();
+        texY = m_play_basic_attack_json_parser[SSJsonKeys::frames][m_current_basic_attack_frame]
+                                              [SSJsonKeys::frame][SSJsonKeys::y]
+                                                  .get<float>();
+        texW = m_play_basic_attack_json_parser[SSJsonKeys::frames][m_current_basic_attack_frame]
+                                              [SSJsonKeys::frame][SSJsonKeys::w]
+                                                  .get<float>();
+        texH = m_play_basic_attack_json_parser[SSJsonKeys::frames][m_current_basic_attack_frame]
+                                              [SSJsonKeys::frame][SSJsonKeys::h]
+                                                  .get<float>();
+
+        // update each data point to tex coord
+        player_texture_coord_data[0] = (texX + texW)
+                                       / m_basic_attack_textures_sheet.getTextureWidth();
+        player_texture_coord_data[1] = (texY + texH)
+                                       / m_basic_attack_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[2] = texX / m_basic_attack_textures_sheet.getTextureWidth();
+        player_texture_coord_data[3] = (texY + texH)
+                                       / m_basic_attack_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[4] = (texX + texW)
+                                       / m_basic_attack_textures_sheet.getTextureWidth();
+        player_texture_coord_data[5] = texY / m_basic_attack_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[6] = texX / m_basic_attack_textures_sheet.getTextureWidth();
+        player_texture_coord_data[7] = texY / m_basic_attack_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[8] = texX / m_basic_attack_textures_sheet.getTextureWidth();
+        player_texture_coord_data[9] = (texY + texH)
+                                       / m_basic_attack_textures_sheet.getTextureHeight();
+
+        player_texture_coord_data[10] = (texX + texW)
+                                        / m_basic_attack_textures_sheet.getTextureWidth();
+        player_texture_coord_data[11] = texY / m_basic_attack_textures_sheet.getTextureHeight();
+        break;
     default:
         break;
     }
+
+    m_current_scale_x = texW;
+    m_current_scale_y = texH;
 
     glBindVertexArray(m_player_vao);
 
@@ -301,6 +357,9 @@ Player::draw()
     case PlayerMode::Walk:
         m_walk_textures_sheet.useTexture();
         break;
+    case PlayerMode::BasicAttack:
+        m_basic_attack_textures_sheet.useTexture();
+        break;
     default:
         break;
     }
@@ -331,6 +390,9 @@ Player::draw()
     case PlayerMode::Walk:
         m_walk_textures_sheet.useTexture();
         break;
+    case PlayerMode::BasicAttack:
+        m_basic_attack_textures_sheet.useTexture();
+        break;
     default:
         break;
     }
@@ -341,6 +403,16 @@ Player::draw()
 
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
+
+    afterDraw();
+}
+
+void
+Player::afterDraw()
+{
+    if (m_player_mode == PlayerMode::BasicAttack
+        && std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames)
+        setPlayerMode(PlayerMode::Stand);
 }
 
 void
@@ -411,11 +483,6 @@ void
 Player::flipSprite()
 {
     m_player_sprite_facing_left_dir = !m_player_sprite_facing_left_dir;
-
-    m_trans = m_trans = m_trans * glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.0f));
-    m_trans = m_trans
-              * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    m_trans = m_trans * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
 }
 
 void
@@ -548,7 +615,43 @@ Player::setPlayerMode(PlayerMode mode)
 
     m_current_walk_frame = "0";
     m_current_stand_frame = "0";
+    m_current_basic_attack_frame = "0";
     m_animation_cursor = 0;
 
     updateTexCoord();
+}
+
+bool
+Player::lockForMovement()
+{
+    if (m_player_mode == PlayerMode::BasicAttack)
+        return true;
+    return false;
+}
+
+const glm::mat4&
+Player::getTransform()
+{
+    // S * T * R * T^-1
+    // Scale will have no effect on translation
+    // Initial setup
+    auto initTrans = glm::scale(glm::mat4(1.0f),
+                                glm::vec3(m_current_scale_x, m_current_scale_y, 1.0f));
+    initTrans = glm::translate(initTrans, glm::vec3(0.5f, 0.5f, 0.0f));
+    initTrans = glm::rotate(initTrans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    initTrans = glm::translate(initTrans, glm::vec3(-0.5f, -0.5f, 0.0f));
+
+    if (!m_player_sprite_facing_left_dir) {
+        initTrans = initTrans = initTrans
+                                * glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.0f));
+        initTrans = initTrans
+                    * glm::rotate(glm::mat4(1.0f),
+                                  glm::radians(180.0f),
+                                  glm::vec3(0.0f, 1.0f, 0.0f));
+        initTrans = initTrans * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
+    }
+
+    m_return_trans = m_trans * initTrans;
+
+    return m_return_trans;
 }

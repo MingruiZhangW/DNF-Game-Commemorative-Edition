@@ -160,6 +160,10 @@ const std::string playerStandPNGPath {"Resource/Texture/Player/Stand/stand_sprit
 const std::string playerStandJsonath {"Resource/Texture/Player/Stand/stand_spritesheet.json"};
 const std::string playerWalkPNGPath {"Resource/Texture/Player/Walk/walk_spritesheet.png"};
 const std::string playerWalkJsonPath {"Resource/Texture/Player/Walk/walk_spritesheet.json"};
+const std::string playerBasicAttackPNGPath {
+    "Resource/Texture/Player/BasicAttack/basicattack_spritesheet.png"};
+const std::string playerBasicAttackJsonPath {
+    "Resource/Texture/Player/BasicAttack/basicattack_spritesheet.json"};
 } // namespace TexturePath
 
 namespace ShadowShaderPath {

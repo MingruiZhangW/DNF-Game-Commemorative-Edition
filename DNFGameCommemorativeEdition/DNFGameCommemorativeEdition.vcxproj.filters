@@ -67,6 +67,9 @@
     <Filter Include="Resource Files\Sound">
       <UniqueIdentifier>{c5d31918-9e80-465b-aa5b-10fa273f7661}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Player\BasicAttack">
+      <UniqueIdentifier>{37a06431-52ab-4d94-ae9e-45e7c651c968}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -101,6 +104,9 @@
     </None>
     <None Include="Resource\Sound\buttonHover.ogg">
       <Filter>Resource Files\Sound</Filter>
+    </None>
+    <None Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.json">
+      <Filter>Resource Files\Texture\Player\BasicAttack</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -332,6 +338,9 @@
     </Image>
     <Image Include="Resource\Texture\UI\exitButtonNormal.png">
       <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.png">
+      <Filter>Resource Files\Texture\Player\BasicAttack</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ public:
     Player(ShaderProgram* shader);
     ~Player() {}
 
-    enum class PlayerMode { Stand, Walk };
+    enum class PlayerMode { Stand, Walk, BasicAttack };
 
     // Make enum instead of enum class
     enum PlayerMoveDir {
@@ -37,8 +37,9 @@ public:
     void setPlayerMode(PlayerMode mode);
 
     // Implement virtual function from base class
-    void draw();
-    void translate(const glm::vec3& amount);
+    void draw() override;
+    void translate(const glm::vec3& amount) override;
+    const glm::mat4& getTransform() override;
 
     void move(PlayerMoveDir playerMoveDir);
     void reverseMove(std::pair<bool, bool> dirToReverse);
@@ -65,9 +66,14 @@ public:
     void updateShadowShaderModelMat(const glm::mat4& nodeTrans);
     void updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans);
 
+    // Flip the direction of the sprite
     void flipSprite();
 
+    // If the player is attacking, then do not handle movement.
+    bool lockForMovement();
+
 private:
+    void afterDraw();
     void updateTexCoord();
     void updateFrame();
 
@@ -100,17 +106,33 @@ private:
     PlayerMode m_player_mode;
     PlayerMoveDir m_player_move_dir;
 
+    // Stand
     json m_play_stand_json_parser;
     unsigned int m_number_of_stand_frames;
     float m_stand_animation_move_speed;
     std::string m_current_stand_frame;
     Texture m_stand_textures_sheet;
 
+    // Walk
     json m_play_walk_json_parser;
     unsigned int m_number_of_walk_frames;
     float m_walk_animation_move_speed;
     std::string m_current_walk_frame;
     Texture m_walk_textures_sheet;
+
+    // Basic Attack
+    json m_play_basic_attack_json_parser;
+    unsigned int m_number_of_basic_attack_frames;
+    float m_basic_attack_animation_move_speed;
+    std::string m_current_basic_attack_frame;
+    Texture m_basic_attack_textures_sheet;
+
+    // Override getTransform()
+    // Due to a mistake for not separating the player and the weapon,
+    // we need to keep track of the scale of the frame texture geo change and m_trans together
+    float m_current_scale_x;
+    float m_current_scale_y;
+    glm::mat4 m_return_trans;
 
     float m_animation_cursor;
 

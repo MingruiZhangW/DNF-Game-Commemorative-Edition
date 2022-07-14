@@ -24,8 +24,8 @@ public:
     ~NPC() {}
 
     // Implement virtual function from base class
-    void draw();
-    void translate(const glm::vec3& amount);
+    void draw() override;
+    void translate(const glm::vec3& amount) override;
 
     // x, y -> x, y, x,y at bottom - left corner
     // z -> width

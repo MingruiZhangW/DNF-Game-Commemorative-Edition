@@ -64,4 +64,7 @@ protected:
     std::vector<int> m_player_walk_left_right_key_sequence;
     std::vector<int> m_player_run_key_up_down_sequence;
     std::vector<int> m_player_run_key_left_right_sequence;
+
+    // Player attack
+    bool m_play_doing_basic_attack;
 };

@@ -30,6 +30,7 @@ Game::getSoundEngine()
 Game::Game()
     : m_camera_pos(glm::vec3(0.0f, 0.0f, 0.0f))
     , m_camera_front(glm::vec3(0.0f, 0.0f, -1.0f))
+    , m_play_doing_basic_attack(false)
 {}
 
 // Destructor
@@ -223,6 +224,7 @@ Game::keyInputEvent(int key, int action, int mods)
         return eventHandled;
 
     // Store key sequences and deal with them in handleInputKeys()
+    // Not for attacks
     if (action == GLFW_PRESS) {
         switch (key) {
         case GLFW_KEY_UP:
@@ -240,6 +242,9 @@ Game::keyInputEvent(int key, int action, int mods)
         case GLFW_KEY_RIGHT:
             if (m_player_walk_left_right_key_sequence.size() <= 2)
                 m_player_walk_left_right_key_sequence.emplace_back(GLFWArrowKeyRemap::rightKey);
+            break;
+        case GLFW_KEY_X:
+            m_play_doing_basic_attack = true;
             break;
         default:
             break;
@@ -305,6 +310,17 @@ Game::keyInputEvent(int key, int action, int mods)
 void
 Game::handleInputKeys()
 {
+    // Handle attack
+    if (m_scene_manager->getPlayer()->lockForMovement())
+        return;
+
+    if (m_play_doing_basic_attack) {
+        m_scene_manager->getPlayer()->setPlayerMode(Player::PlayerMode::BasicAttack);
+        m_play_doing_basic_attack = false;
+
+        return;
+    }
+
     // Use the int property of enum
     // calculate the dir for the player
     int dominant_updown {0};

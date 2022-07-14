@@ -39,13 +39,13 @@ SceneNode::setTransform(const glm::mat4& m)
 }
 
 const glm::mat4&
-SceneNode::getTransform() const
+SceneNode::getTransform()
 {
     return m_trans;
 }
 
 const glm::mat4&
-SceneNode::getInverse() const
+SceneNode::getInverse()
 {
     return m_invtrans;
 }

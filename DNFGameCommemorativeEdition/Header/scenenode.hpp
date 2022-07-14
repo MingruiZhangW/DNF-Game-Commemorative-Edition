@@ -20,8 +20,8 @@ public:
 
     virtual void draw() {};
 
-    const glm::mat4& getTransform() const;
-    const glm::mat4& getInverse() const;
+    virtual const glm::mat4& getTransform();
+    const glm::mat4& getInverse();
 
     void setTransform(const glm::mat4& m);
 
