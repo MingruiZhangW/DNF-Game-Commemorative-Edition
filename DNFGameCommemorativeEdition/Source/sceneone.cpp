@@ -123,24 +123,24 @@ SceneOne::moveDialog(float dx)
     m_dialog_scene_node->moveDialog(glm::vec3(dx, 0.0f, 0.0f));
 }
 
-void
+bool
 SceneOne::processHover(const glm::vec2& mousePos)
 {
-    m_npc->checkOnTop(mousePos);
+    return m_npc->checkOnTop(mousePos);
 }
 
-void
+bool
 SceneOne::processClick()
 {
     switch (m_current_dialog_mode) {
     case DialogConvMode::ConvOne:
         m_dialog_scene_node->setCurrentDialogText(Conversation::sceneOneS2);
         m_current_dialog_mode = DialogConvMode::ConvTwo;
-        return;
+        return true;
     case DialogConvMode::ConvTwo:
         m_dialog_scene_node->setCurrentDialogText(Conversation::sceneOneS3);
         m_current_dialog_mode = DialogConvMode::ConvThree;
-        return;
+        return true;
     case DialogConvMode::ConvThree:
         m_current_dialog_mode = DialogConvMode::ConvFour;
 
@@ -153,8 +153,7 @@ SceneOne::processClick()
         m_dialog_scene_node->setShown(false);
 
         reorderLayerNodeChild();
-        break;
-
+        return true;
     case DialogConvMode::ConvFour:
         if (m_npc->checkOnTop() && !m_dialog_scene_node->getShown()) {
             m_dialog_scene_node->setCurrentDialogSpeaker(StringContant::fancyPlayerChineseName);
@@ -163,26 +162,27 @@ SceneOne::processClick()
             m_dialog_scene_node->setShown(true);
 
             m_current_dialog_mode = DialogConvMode::ConvFive;
+            return true;
         }
-        break;
+        return false;
     case DialogConvMode::ConvFive:
         m_dialog_scene_node->showDialogImage(true);
         m_dialog_scene_node->setCurrentDialogSpeaker(StringContant::fancyNPCChineseName);
         m_dialog_scene_node->setCurrentDialogText(Conversation::sceneOneS5);
         m_current_dialog_mode = DialogConvMode::ConvSix;
-        break;
+        return true;
     case DialogConvMode::ConvSix:
         m_dialog_scene_node->showDialogImage(false);
         m_dialog_scene_node->setCurrentDialogSpeaker(StringContant::fancyPlayerChineseName);
         m_dialog_scene_node->setCurrentDialogText(Conversation::sceneOneS6);
         m_current_dialog_mode = DialogConvMode::ConvSeven;
-        break;
+        return true;
     case DialogConvMode::ConvSeven:
         m_scene_one_layer_node->removeChild(m_dialog_scene_node->getRoot());
         m_dialog_scene_node->setShown(false);
         m_dialog_scene_node->showDialogImage(true);
         m_current_dialog_mode = DialogConvMode::ConvEight;
-        break;
+        return true;
     case DialogConvMode::ConvEight:
         if (m_npc->checkOnTop() && !m_dialog_scene_node->getShown()) {
             m_dialog_scene_node->setCurrentDialogSpeaker(StringContant::fancyNPCChineseName);
@@ -191,11 +191,13 @@ SceneOne::processClick()
             m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 
             m_dialog_scene_node->setShown(true);
+            return true;
         } else if (m_dialog_scene_node->getShown()) {
             m_scene_one_layer_node->removeChild(m_dialog_scene_node->getRoot());
 
             m_dialog_scene_node->setShown(false);
+            return true;
         }
-        break;
+        return false;
     }
 }

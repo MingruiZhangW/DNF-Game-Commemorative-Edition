@@ -109,7 +109,7 @@ const float frameDelay {1000.0f / fps};
 } // namespace FPS
 
 namespace Scene {
-enum class SceneEvents { QuitGame, SceneTransit };
+enum class SceneEvents { None, QuitGame, SceneTransit };
 } // namespace Scene
 
 namespace Fonts {
@@ -222,3 +222,9 @@ namespace PlayerFollowCameraSpeed {
 const float walk {10.0f};
 const float run {20.0f};
 } // namespace PlayerFollowCameraSpeed
+
+namespace SoundPath {
+const std::string sceneZeroBg {"Resource/Sound/bgmSceneZero.ogg"};
+const std::string buttonHover {"Resource/Sound/buttonHover.ogg"};
+const std::string buttonClick {"Resource/Sound/buttonClick.ogg"};
+} // namespace SoundPath

@@ -24,6 +24,9 @@
     <None Include="Resource\Shaders\shader.vert" />
     <None Include="Resource\Shaders\shadow_shader.frag" />
     <None Include="Resource\Shaders\shadow_shader.vert" />
+    <None Include="Resource\Sound\bgmSceneZero.ogg" />
+    <None Include="Resource\Sound\buttonClick.ogg" />
+    <None Include="Resource\Sound\buttonHover.ogg" />
     <None Include="Resource\Texture\NPC\npc_spritesheet.json" />
     <None Include="Resource\Texture\Player\Stand\stand_spritesheet.json" />
     <None Include="Resource\Texture\Player\Walk\walk_spritesheet.json" />
@@ -228,7 +231,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/DNFGameCommemorativeEdition/Header;$(SolutionDir)/3rdparty/GLEW/include;$(SolutionDir)/3rdparty/GLFW/include;$(SolutionDir)/3rdparty/GLM/glm;$(SolutionDir)3rdparty/FREETYPE/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/DNFGameCommemorativeEdition/Header;$(SolutionDir)/3rdparty/GLEW/include;$(SolutionDir)/3rdparty/GLFW/include;$(SolutionDir)/3rdparty/GLM/glm;$(SolutionDir)/3rdparty/FREETYPE/include;$(SolutionDir)/3rdparty/IRRKLANG/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -236,8 +239,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/3rdparty/GLEW/lib/Release/x64;$(SolutionDir)/3rdparty/GLFW/lib-vc2022;$(SolutionDir)/3rdparty/FREETYPE/release static/vs2015-2022/win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/3rdparty/GLEW/lib/Release/x64;$(SolutionDir)/3rdparty/GLFW/lib-vc2022;$(SolutionDir)/3rdparty/FREETYPE/release static/vs2015-2022/win64;$(SolutionDir)/3rdparty/IRRKLANG/lib/Winx64-visualStudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;freetype.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

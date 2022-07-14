@@ -9,12 +9,21 @@
 #include <gtx/io.hpp>
 #include <gtx/string_cast.hpp>
 
+static irrklang::ISoundEngine* m_game_sound_engine = irrklang::createIrrKlangDevice();
+
+// Keyboard event control
 static bool m_enable_keyboard_event = true;
 
 void
 Game::enableKeyBoardEvent(bool enable)
 {
     m_enable_keyboard_event = enable;
+}
+
+irrklang::ISoundEngine*
+Game::getSoundEngine()
+{
+    return m_game_sound_engine;
 }
 
 // Constructor
@@ -24,7 +33,10 @@ Game::Game()
 {}
 
 // Destructor
-Game::~Game() {}
+Game::~Game()
+{
+    m_game_sound_engine->drop();
+}
 
 /*
  * Called once, at program start.

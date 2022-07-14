@@ -52,8 +52,8 @@ public:
     void reorderLayerNodeChild();
 
     // NPC click, hover event handle
-    void processHover(const glm::vec2& mousePos);
-    void processClick();
+    bool processHover(const glm::vec2& mousePos);
+    bool processClick();
 
     // Dialog
     void moveDialog(float dx);

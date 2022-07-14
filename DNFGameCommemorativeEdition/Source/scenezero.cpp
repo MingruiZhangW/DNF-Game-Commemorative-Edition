@@ -12,6 +12,7 @@ SceneZero::SceneZero(ShaderProgram* shader, GLfloat frameBufferWidth, GLfloat fr
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
     , m_scene_zero_root_node(std::make_unique<SceneNode>(StringContant::sceneZeroRootNodeName))
+    , m_current_button_hover(CurrentButtonHoverInScene::None)
 {
     construct();
 }
@@ -62,11 +63,23 @@ SceneZero::prepareInitialDisplay()
     m_scene_zero_root_node->addChild(m_dnf_logo);
 }
 
-void
+bool
 SceneZero::processHover(const glm::vec2& mousePos)
 {
-    m_play_button->checkOnTop(mousePos);
-    m_exit_button->checkOnTop(mousePos);
+    bool changed {false};
+    bool exitHover = m_exit_button->checkOnTop(mousePos);
+    bool playerHover = m_play_button->checkOnTop(mousePos);
+
+    CurrentButtonHoverInScene thisHover = exitHover
+                                              ? CurrentButtonHoverInScene::Exit
+                                              : (playerHover ? CurrentButtonHoverInScene::Play
+                                                             : CurrentButtonHoverInScene::None);
+    if (thisHover != m_current_button_hover) {
+        m_current_button_hover = thisHover;
+        changed = true;
+    }
+
+    return changed && m_current_button_hover != CurrentButtonHoverInScene::None;
 }
 
 Scene::SceneEvents
@@ -74,7 +87,9 @@ SceneZero::processClick()
 {
     if (m_exit_button->checkOnTop()) {
         return Scene::SceneEvents::QuitGame;
-    } else {
+    } else if (m_play_button->checkOnTop()) {
         return Scene::SceneEvents::SceneTransit;
     }
+
+    return Scene::SceneEvents::None;
 }

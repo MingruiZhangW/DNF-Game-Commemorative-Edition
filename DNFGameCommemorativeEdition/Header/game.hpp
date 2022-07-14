@@ -10,6 +10,8 @@
 
 #include <glm.hpp>
 
+#include <irrKlang.h>
+
 #include <memory>
 
 class Game : public GameWindow
@@ -19,6 +21,7 @@ public:
     virtual ~Game();
 
     static void enableKeyBoardEvent(bool enable);
+    static irrklang::ISoundEngine* getSoundEngine();
 
 protected:
     virtual void init() override;

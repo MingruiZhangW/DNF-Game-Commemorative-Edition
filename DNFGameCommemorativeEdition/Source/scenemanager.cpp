@@ -1,5 +1,6 @@
 #include "scenemanager.hpp"
 
+#include "game.hpp"
 #include "glerrorcheck.hpp"
 
 #include <gtc/matrix_transform.hpp>
@@ -34,7 +35,11 @@ SceneManager::SceneManager(ShaderProgram* shader,
           std::make_unique<DialogSceneNode>(m_shader, frameBufferWidth, frameBufferHeight))
     , m_current_scene_state(CurrentSceneState::SceneZeroPrep)
     , m_window(window)
-{}
+{
+    m_scene_zero_bg = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::sceneZeroBg.c_str());
+    m_button_hover = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::buttonHover.c_str());
+    m_button_click = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::buttonClick.c_str());
+}
 
 SceneManager::~SceneManager() {}
 
@@ -64,9 +69,17 @@ SceneManager::drawCurrentScene()
         break;
     case CurrentSceneState::SceneZeroReady:
         drawSceneZero();
+
+        if (!Game::getSoundEngine()->isCurrentlyPlaying(m_scene_zero_bg))
+            m_scene_zero_bg_sound = Game::getSoundEngine()->play2D(m_scene_zero_bg,
+                                                                   true,
+                                                                   false,
+                                                                   true);
         break;
     case CurrentSceneState::SceneOnePrep:
         m_scene_one->prepareInitialDisplay();
+        m_scene_zero_bg_sound->stop();
+        m_scene_zero_bg_sound->drop();
 
         m_current_scene_state = CurrentSceneState::SceneOneReady;
         break;
@@ -152,7 +165,20 @@ SceneManager::processMouseMove(const glm::vec2& mousePos)
 {
     switch (m_current_scene_state) {
     case CurrentSceneState::SceneZeroReady:
-        m_scene_zero->processHover(mousePos);
+        if (m_scene_zero->processHover(mousePos)) {
+            if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_hover)) {
+                m_button_hover_sound->stop();
+                m_button_hover_sound = Game::getSoundEngine()->play2D(m_button_hover,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            } else {
+                m_button_hover_sound = Game::getSoundEngine()->play2D(m_button_hover,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            }
+        }
         break;
     case CurrentSceneState::SceneOneReady:
         m_scene_one->processHover(mousePos);
@@ -169,7 +195,7 @@ SceneManager::processLeftMouseClick()
     case CurrentSceneState::SceneZeroReady:
         if (m_scene_zero->processClick() == Scene::SceneEvents::QuitGame) {
             glfwSetWindowShouldClose(m_window, GL_TRUE);
-        } else {
+        } else if (m_scene_zero->processClick() == Scene::SceneEvents::SceneTransit) {
             m_current_scene_state = CurrentSceneState::SceneOnePrep;
         }
         break;

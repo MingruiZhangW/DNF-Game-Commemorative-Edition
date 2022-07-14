@@ -22,13 +22,16 @@ public:
     }
 
     // NPC click, hover event handle
-    void processHover(const glm::vec2& mousePos);
+    // processHover return true when new button is hovered
+    bool processHover(const glm::vec2& mousePos);
     Scene::SceneEvents processClick();
 
     // Initial display, should call first.
     void prepareInitialDisplay();
 
 private:
+    enum class CurrentButtonHoverInScene { None, Play, Exit };
+
     void construct();
 
     ShaderProgram* m_shader;
@@ -42,4 +45,6 @@ private:
     Button* m_play_button;
     Button* m_exit_button;
     Button* m_dnf_logo;
+
+    CurrentButtonHoverInScene m_current_button_hover;
 };

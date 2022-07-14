@@ -64,6 +64,9 @@
     <Filter Include="Resource Files\Fonts">
       <UniqueIdentifier>{c787dcbd-a5db-4156-b1f6-dea8a16acc00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Sound">
+      <UniqueIdentifier>{c5d31918-9e80-465b-aa5b-10fa273f7661}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -89,6 +92,15 @@
     </None>
     <None Include="Resource\Texture\NPC\npc_spritesheet.json">
       <Filter>Resource Files\Texture\NPC</Filter>
+    </None>
+    <None Include="Resource\Sound\bgmSceneZero.ogg">
+      <Filter>Resource Files\Sound</Filter>
+    </None>
+    <None Include="Resource\Sound\buttonClick.ogg">
+      <Filter>Resource Files\Sound</Filter>
+    </None>
+    <None Include="Resource\Sound\buttonHover.ogg">
+      <Filter>Resource Files\Sound</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

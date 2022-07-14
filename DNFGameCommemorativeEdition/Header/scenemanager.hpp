@@ -11,6 +11,8 @@
 
 #include "GL/glew.h"
 
+#include <irrKlang.h>
+
 #include <memory>
 
 class SceneManager
@@ -65,6 +67,15 @@ private:
     // Scenes
     std::unique_ptr<SceneOne> m_scene_one;
     std::unique_ptr<SceneZero> m_scene_zero;
+
+    // Sound and sound source
+    irrklang::ISound* m_scene_zero_bg_sound;
+    irrklang::ISound* m_button_hover_sound;
+    irrklang::ISound* m_button_click_sound;
+
+    irrklang::ISoundSource* m_scene_zero_bg;
+    irrklang::ISoundSource* m_button_hover;
+    irrklang::ISoundSource* m_button_click;
 
     GLFWwindow* m_window;
 };

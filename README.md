@@ -12,6 +12,7 @@ Mini DNF Like Game
 - https://github.com/ubawurinna/freetype-windows-binaries
 - https://chinesefonts.org/
 - ![alt text](https://learnopengl.com/img/in-practice/glyph_offset.png)
+- https://www.ambiera.com/irrklang/downloads.html
 
 [Main Artist: 章墨卿](http://huashilm.com/u/120434/art) <br>
 
