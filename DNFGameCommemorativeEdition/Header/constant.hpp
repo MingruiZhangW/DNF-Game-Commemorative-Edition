@@ -80,6 +80,8 @@ const std::wstring fancyPlayerChineseName {L"炙琰之灵"};
 const std::wstring fancyNPCChineseName {L"莫邪的老公"};
 const std::string npcName {"npc_linus"};
 const std::string playerName {"player_fire"};
+const std::string playerSkillEffectName {"player_effect"};
+const std::string monsterName {"monster_goblin"};
 const std::string dialogUIName {"dialog_ui"};
 const std::string dialogUIImageName {"dialog_ui_image"};
 const std::string dialogRootNodeName {"root_dialog"};
@@ -157,7 +159,7 @@ const std::string roadTilePath {"Resource/Texture/Tiles/roadTile.png"};
 const std::string npcPNGPath {"Resource/Texture/NPC/npc_spritesheet.png"};
 const std::string npcJsonPath {"Resource/Texture/NPC/npc_spritesheet.json"};
 const std::string playerStandPNGPath {"Resource/Texture/Player/Stand/stand_spritesheet.png"};
-const std::string playerStandJsonath {"Resource/Texture/Player/Stand/stand_spritesheet.json"};
+const std::string playerStandJsonPath {"Resource/Texture/Player/Stand/stand_spritesheet.json"};
 const std::string playerWalkPNGPath {"Resource/Texture/Player/Walk/walk_spritesheet.png"};
 const std::string playerWalkJsonPath {"Resource/Texture/Player/Walk/walk_spritesheet.json"};
 const std::string playerBasicAttackPNGPath {
@@ -166,6 +168,12 @@ const std::string playerBasicAttackJsonPath {
     "Resource/Texture/Player/BasicAttack/basicattack_spritesheet.json"};
 const std::string playerSkillPNGPath {"Resource/Texture/Player/Skill/skill_spritesheet.png"};
 const std::string playerSKillJsonPath {"Resource/Texture/Player/Skill/skill_spritesheet.json"};
+const std::string playerSKillEffectPNGPath {
+    "Resource/Texture/Player/Skill/skill_effect_spritesheet.png"};
+const std::string playerSKillEffectJsonPath {
+    "Resource/Texture/Player/Skill/skill_effect_spritesheet.json"};
+const std::string monsterStandPNGPath {"Resource/Texture/Monster/Stand/monster_spritesheet.png"};
+const std::string monsterStandJsonPath {"Resource/Texture/Monster/Stand/monster_spritesheet.json"};
 } // namespace TexturePath
 
 namespace ShadowShaderPath {
@@ -201,6 +209,8 @@ const float npcHeight {278.0f};
 const float npcWidth {150.0f};
 const float playerHeight {165.0f};
 const float playerWidth {200.0f};
+const float monsterHeight {165.0f};
+const float monsterWidth {101.0f};
 } // namespace SpriteSize
 
 namespace CollisionOffset {

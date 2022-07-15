@@ -10,7 +10,7 @@ public:
     DialogImage(ShaderProgram* shader);
     ~DialogImage() {}
 
-    void draw();
+    void draw() override;
 
     void setDialogOrigin(glm::vec2 dialogOrigin);
     void setShouldDraw(bool show)

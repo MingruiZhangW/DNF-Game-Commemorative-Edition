@@ -1,5 +1,6 @@
 #include "player.hpp"
 #include "gamewindow.hpp"
+#include "playerskilleffect.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -76,13 +77,16 @@ Player::Player(ShaderProgram* shader)
     m_shadow_shader.attachFragmentShader(ShadowShaderPath::fragmentShader.c_str());
     m_shadow_shader.link();
 
+    // Create skill effect
+    m_player_skill_effect = new PlayerSkillEffect(m_shader, &m_shadow_shader, this);
+
     // Set up the uniforms
     m_shadow_p_uni = m_shadow_shader.getUniformLocation("P");
     m_shadow_v_uni = m_shadow_shader.getUniformLocation("V");
     m_shadow_m_uni = m_shadow_shader.getUniformLocation("M");
 
     // Load texture - stand
-    std::ifstream ifs_s(TexturePath::playerStandJsonath);
+    std::ifstream ifs_s(TexturePath::playerStandJsonPath);
     m_play_stand_json_parser = json::parse(ifs_s);
     m_number_of_stand_frames = static_cast<unsigned int>(
         m_play_stand_json_parser[SSJsonKeys::frames].size());
@@ -205,6 +209,8 @@ Player::updateFrame()
             m_current_skill_frame = std::to_string((std::stoi(m_current_skill_frame) + 1)
                                                    % m_number_of_skill_frames);
             m_animation_cursor = 0;
+
+            m_player_skill_effect->useFrame(m_current_skill_frame, m_player_sprite_facing_left_dir);
         } else
             return;
         break;
@@ -472,8 +478,11 @@ Player::afterDraw()
         && std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames)
         setPlayerMode(PlayerMode::Stand);
     if (m_player_mode == PlayerMode::Skill
-        && std::stoi(m_current_skill_frame) + 1 == m_number_of_skill_frames)
+        && std::stoi(m_current_skill_frame) + 1 == m_number_of_skill_frames) {
+        m_player_skill_effect->useFrame("0", m_player_sprite_facing_left_dir);
+        removeChild(m_player_skill_effect);
         setPlayerMode(PlayerMode::Stand);
+    }
 }
 
 void
@@ -562,6 +571,7 @@ Player::translate(const glm::vec3& amount)
     else
         m_player_dy = m_player_dy + finalTrans.y;
 
+    m_player_skill_effect->translate(finalTrans);
     SceneNode::translate(finalTrans);
 }
 
@@ -679,6 +689,9 @@ Player::setPlayerMode(PlayerMode mode)
     m_current_basic_attack_frame = "0";
     m_current_skill_frame = "0";
     m_animation_cursor = 0;
+
+    if (m_player_mode == PlayerMode::Skill)
+        addChild(m_player_skill_effect);
 
     updateTexCoord();
 }

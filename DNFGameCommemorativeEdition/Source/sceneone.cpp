@@ -4,6 +4,7 @@
 #include "floorobj.hpp"
 #include "player.hpp"
 #include "npc.hpp"
+#include "monster.hpp"
 #include "dialogscenenode.hpp"
 #include "game.hpp"
 
@@ -21,6 +22,7 @@ SceneOne::SceneOne(ShaderProgram* shader,
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(player)
     , m_npc(npc)
+    , m_monster(new Monster(shader))
     , m_dialog_scene_node(dialogSceneNode)
     , m_current_dialog_mode(DialogConvMode::ConvOne)
     , m_scene_one_map_boundary(glm::vec4(0.0f))
@@ -61,6 +63,9 @@ SceneOne::prepareInitialDisplay()
     m_dialog_scene_node->setShown(true);
     m_player->flipSprite();
     m_player->translate(glm::vec3(0.0f, m_player_scene_one_initial_y, 0.0f));
+    // m_monster->flipSprite();
+    // m_monster->translate(glm::vec3(300.0f, m_player_scene_one_initial_y, 0.0f));
+
     m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 
     m_scene_one_root_node->addChild(m_scene_one_layer_node);
@@ -73,6 +78,7 @@ SceneOne::reorderLayerNodeChild()
     m_scene_one_layer_node->cleanChild();
 
     m_scene_one_layer_node->addChild(m_player);
+    // m_scene_one_layer_node->addChild(m_monster);
     if (m_npc->getNPCDy() > m_player->getPlayerDy() - m_player->getPlayerCenter().y) {
         m_scene_one_layer_node->addChildFront(m_npc);
     } else {
@@ -200,4 +206,6 @@ SceneOne::processClick()
         }
         return false;
     }
+
+    return false;
 }

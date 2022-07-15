@@ -11,6 +11,7 @@ class Map;
 class Player;
 class NPC;
 class DialogSceneNode;
+class Monster;
 
 class SceneOne
 {
@@ -70,6 +71,7 @@ private:
 
     Player* m_player;
     NPC* m_npc;
+    Monster* m_monster;
     DialogSceneNode* m_dialog_scene_node;
 
     GLfloat m_frame_buffer_width;

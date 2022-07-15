@@ -17,7 +17,7 @@ public:
                CharType charType = CharType::English);
     ~DialogChar() {}
 
-    void draw();
+    void draw() override;
 
 private:
     ShaderProgram* m_shader;

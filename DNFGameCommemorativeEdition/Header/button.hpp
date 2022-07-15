@@ -14,8 +14,8 @@ public:
     Button(const std::string& name, ShaderProgram* shader, ButtonTextureType textureType);
     ~Button() {}
 
-    void draw();
-    void translate(const glm::vec3& amount);
+    void draw() override;
+    void translate(const glm::vec3& amount) override;
 
     // If mouse is on top of the Button.
     bool checkOnTop();

@@ -10,7 +10,7 @@ public:
     Dialog(ShaderProgram* shader, GLfloat windowWidth, GLfloat windowHeight);
     ~Dialog() {}
 
-    void draw();
+    void draw() override;
 
     glm::vec2 getOriginTrans();
     glm::vec2 getTextureGeo()

@@ -27,8 +27,10 @@
     <None Include="Resource\Sound\bgmSceneZero.ogg" />
     <None Include="Resource\Sound\buttonClick.ogg" />
     <None Include="Resource\Sound\buttonHover.ogg" />
+    <None Include="Resource\Texture\Monster\Stand\monster_spritesheet.json" />
     <None Include="Resource\Texture\NPC\npc_spritesheet.json" />
     <None Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.json" />
+    <None Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.json" />
     <None Include="Resource\Texture\Player\Skill\skill_spritesheet.json" />
     <None Include="Resource\Texture\Player\Stand\stand_spritesheet.json" />
     <None Include="Resource\Texture\Player\Walk\walk_spritesheet.json" />
@@ -50,8 +52,10 @@
     <ClInclude Include="Header\glerrorcheck.hpp" />
     <ClInclude Include="Header\json.hpp" />
     <ClInclude Include="Header\map.hpp" />
+    <ClInclude Include="Header\monster.hpp" />
     <ClInclude Include="Header\npc.hpp" />
     <ClInclude Include="Header\player.hpp" />
+    <ClInclude Include="Header\playerskilleffect.hpp" />
     <ClInclude Include="Header\scenemanager.hpp" />
     <ClInclude Include="Header\scenenode.hpp" />
     <ClInclude Include="Header\sceneone.hpp" />
@@ -80,8 +84,10 @@
     <ClCompile Include="Source\geometrynode.cpp" />
     <ClCompile Include="Source\glerrorcheck.cpp" />
     <ClCompile Include="Source\map.cpp" />
+    <ClCompile Include="Source\monster.cpp" />
     <ClCompile Include="Source\npc.cpp" />
     <ClCompile Include="Source\player.cpp" />
+    <ClCompile Include="Source\playerskilleffect.cpp" />
     <ClCompile Include="Source\scenemanager.cpp" />
     <ClCompile Include="Source\scenenode.cpp" />
     <ClCompile Include="Source\sceneone.cpp" />
@@ -99,9 +105,11 @@
     <Image Include="Resource\Texture\Door\sideBossDoor.png" />
     <Image Include="Resource\Texture\Door\sideNormalDoor.png" />
     <Image Include="Resource\Texture\FloorObj\tree.png" />
+    <Image Include="Resource\Texture\Monster\Stand\monster_spritesheet.png" />
     <Image Include="Resource\Texture\NPC\npcDialogHead.png" />
     <Image Include="Resource\Texture\NPC\npc_spritesheet.png" />
     <Image Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.png" />
+    <Image Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.png" />
     <Image Include="Resource\Texture\Player\Skill\skill_spritesheet.png" />
     <Image Include="Resource\Texture\Player\Stand\stand_spritesheet.png" />
     <Image Include="Resource\Texture\Player\Walk\walk_spritesheet.png" />

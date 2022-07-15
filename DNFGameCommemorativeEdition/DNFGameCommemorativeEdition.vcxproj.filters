@@ -73,6 +73,12 @@
     <Filter Include="Resource Files\Texture\Player\Skill">
       <UniqueIdentifier>{3b42d8f0-727c-453e-b40b-c8d48c019644}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Monster">
+      <UniqueIdentifier>{ea88fd92-7d13-4cc2-b722-b004a5d184e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture\Monster\Stand">
+      <UniqueIdentifier>{6d97f7a1-3be8-414d-8b78-2dcc19dac041}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -112,6 +118,12 @@
       <Filter>Resource Files\Texture\Player\BasicAttack</Filter>
     </None>
     <None Include="Resource\Texture\Player\Skill\skill_spritesheet.json">
+      <Filter>Resource Files\Texture\Player\Skill</Filter>
+    </None>
+    <None Include="Resource\Texture\Monster\Stand\monster_spritesheet.json">
+      <Filter>Resource Files\Texture\Monster\Stand</Filter>
+    </None>
+    <None Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.json">
       <Filter>Resource Files\Texture\Player\Skill</Filter>
     </None>
   </ItemGroup>
@@ -203,6 +215,12 @@
     <ClInclude Include="Header\button.hpp">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Header\monster.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\playerskilleffect.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -273,6 +291,12 @@
     </ClCompile>
     <ClCompile Include="Source\button.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\monster.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\playerskilleffect.cpp">
+      <Filter>Source Files\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +373,12 @@
       <Filter>Resource Files\Texture\Player\BasicAttack</Filter>
     </Image>
     <Image Include="Resource\Texture\Player\Skill\skill_spritesheet.png">
+      <Filter>Resource Files\Texture\Player\Skill</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Monster\Stand\monster_spritesheet.png">
+      <Filter>Resource Files\Texture\Monster\Stand</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.png">
       <Filter>Resource Files\Texture\Player\Skill</Filter>
     </Image>
   </ItemGroup>
