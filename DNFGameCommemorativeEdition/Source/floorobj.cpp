@@ -24,35 +24,40 @@ static const GLfloat floor_obj_vertex_buffer_data[] =
 
 // clang-format on
 
+// Collision height
+static const float normal_collision_height {30.0f};
+static const float door_collision_height {70.0f};
+
 FloorObj::FloorObj(const std::string& name, ShaderProgram* shader, FloorObjType textureType)
     : GeometryNode(name)
     , m_shader(shader)
     , m_floor_obj_type(textureType)
-    , m_floor_obj_collide_height(30.0f)
+    , m_floor_obj_collide_height(normal_collision_height)
 {
     // Load texture
     switch (m_floor_obj_type) {
-    case FloorObjType::SideBossDoor:
-        m_texture = Texture(TexturePath::sideDoorBossPath);
-        m_texture.loadTexture();
-        break;
     case FloorObjType::SideNormalDoor:
         m_texture = Texture(TexturePath::sideDoorNormalPath);
-        m_texture.loadTexture();
+
+        m_floor_obj_collide_height = door_collision_height;
         break;
     case FloorObjType::Tree:
         m_texture = Texture(TexturePath::treePath);
-
-        m_texture.loadTexture();
         break;
     case FloorObjType::DoorBush:
         m_texture = Texture(TexturePath::doorBushPath);
-
-        m_texture.loadTexture();
+        break;
+    case FloorObjType::FlowerOne:
+        m_texture = Texture(TexturePath::flowerOnePath);
+        break;
+    case FloorObjType::FlowerTwo:
+        m_texture = Texture(TexturePath::flowerTwoPath);
         break;
     default:
         break;
     }
+
+    m_texture.loadTexture();
 
     m_plane_width = static_cast<float>(m_texture.getTextureWidth());
     m_plane_height = static_cast<float>(m_texture.getTextureHeight());
@@ -102,6 +107,15 @@ FloorObj::FloorObj(const std::string& name, ShaderProgram* shader, FloorObjType 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
+}
+
+void
+FloorObj::flip()
+{
+    m_trans = m_trans * glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.0f));
+    m_trans = m_trans
+              * glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_trans = m_trans * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
 }
 
 void

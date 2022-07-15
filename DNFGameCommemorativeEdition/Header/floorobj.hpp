@@ -7,7 +7,7 @@
 class FloorObj : public GeometryNode
 {
 public:
-    enum class FloorObjType { Tree, DoorBush, SideNormalDoor, SideBossDoor };
+    enum class FloorObjType { Tree, DoorBush, FlowerOne, FlowerTwo, SideNormalDoor };
 
     FloorObj(const std::string& name, ShaderProgram* shader, FloorObjType textureType);
     ~FloorObj() {}
@@ -22,6 +22,18 @@ public:
     {
         return glm::vec2(getTextureGeo().x, m_floor_obj_collide_height);
     }
+
+    FloorObjType getFloorObjType()
+    {
+        return m_floor_obj_type;
+    }
+
+    void setCollisionHeight(float collisionHeight)
+    {
+        m_floor_obj_collide_height = collisionHeight;
+    }
+
+    void flip();
 
 private:
     ShaderProgram* m_shader;

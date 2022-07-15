@@ -16,6 +16,7 @@ public:
     ~Map();
 
     void initSceneOneMap();
+    void initSceneTwoMap();
 
     glm::vec4 getMapBoundary();
     const std::vector<std::pair<FloorObj*, glm::vec2>>& getFloorCollisionObjs();

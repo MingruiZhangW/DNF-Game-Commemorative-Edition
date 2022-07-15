@@ -39,6 +39,8 @@ public:
         return m_is_dialog_shown;
     }
 
+    void clearMovement();
+
 private:
     void construct();
 

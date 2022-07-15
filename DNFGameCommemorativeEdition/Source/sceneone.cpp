@@ -22,7 +22,6 @@ SceneOne::SceneOne(ShaderProgram* shader,
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(player)
     , m_npc(npc)
-    , m_monster(new Monster(shader))
     , m_dialog_scene_node(dialogSceneNode)
     , m_current_dialog_mode(DialogConvMode::ConvOne)
     , m_scene_one_map_boundary(glm::vec4(0.0f))
@@ -48,8 +47,6 @@ SceneOne::construct()
     sceneOneMap->initSceneOneMap();
 
     m_scene_one_map_boundary = sceneOneMap->getMapBoundary();
-    m_player->setCurrentMapBoundary(m_scene_one_map_boundary);
-
     m_scene_one_map = sceneOneMap;
 }
 
@@ -62,9 +59,8 @@ SceneOne::prepareInitialDisplay()
     m_dialog_scene_node->showDialogImage(false);
     m_dialog_scene_node->setShown(true);
     m_player->flipSprite();
+    m_player->setCurrentMapBoundary(m_scene_one_map_boundary);
     m_player->translate(glm::vec3(0.0f, m_player_scene_one_initial_y, 0.0f));
-    // m_monster->flipSprite();
-    // m_monster->translate(glm::vec3(300.0f, m_player_scene_one_initial_y, 0.0f));
 
     m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 
@@ -78,7 +74,6 @@ SceneOne::reorderLayerNodeChild()
     m_scene_one_layer_node->cleanChild();
 
     m_scene_one_layer_node->addChild(m_player);
-    // m_scene_one_layer_node->addChild(m_monster);
     if (m_npc->getNPCDy() > m_player->getPlayerDy() - m_player->getPlayerCenter().y) {
         m_scene_one_layer_node->addChildFront(m_npc);
     } else {
@@ -97,7 +92,7 @@ SceneOne::reorderLayerNodeChild()
         m_scene_one_layer_node->addChild(m_dialog_scene_node->getRoot());
 }
 
-std::pair<bool, bool>
+std::pair<bool, std::pair<bool, bool>>
 SceneOne::sceneOneCollisionTest(const glm::vec2& movement)
 {
     std::pair<bool, bool> result {false, false};
@@ -108,7 +103,7 @@ SceneOne::sceneOneCollisionTest(const glm::vec2& movement)
                                           movement);
 
     if (result.first || result.second)
-        return result;
+        return std::make_pair(false, result);
 
     // Floor obj
     for (auto const& x : m_scene_one_map->getFloorCollisionObjs()) {
@@ -116,11 +111,16 @@ SceneOne::sceneOneCollisionTest(const glm::vec2& movement)
                                               glm::vec4(x.second, x.first->getCollisionWH()),
                                               movement);
 
-        if (result.first || result.second)
-            return result;
+        if (result.first || result.second) {
+            if (x.first->getFloorObjType() == FloorObj::FloorObjType::SideNormalDoor
+                && m_current_dialog_mode == DialogConvMode::ConvEight)
+                return std::make_pair(true, result);
+
+            return std::make_pair(false, result);
+        }
     }
 
-    return result;
+    return std::make_pair(false, result);
 }
 
 void

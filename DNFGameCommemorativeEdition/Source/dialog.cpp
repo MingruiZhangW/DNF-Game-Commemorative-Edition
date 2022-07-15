@@ -39,17 +39,7 @@ Dialog::Dialog(ShaderProgram* shader, GLfloat windowWidth, GLfloat windowHeight)
     m_plane_width = m_window_width * DialogSize::dialogWidthRatio;
     m_plane_height = DialogSize::dialogHeight;
 
-    // S * T * R * T^-1
-    // Scale will have no effect on translation
-    m_trans = glm::translate(m_trans,
-                             glm::vec3(m_window_width / 2.0f - m_plane_width / 2.0f,
-                                       m_dialog_y_offset,
-                                       0.0f));
-
-    m_trans = glm::scale(m_trans, glm::vec3(m_plane_width, m_plane_height, 0.0f));
-    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
-    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
+    cleanMovement();
 
     // Create the vertex array to record buffer assignments for floor.
     glGenVertexArrays(1, &m_dialog_vao);
@@ -89,6 +79,23 @@ Dialog::Dialog(ShaderProgram* shader, GLfloat windowWidth, GLfloat windowHeight)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
+}
+
+void
+Dialog::cleanMovement()
+{
+    // S * T * R * T^-1
+    // Scale will have no effect on translation
+    m_trans = glm::mat4(1.0f);
+    m_trans = glm::translate(m_trans,
+                             glm::vec3(m_window_width / 2.0f - m_plane_width / 2.0f,
+                                       m_dialog_y_offset,
+                                       0.0f));
+
+    m_trans = glm::scale(m_trans, glm::vec3(m_plane_width, m_plane_height, 0.0f));
+    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
+    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
 }
 
 void

@@ -74,6 +74,9 @@ public:
     // If the player is attacking, then do not handle movement.
     bool lockForMovement();
 
+    // Be ready for scene transition
+    void cleanMovement();
+
 private:
     void afterDraw();
     void updateTexCoord();

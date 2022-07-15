@@ -176,6 +176,14 @@ PlayerSkillEffect::updateTexCoord()
 }
 
 void
+PlayerSkillEffect::clearMovement()
+{
+    m_player_skill_effect_dx = 0.0f;
+    m_player_skill_effect_dy = 0.0f;
+    m_trans = glm::mat4(1.0f);
+}
+
+void
 PlayerSkillEffect::draw()
 {
     /* Draw shadow texture */

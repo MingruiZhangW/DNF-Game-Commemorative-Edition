@@ -704,6 +704,19 @@ Player::lockForMovement()
     return false;
 }
 
+void
+Player::cleanMovement()
+{
+    m_player_dx = m_player_center.x;
+    m_player_dy = m_player_center.y;
+    m_trans = glm::mat4(1.0f);
+    m_last_player_trans = glm::vec3(0.0f);
+
+    m_player_skill_effect->clearMovement();
+
+    setPlayerMode(PlayerMode::Stand);
+}
+
 const glm::mat4&
 Player::getTransform()
 {

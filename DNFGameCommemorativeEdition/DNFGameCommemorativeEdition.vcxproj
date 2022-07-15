@@ -59,6 +59,7 @@
     <ClInclude Include="Header\scenemanager.hpp" />
     <ClInclude Include="Header\scenenode.hpp" />
     <ClInclude Include="Header\sceneone.hpp" />
+    <ClInclude Include="Header\scenetwo.hpp" />
     <ClInclude Include="Header\scenezero.hpp" />
     <ClInclude Include="Header\shaderexception.hpp" />
     <ClInclude Include="Header\shaderprogram.hpp" />
@@ -66,7 +67,6 @@
     <ClInclude Include="Header\constant.hpp" />
     <ClInclude Include="Header\texture.hpp" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -91,6 +91,7 @@
     <ClCompile Include="Source\scenemanager.cpp" />
     <ClCompile Include="Source\scenenode.cpp" />
     <ClCompile Include="Source\sceneone.cpp" />
+    <ClCompile Include="Source\scenetwo.cpp" />
     <ClCompile Include="Source\scenezero.cpp" />
     <ClCompile Include="Source\shaderprogram.cpp" />
     <ClCompile Include="Source\texture.cpp" />
@@ -104,6 +105,8 @@
     <Image Include="Resource\Texture\Door\doorBush.png" />
     <Image Include="Resource\Texture\Door\sideBossDoor.png" />
     <Image Include="Resource\Texture\Door\sideNormalDoor.png" />
+    <Image Include="Resource\Texture\FloorObj\flowerOne.png" />
+    <Image Include="Resource\Texture\FloorObj\flowerTwo.png" />
     <Image Include="Resource\Texture\FloorObj\tree.png" />
     <Image Include="Resource\Texture\Monster\Stand\monster_spritesheet.png" />
     <Image Include="Resource\Texture\NPC\npcDialogHead.png" />
@@ -127,6 +130,9 @@
   <ItemGroup>
     <Font Include="Resource\Fonts\ARLRDBD.ttf" />
     <Font Include="Resource\Fonts\FZFangSong-Z02T-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DNFGameCommemorativeEdition.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

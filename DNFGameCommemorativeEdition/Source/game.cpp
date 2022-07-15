@@ -83,6 +83,9 @@ void
 Game::appLogic()
 {
     handleInputKeys();
+    if (m_scene_manager->getCurrentSceneState() == SceneManager::CurrentSceneState::SceneTwoPrep) {
+        m_camera_pos = glm::vec3(0.0f);
+    }
     m_view = glm::lookAt(m_camera_pos, m_camera_pos + m_camera_front, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
@@ -314,6 +317,14 @@ Game::keyInputEvent(int key, int action, int mods)
 void
 Game::handleInputKeys()
 {
+    // Clear keys
+    if (!m_enable_keyboard_event) {
+        m_player_walk_up_down_key_sequence.clear();
+        m_player_walk_left_right_key_sequence.clear();
+        m_player_run_key_up_down_sequence.clear();
+        m_player_run_key_left_right_sequence.clear();
+    }
+
     // Handle attack
     if (m_scene_manager->getPlayer()->lockForMovement())
         return;

@@ -46,6 +46,10 @@ SceneManager::~SceneManager() {}
 void
 SceneManager::constructScenes()
 {
+    m_scene_zero = std::make_unique<SceneZero>(m_shader,
+                                               m_frame_buffer_width,
+                                               m_frame_buffer_height);
+
     m_scene_one = std::make_unique<SceneOne>(m_shader,
                                              m_frame_buffer_width,
                                              m_frame_buffer_height,
@@ -53,9 +57,11 @@ SceneManager::constructScenes()
                                              m_npc.get(),
                                              m_dialog_scene_node.get());
 
-    m_scene_zero = std::make_unique<SceneZero>(m_shader,
-                                               m_frame_buffer_width,
-                                               m_frame_buffer_height);
+    m_scene_two = std::make_unique<SceneTwo>(m_shader,
+                                             m_frame_buffer_width,
+                                             m_frame_buffer_height,
+                                             m_player.get(),
+                                             m_dialog_scene_node.get());
 }
 
 void
@@ -86,6 +92,14 @@ SceneManager::drawCurrentScene()
     case CurrentSceneState::SceneOneReady:
         drawSceneOne();
         break;
+    case CurrentSceneState::SceneTwoPrep:
+        m_scene_two->prepareInitialDisplay();
+
+        m_current_scene_state = CurrentSceneState::SceneTwoReady;
+        break;
+    case CurrentSceneState::SceneTwoReady:
+        drawSceneTwo();
+        break;
     default:
         break;
     }
@@ -96,6 +110,13 @@ SceneManager::drawSceneOne()
 {
     renderSceneGraphNodes(m_scene_one->getRootSceneNode(),
                           m_scene_one->getRootSceneNode()->getTransform());
+}
+
+void
+SceneManager::drawSceneTwo()
+{
+    renderSceneGraphNodes(m_scene_two->getRootSceneNode(),
+                          m_scene_two->getRootSceneNode()->getTransform());
 }
 
 void
@@ -131,7 +152,26 @@ void
 SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
 {
     m_player->move(moveDir);
-    m_player->reverseMove(m_scene_one->sceneOneCollisionTest(m_player->getPlayerMovementAmount()));
+
+    std::pair<bool, std::pair<bool, bool>> collided;
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneOneReady:
+        // Check whether the door is hit
+        collided = m_scene_one->sceneOneCollisionTest(m_player->getPlayerMovementAmount());
+        if (collided.first) {
+            m_player->cleanMovement();
+            m_current_scene_state = CurrentSceneState::SceneTwoPrep;
+            return;
+        }
+        m_player->reverseMove(collided.second);
+        break;
+    case CurrentSceneState::SceneTwoReady:
+        m_player->reverseMove(
+            m_scene_two->sceneTwoCollisionTest(m_player->getPlayerMovementAmount()));
+        break;
+    default:
+        break;
+    }
 
     reorderCurrentSceneLayerNode();
 }
@@ -142,6 +182,8 @@ SceneManager::getCurrentSceneMapBoundary()
     switch (m_current_scene_state) {
     case CurrentSceneState::SceneOneReady:
         return m_scene_one->getSceneOneMapBoundary();
+    case CurrentSceneState::SceneTwoReady:
+        return m_scene_two->getSceneTwoMapBoundary();
     default:
         break;
     }
@@ -155,6 +197,8 @@ SceneManager::reorderCurrentSceneLayerNode()
     switch (m_current_scene_state) {
     case CurrentSceneState::SceneOneReady:
         return m_scene_one->reorderLayerNodeChild();
+    case CurrentSceneState::SceneTwoReady:
+        return m_scene_two->reorderLayerNodeChild();
     default:
         break;
     }
@@ -215,6 +259,22 @@ SceneManager::processLeftMouseClick()
             }
         }
         break;
+    case CurrentSceneState::SceneTwoReady:
+        if (m_scene_two->processClick()) {
+            if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_click)) {
+                m_button_click_sound->stop();
+                m_button_click_sound = Game::getSoundEngine()->play2D(m_button_click,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            } else {
+                m_button_click_sound = Game::getSoundEngine()->play2D(m_button_click,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            }
+        }
+        break;
     default:
         break;
     }
@@ -226,6 +286,9 @@ SceneManager::moveDialog(float dx)
     switch (m_current_scene_state) {
     case CurrentSceneState::SceneOneReady:
         m_scene_one->moveDialog(dx);
+        break;
+    case CurrentSceneState::SceneTwoReady:
+        m_scene_two->moveDialog(dx);
         break;
     default:
         break;

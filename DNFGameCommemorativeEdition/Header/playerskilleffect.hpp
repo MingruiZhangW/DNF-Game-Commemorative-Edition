@@ -23,6 +23,8 @@ public:
 
     void useFrame(std::string frameNumber, bool flip);
 
+    void clearMovement();
+
 private:
     void updateTexCoord();
 

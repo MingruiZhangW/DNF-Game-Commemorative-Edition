@@ -18,6 +18,8 @@ public:
         return glm::vec2(m_texture.getTextureWidth(), m_texture.getTextureHeight());
     }
 
+    void cleanMovement();
+
 private:
     ShaderProgram* m_shader;
 

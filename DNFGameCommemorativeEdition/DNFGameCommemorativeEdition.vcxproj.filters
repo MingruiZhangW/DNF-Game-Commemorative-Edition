@@ -179,12 +179,6 @@
     <ClInclude Include="Header\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\floor.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
@@ -219,6 +213,12 @@
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Header\playerskilleffect.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\scenetwo.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
@@ -296,6 +296,9 @@
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\playerskilleffect.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scenetwo.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -381,6 +384,12 @@
     <Image Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.png">
       <Filter>Resource Files\Texture\Player\Skill</Filter>
     </Image>
+    <Image Include="Resource\Texture\FloorObj\flowerOne.png">
+      <Filter>Resource Files\Texture\FloorObj</Filter>
+    </Image>
+    <Image Include="Resource\Texture\FloorObj\flowerTwo.png">
+      <Filter>Resource Files\Texture\FloorObj</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resource\Fonts\FZFangSong-Z02T-Regular.ttf">
@@ -389,5 +398,10 @@
     <Font Include="Resource\Fonts\ARLRDBD.ttf">
       <Filter>Resource Files\Fonts</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DNFGameCommemorativeEdition.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

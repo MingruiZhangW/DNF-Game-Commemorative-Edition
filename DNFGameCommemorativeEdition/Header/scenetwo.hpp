@@ -9,55 +9,40 @@
 
 class Map;
 class Player;
-class NPC;
 class DialogSceneNode;
 
-class SceneOne
+class SceneTwo
 {
 public:
     // TODO: add finite state machine.
-    enum class DialogConvMode {
-        ConvOne,
-        ConvTwo,
-        ConvThree,
-        ConvFour,
-        ConvFive,
-        ConvSix,
-        ConvSeven,
-        ConvEight
-    };
+    enum class DialogConvMode { ConvOne, ConvTwo };
 
-    SceneOne(ShaderProgram* shader,
+    SceneTwo(ShaderProgram* shader,
              GLfloat frameBufferWidth,
              GLfloat frameBufferHeight,
              Player* player,
-             NPC* npc,
              DialogSceneNode* dialogSceneNode);
 
-    ~SceneOne();
+    ~SceneTwo();
 
     SceneNode* getRootSceneNode()
     {
-        return m_scene_one_root_node.get();
+        return m_scene_two_root_node.get();
     }
 
-    glm::vec4 getSceneOneMapBoundary()
+    glm::vec4 getSceneTwoMapBoundary()
     {
-        return m_scene_one_map_boundary;
+        return m_scene_two_map_boundary;
     }
 
-    // Return vertical or horizontal collision and whether the door is hit.
-    std::pair<bool, std::pair<bool, bool>> sceneOneCollisionTest(const glm::vec2& movement);
+    std::pair<bool, bool> sceneTwoCollisionTest(const glm::vec2& movement);
 
     // Layered drawing
     void reorderLayerNodeChild();
 
-    // NPC click, hover event handle
-    bool processHover(const glm::vec2& mousePos);
-    bool processClick();
-
     // Dialog
     void moveDialog(float dx);
+    bool processClick();
 
     // Initial display, should call first.
     void prepareInitialDisplay();
@@ -70,16 +55,15 @@ private:
     DialogConvMode m_current_dialog_mode;
 
     Player* m_player;
-    NPC* m_npc;
     DialogSceneNode* m_dialog_scene_node;
 
     GLfloat m_frame_buffer_width;
     GLfloat m_frame_buffer_height;
 
-    glm::vec4 m_scene_one_map_boundary;
+    glm::vec4 m_scene_two_map_boundary;
 
-    std::unique_ptr<SceneNode> m_scene_one_root_node;
-    SceneNode* m_scene_one_layer_node;
+    std::unique_ptr<SceneNode> m_scene_two_root_node;
+    SceneNode* m_scene_two_layer_node;
 
-    Map* m_scene_one_map;
+    Map* m_scene_two_map;
 };

@@ -89,11 +89,17 @@ const std::string dialogCharNodeName {"dialog_char"};
 const std::string sceneZeroRootNodeName {"root_scene_zero"};
 const std::string sceneZeroBackgroundName {"scene_zero_background"};
 const std::string sceneOneRootNodeName {"root_scene_one"};
+const std::string sceneTwoRootNodeName {"root_scene_two"};
 const std::string sceneOneLayerNodeName {"scene_one_layer_node"};
+const std::string sceneTwoLayerNodeName {"scene_two_layer_node"};
 const std::string sceneOneBackgroundName {"scene_one_background"};
+const std::string sceneTwoBackgroundName {"scene_two_background"};
 const std::string sceneOneFloorName {"scene_one_floor"};
+const std::string sceneTwoFloorName {"scene_two_floor"};
 const std::string sceneOneMapName {"scene_one_map"};
+const std::string sceneTwoMapName {"scene_two_map"};
 const std::string sceneOneFloorObjName {"scene_one_floor_obj"};
+const std::string sceneTwoFloorObjName {"scene_two_floor_obj"};
 const std::string buttonName {"button"};
 } // namespace StringContant
 
@@ -151,6 +157,8 @@ const std::string doorBushPath {"Resource/Texture/Door/doorBush.png"};
 const std::string sideDoorNormalPath {"Resource/Texture/Door/sideNormalDoor.png"};
 const std::string sideDoorBossPath {"Resource/Texture/Door/sideBossDoor.png"};
 const std::string treePath {"Resource/Texture/FloorObj/tree.png"};
+const std::string flowerOnePath {"Resource/Texture/FloorObj/flowerOne.png"};
+const std::string flowerTwoPath {"Resource/Texture/FloorObj/flowerTwo.png"};
 const std::string backgroundFarPath {"Resource/Texture/Background/backgroundFar.png"};
 const std::string backgoundMidPath {"Resource/Texture/Background/backgoundMid.png"};
 const std::string sceneZeroBackgroundPath {"Resource/Texture/Background/sceneZeroBackground.png"};
@@ -191,6 +199,8 @@ const std::string sceneOneS5 {"Yeah, Human hmm... Here is Lorraine. "
                               + "There are a bunch of monsters ahead. Kill them !"};
 const std::string sceneOneS6 {"Well. Consider it as a gift... Human."};
 const std::string sceneOneClick {"Kill these dangerous and aggressive monsters !"};
+const std::string sceneTwoS1 {"Goblins... This will be fast."};
+const std::string sceneTwoS2 {"Time to head back."};
 } // namespace Conversation
 
 namespace DialogSize {

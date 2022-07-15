@@ -7,6 +7,7 @@
 #include "player.hpp"
 #include "npc.hpp"
 #include "sceneone.hpp"
+#include "scenetwo.hpp"
 #include "dialogscenenode.hpp"
 
 #include "GL/glew.h"
@@ -18,6 +19,15 @@
 class SceneManager
 {
 public:
+    enum class CurrentSceneState {
+        SceneZeroPrep,
+        SceneZeroReady,
+        SceneOnePrep,
+        SceneOneReady,
+        SceneTwoPrep,
+        SceneTwoReady
+    };
+
     SceneManager(ShaderProgram* shader,
                  GLfloat frameBufferWidth,
                  GLfloat frameBufferHeight,
@@ -45,11 +55,16 @@ public:
     // Dialog
     void moveDialog(float dx);
 
-private:
-    enum class CurrentSceneState { SceneZeroPrep, SceneZeroReady, SceneOnePrep, SceneOneReady };
+    // Get current scene state
+    CurrentSceneState getCurrentSceneState()
+    {
+        return m_current_scene_state;
+    }
 
-    void drawSceneOne();
+private:
     void drawSceneZero();
+    void drawSceneOne();
+    void drawSceneTwo();
     void reorderCurrentSceneLayerNode();
     void renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat);
 
@@ -65,8 +80,9 @@ private:
     std::unique_ptr<DialogSceneNode> m_dialog_scene_node;
 
     // Scenes
-    std::unique_ptr<SceneOne> m_scene_one;
     std::unique_ptr<SceneZero> m_scene_zero;
+    std::unique_ptr<SceneOne> m_scene_one;
+    std::unique_ptr<SceneTwo> m_scene_two;
 
     // Sound and sound source
     irrklang::ISound* m_scene_zero_bg_sound;

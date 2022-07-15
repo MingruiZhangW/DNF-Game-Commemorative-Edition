@@ -37,6 +37,21 @@ DialogSceneNode::construct()
 }
 
 void
+DialogSceneNode::clearMovement()
+{
+    m_dialog->cleanMovement();
+    m_dialog_image->cleanMovement();
+    m_dialog_image->setDialogOrigin(m_dialog->getOriginTrans());
+    m_dialog_text_manager->setDialogTextInitialTrans(m_dialog->getOriginTrans());
+    m_dialog_text_manager->setDialogNameShift(
+        glm::vec2(DialogSize::dialogNameXOffset,
+                  m_dialog->getTextureGeo().y + DialogSize::dialogNameYOffset));
+    m_dialog_text_manager->setDialogTextShift(
+        glm::vec2(DialogSize::dialogTextXOffset,
+                  m_dialog->getTextureGeo().y + DialogSize::dialogTextYOffset));
+}
+
+void
 DialogSceneNode::moveDialog(const glm::vec3& amount)
 {
     m_dialog->translate(amount);
