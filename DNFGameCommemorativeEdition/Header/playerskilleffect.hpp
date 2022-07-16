@@ -25,6 +25,9 @@ public:
 
     void clearMovement();
 
+    static const float skill_shift_sixteen;
+    static const float skill_shift_eighteen;
+
 private:
     void updateTexCoord();
 

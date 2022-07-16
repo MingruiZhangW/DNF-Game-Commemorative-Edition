@@ -1,5 +1,6 @@
 #include "monster.hpp"
 #include "gamewindow.hpp"
+#include "game.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -44,8 +45,8 @@ static const float m_monster_collide_height{30.0f};
 static const float m_monster_collide_x_offset{30.0f};
 
 // Shadow shift const
-static const float m_monster_shadow_shift_x{80.0f};
-static const float m_monster_shadow_shift_y{-110.0f};
+static const float m_monster_shadow_shift_x{40.0f};
+static const float m_monster_shadow_shift_y{-105.0f};
 
 // clang-format on
 
@@ -53,10 +54,12 @@ Monster::Monster(ShaderProgram* shader)
     : GeometryNode(StringContant::monsterName)
     , m_shader(shader)
     , m_stand_animation_move_speed(0.05f)
+    , m_killed_animation_move_speed(0.02f)
     , m_monster_mode(MonsterMode::Stand)
     , m_monster_move_dir(MonsterMoveDir::None)
     , m_monster_sprite_facing_left_dir(true)
     , m_current_stand_frame("0")
+    , m_current_killed_frame("0")
     , m_animation_cursor(0.0f)
     , m_monster_dx(0.0f)
     , m_monster_dy(0.0f)
@@ -82,6 +85,14 @@ Monster::Monster(ShaderProgram* shader)
         m_monster_stand_json_parser[SSJsonKeys::frames].size());
     m_stand_textures_sheet = Texture(TexturePath::monsterStandPNGPath);
     m_stand_textures_sheet.loadTexture();
+
+    // Load texture - stand
+    std::ifstream ifs_k(TexturePath::monsterKilledJsonPath);
+    m_monster_killed_json_parser = json::parse(ifs_k);
+    m_number_of_killed_frames = static_cast<unsigned int>(
+        m_monster_killed_json_parser[SSJsonKeys::frames].size());
+    m_killed_textures_sheet = Texture(TexturePath::monsterKilledPNGPath);
+    m_killed_textures_sheet.loadTexture();
 
     m_monster_dx = m_monster_center.x;
     m_monster_dy = m_monster_center.y;
@@ -131,6 +142,8 @@ Monster::Monster(ShaderProgram* shader)
                           sizeof(monster_texture_coord_data[0]) * 2,
                           nullptr);
 
+    m_be_hit_id = m_shader->getUniformLocation("hit");
+
     updateTexCoord();
 
     // Reset state to prevent rogue code from messing with *my* stuff!
@@ -138,6 +151,10 @@ Monster::Monster(ShaderProgram* shader)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
+
+    // Init sound
+    m_monster_be_hit = Game::getSoundEngine()->addSoundSourceFromFile(
+        SoundPath::monsterBeHit.c_str());
 }
 
 void
@@ -150,6 +167,14 @@ Monster::updateFrame()
         if (m_animation_cursor > m_stand_animation_move_speed) {
             m_current_stand_frame = std::to_string((std::stoi(m_current_stand_frame) + 1)
                                                    % m_number_of_stand_frames);
+            m_animation_cursor = 0;
+        } else
+            return;
+        break;
+    case Monster::MonsterMode::Killed:
+        if (m_animation_cursor > m_killed_animation_move_speed) {
+            m_current_killed_frame = std::to_string((std::stoi(m_current_killed_frame) + 1)
+                                                    % m_number_of_killed_frames);
             m_animation_cursor = 0;
         } else
             return;
@@ -202,6 +227,41 @@ Monster::updateTexCoord()
         monster_texture_coord_data[11] = texY / m_stand_textures_sheet.getTextureHeight();
 
         break;
+    case Monster::MonsterMode::Killed:
+        // get sprite sheet coord
+        texX = m_monster_killed_json_parser[SSJsonKeys::frames][m_current_killed_frame]
+                                           [SSJsonKeys::frame][SSJsonKeys::x]
+                                               .get<float>();
+        texY = m_monster_killed_json_parser[SSJsonKeys::frames][m_current_killed_frame]
+                                           [SSJsonKeys::frame][SSJsonKeys::y]
+                                               .get<float>();
+        texW = m_monster_killed_json_parser[SSJsonKeys::frames][m_current_killed_frame]
+                                           [SSJsonKeys::frame][SSJsonKeys::w]
+                                               .get<float>();
+        texH = m_monster_killed_json_parser[SSJsonKeys::frames][m_current_killed_frame]
+                                           [SSJsonKeys::frame][SSJsonKeys::h]
+                                               .get<float>();
+
+        // update each data point to tex coord
+        monster_texture_coord_data[0] = (texX + texW) / m_killed_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[1] = (texY + texH) / m_killed_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[2] = texX / m_killed_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[3] = (texY + texH) / m_killed_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[4] = (texX + texW) / m_killed_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[5] = texY / m_killed_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[6] = texX / m_killed_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[7] = texY / m_killed_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[8] = texX / m_killed_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[9] = (texY + texH) / m_killed_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[10] = (texX + texW) / m_killed_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[11] = texY / m_killed_textures_sheet.getTextureHeight();
+
+        break;
     default:
         break;
     }
@@ -244,6 +304,9 @@ Monster::draw()
     case MonsterMode::Stand:
         m_stand_textures_sheet.useTexture();
         break;
+    case MonsterMode::Killed:
+        m_killed_textures_sheet.useTexture();
+        break;
     default:
         break;
     }
@@ -271,6 +334,11 @@ Monster::draw()
     case MonsterMode::Stand:
         m_stand_textures_sheet.useTexture();
         break;
+    case MonsterMode::Killed:
+        glUniform1i(m_be_hit_id, true);
+
+        m_killed_textures_sheet.useTexture();
+        break;
     default:
         break;
     }
@@ -278,6 +346,8 @@ Monster::draw()
     glBindVertexArray(m_monster_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
     glBindVertexArray(0);
+
+    glUniform1i(m_be_hit_id, false);
 
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
@@ -288,12 +358,11 @@ Monster::draw()
 void
 Monster::afterDraw()
 {
-    // if (m_monster_mode == MonsterMode::BasicAttack
-    //     && std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames)
-    //     setMonsterMode(MonsterMode::Stand);
-    // if (m_monster_mode == MonsterMode::Skill
-    //     && std::stoi(m_current_skill_frame) + 1 == m_number_of_skill_frames)
-    //     setMonsterMode(MonsterMode::Stand);
+    if (m_monster_mode == MonsterMode::Killed && m_current_killed_frame == "1")
+        Game::getSoundEngine()->play2D(m_monster_be_hit, false, false, true);
+    if (m_monster_mode == MonsterMode::Killed
+        && std::stoi(m_current_killed_frame) + 1 == m_number_of_killed_frames)
+        setMonsterMode(MonsterMode::ToBeDeleted);
 }
 
 void
@@ -495,9 +564,16 @@ Monster::setMonsterMode(MonsterMode mode)
     m_monster_mode = mode;
 
     m_current_stand_frame = "0";
+    m_current_killed_frame = "0";
     m_animation_cursor = 0;
 
     updateTexCoord();
+}
+
+Monster::MonsterMode
+Monster::getMonsterMode()
+{
+    return m_monster_mode;
 }
 
 bool

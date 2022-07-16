@@ -98,18 +98,18 @@ SceneOne::sceneOneCollisionTest(const glm::vec2& movement)
     std::pair<bool, bool> result {false, false};
 
     // NPC
-    result = Utils::AABBFloorObjCollision(m_player->getPlayerFloorObjCollideGeo(),
-                                          m_npc->getNPCCollideGeo(),
-                                          movement);
+    result = Utils::AABBCollision(m_player->getPlayerFloorObjCollideGeo(),
+                                  m_npc->getNPCCollideGeo(),
+                                  movement);
 
     if (result.first || result.second)
         return std::make_pair(false, result);
 
     // Floor obj
     for (auto const& x : m_scene_one_map->getFloorCollisionObjs()) {
-        result = Utils::AABBFloorObjCollision(m_player->getPlayerFloorObjCollideGeo(),
-                                              glm::vec4(x.second, x.first->getCollisionWH()),
-                                              movement);
+        result = Utils::AABBCollision(m_player->getPlayerFloorObjCollideGeo(),
+                                      glm::vec4(x.second, x.first->getCollisionWH()),
+                                      movement);
 
         if (result.first || result.second) {
             if (x.first->getFloorObjType() == FloorObj::FloorObjType::SideNormalDoor

@@ -7,6 +7,7 @@
 
 #include "json.hpp"
 
+#include <irrKlang.h>
 #include <glm.hpp>
 
 #include <vector>
@@ -19,7 +20,7 @@ public:
     Monster(ShaderProgram* shader);
     ~Monster() {}
 
-    enum class MonsterMode { Stand, Walk, BasicAttack };
+    enum class MonsterMode { Stand, Walk, BasicAttack, Killed, ToBeDeleted };
 
     // Make enum instead of enum class
     enum MonsterMoveDir {
@@ -35,6 +36,7 @@ public:
     };
 
     void setMonsterMode(MonsterMode mode);
+    MonsterMode getMonsterMode();
 
     // Implement virtual function from base class
     void draw() override;
@@ -87,6 +89,8 @@ private:
     GLint m_shadow_m_uni;
     ShaderProgram m_shadow_shader;
 
+    // Uniforms and Attrib
+    GLuint m_be_hit_id;
     GLuint m_position_attrib_pos;
     GLuint m_texture_coor_attrib_pos;
 
@@ -113,6 +117,13 @@ private:
     std::string m_current_stand_frame;
     Texture m_stand_textures_sheet;
 
+    // Killed
+    json m_monster_killed_json_parser;
+    unsigned int m_number_of_killed_frames;
+    float m_killed_animation_move_speed;
+    std::string m_current_killed_frame;
+    Texture m_killed_textures_sheet;
+
     // Override getTransform()
     // Due to a mistake for not separating the monster and the weapon,
     // we need to keep track of the scale of the frame texture geo change and m_trans together
@@ -131,4 +142,7 @@ private:
     // Record the last monster trans amount
     // in order to revert it for collision test succeeded
     glm::vec3 m_last_monster_trans;
+
+    // Hit sound
+    irrklang::ISoundSource* m_monster_be_hit;
 };

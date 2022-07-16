@@ -13,6 +13,8 @@ Mini DNF Like Game
 - https://chinesefonts.org/
 - ![alt text](https://learnopengl.com/img/in-practice/glyph_offset.png)
 - https://www.ambiera.com/irrklang/downloads.html
+- https://www.bilibili.com/bangumi/play/ep400972?from_spmid=666.19.0.0
+- Entity components system refactor
 
 [Main Artist: 章墨卿](http://huashilm.com/u/120434/art) <br>
 

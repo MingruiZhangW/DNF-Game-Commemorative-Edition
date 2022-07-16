@@ -27,6 +27,10 @@
     <None Include="Resource\Sound\bgmSceneZero.ogg" />
     <None Include="Resource\Sound\buttonClick.ogg" />
     <None Include="Resource\Sound\buttonHover.ogg" />
+    <None Include="Resource\Sound\cutSound.ogg" />
+    <None Include="Resource\Sound\monsterBeHitSound.ogg" />
+    <None Include="Resource\Sound\overThink.ogg" />
+    <None Include="Resource\Texture\Monster\Killed\killed_spritesheet.json" />
     <None Include="Resource\Texture\Monster\Stand\monster_spritesheet.json" />
     <None Include="Resource\Texture\NPC\npc_spritesheet.json" />
     <None Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.json" />
@@ -108,6 +112,7 @@
     <Image Include="Resource\Texture\FloorObj\flowerOne.png" />
     <Image Include="Resource\Texture\FloorObj\flowerTwo.png" />
     <Image Include="Resource\Texture\FloorObj\tree.png" />
+    <Image Include="Resource\Texture\Monster\Killed\killed_spritesheet.png" />
     <Image Include="Resource\Texture\Monster\Stand\monster_spritesheet.png" />
     <Image Include="Resource\Texture\NPC\npcDialogHead.png" />
     <Image Include="Resource\Texture\NPC\npc_spritesheet.png" />

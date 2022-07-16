@@ -11,6 +11,10 @@
 
 // clang-format off
 
+// Shift const
+ const float PlayerSkillEffect::skill_shift_sixteen{-219.0f};
+ const float PlayerSkillEffect::skill_shift_eighteen{-135.0f};
+
 // PlayerSkillEffect vertex at the live area origin
 static GLfloat player_skill_effect_vertex_buffer_data[] =
 {
@@ -235,10 +239,12 @@ PlayerSkillEffect::getTransform()
     // Scale will have no effect on translation
     // Initial setup
     glm::mat4 initTrans {1.0f};
+
+    // Shift for frame
     if (m_current_play_skill_effect_frame == "16" || m_current_play_skill_effect_frame == "17")
-        initTrans = glm::translate(initTrans, glm::vec3(-219.0f, 0.0f, 0.0f));
+        initTrans = glm::translate(initTrans, glm::vec3(skill_shift_sixteen, 0.0f, 0.0f));
     else if (m_current_play_skill_effect_frame == "18" || m_current_play_skill_effect_frame == "19")
-        initTrans = glm::translate(initTrans, glm::vec3(-135.0f, 0.0f, 0.0f));
+        initTrans = glm::translate(initTrans, glm::vec3(skill_shift_eighteen, 0.0f, 0.0f));
 
     initTrans = glm::scale(initTrans, glm::vec3(m_current_scale_x, m_current_scale_y, 1.0f));
     initTrans = glm::translate(initTrans, glm::vec3(0.5f, 0.5f, 0.0f));

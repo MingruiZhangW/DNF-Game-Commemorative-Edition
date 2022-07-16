@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "glerrorcheck.hpp"
 #include "constant.hpp"
+#include "monster.hpp"
 
 #include <iostream>
 
@@ -83,6 +84,10 @@ void
 Game::appLogic()
 {
     handleInputKeys();
+    if (m_scene_manager->getPlayer()->getPlayerMode() == Player::PlayerMode::BasicAttack
+        || m_scene_manager->getPlayer()->getPlayerMode() == Player::PlayerMode::Skill) {
+        m_scene_manager->playerAttack();
+    }
     if (m_scene_manager->getCurrentSceneState() == SceneManager::CurrentSceneState::SceneTwoPrep) {
         m_camera_pos = glm::vec3(0.0f);
     }
@@ -116,6 +121,9 @@ Game::draw()
     glUniformMatrix4fv(V_uni, 1, GL_FALSE, value_ptr(m_view));
     m_scene_manager->getPlayer()->updateShadowShaderPVMat(m_proj, m_view);
     m_scene_manager->getNPC()->updateShadowShaderPVMat(m_proj, m_view);
+    for (auto& i : m_scene_manager->getMonsters()) {
+        i->updateShadowShaderPVMat(m_proj, m_view);
+    }
 
     // Main drawing
     m_scene_manager->drawCurrentScene();

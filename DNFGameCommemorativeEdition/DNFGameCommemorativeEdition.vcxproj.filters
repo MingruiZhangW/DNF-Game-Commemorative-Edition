@@ -79,6 +79,9 @@
     <Filter Include="Resource Files\Texture\Monster\Stand">
       <UniqueIdentifier>{6d97f7a1-3be8-414d-8b78-2dcc19dac041}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Monster\Killed">
+      <UniqueIdentifier>{eac0973e-fce7-4be0-8cf7-9479d1903866}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -125,6 +128,18 @@
     </None>
     <None Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.json">
       <Filter>Resource Files\Texture\Player\Skill</Filter>
+    </None>
+    <None Include="Resource\Texture\Monster\Killed\killed_spritesheet.json">
+      <Filter>Resource Files\Texture\Monster\Killed</Filter>
+    </None>
+    <None Include="Resource\Sound\cutSound.ogg">
+      <Filter>Resource Files\Sound</Filter>
+    </None>
+    <None Include="Resource\Sound\monsterBeHitSound.ogg">
+      <Filter>Resource Files\Sound</Filter>
+    </None>
+    <None Include="Resource\Sound\overThink.ogg">
+      <Filter>Resource Files\Sound</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +404,9 @@
     </Image>
     <Image Include="Resource\Texture\FloorObj\flowerTwo.png">
       <Filter>Resource Files\Texture\FloorObj</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Monster\Killed\killed_spritesheet.png">
+      <Filter>Resource Files\Texture\Monster\Killed</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

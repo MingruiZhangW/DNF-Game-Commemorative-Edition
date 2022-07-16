@@ -2,6 +2,7 @@
 
 #include "game.hpp"
 #include "glerrorcheck.hpp"
+#include "monster.hpp"
 
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -36,9 +37,11 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_current_scene_state(CurrentSceneState::SceneZeroPrep)
     , m_window(window)
 {
+    // Init Sounds
     m_scene_zero_bg = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::sceneZeroBg.c_str());
     m_button_hover = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::buttonHover.c_str());
     m_button_click = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::buttonClick.c_str());
+    m_scenes_bg = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::sceneOneTwoBg.c_str());
 }
 
 SceneManager::~SceneManager() {}
@@ -71,21 +74,25 @@ SceneManager::drawCurrentScene()
     case CurrentSceneState::SceneZeroPrep:
         m_scene_zero->prepareInitialDisplay();
 
-        m_current_scene_state = CurrentSceneState::SceneZeroReady;
-        break;
-    case CurrentSceneState::SceneZeroReady:
-        drawSceneZero();
-
         if (!Game::getSoundEngine()->isCurrentlyPlaying(m_scene_zero_bg))
             m_scene_zero_bg_sound = Game::getSoundEngine()->play2D(m_scene_zero_bg,
                                                                    true,
                                                                    false,
                                                                    true);
+
+        m_current_scene_state = CurrentSceneState::SceneZeroReady;
+        break;
+    case CurrentSceneState::SceneZeroReady:
+        drawSceneZero();
         break;
     case CurrentSceneState::SceneOnePrep:
         m_scene_one->prepareInitialDisplay();
         m_scene_zero_bg_sound->stop();
         m_scene_zero_bg_sound->drop();
+
+        // Scene zero bgm
+        if (!Game::getSoundEngine()->isCurrentlyPlaying(m_scenes_bg))
+            m_scenes_bg_sound = Game::getSoundEngine()->play2D(m_scenes_bg, true, false, true);
 
         m_current_scene_state = CurrentSceneState::SceneOneReady;
         break;
@@ -117,6 +124,8 @@ SceneManager::drawSceneTwo()
 {
     renderSceneGraphNodes(m_scene_two->getRootSceneNode(),
                           m_scene_two->getRootSceneNode()->getTransform());
+
+    m_scene_two->checkToRemoveMonster();
 }
 
 void
@@ -138,6 +147,11 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
         updateShaderUniforms(m_shader, trans);
         m_player->updateShadowShaderModelMat(trans);
         m_npc->updateShadowShaderModelMat(trans);
+        if (m_current_scene_state == CurrentSceneState::SceneTwoReady) {
+            for (auto& i : m_scene_two->getMonsters()) {
+                i->updateShadowShaderModelMat(trans);
+            }
+        }
 
         node->draw();
     }
@@ -176,6 +190,22 @@ SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
     reorderCurrentSceneLayerNode();
 }
 
+void
+SceneManager::playerAttack()
+{
+    std::pair<Monster*, bool> result;
+    switch (m_current_scene_state) {
+    case CurrentSceneState::SceneTwoReady:
+        result = m_scene_two->sceneTwoAttackCollisionTest();
+        if (result.second)
+            result.first->setMonsterMode(Monster::MonsterMode::Killed);
+
+        break;
+    default:
+        break;
+    }
+}
+
 glm::vec4
 SceneManager::getCurrentSceneMapBoundary()
 {
@@ -210,6 +240,7 @@ SceneManager::processMouseMove(const glm::vec2& mousePos)
     switch (m_current_scene_state) {
     case CurrentSceneState::SceneZeroReady:
         if (m_scene_zero->processHover(mousePos)) {
+            // Button hover sound
             if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_hover)) {
                 m_button_hover_sound->stop();
                 m_button_hover_sound = Game::getSoundEngine()->play2D(m_button_hover,
@@ -245,6 +276,7 @@ SceneManager::processLeftMouseClick()
         break;
     case CurrentSceneState::SceneOneReady:
         if (m_scene_one->processClick()) {
+            // Dialog click sound
             if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_click)) {
                 m_button_click_sound->stop();
                 m_button_click_sound = Game::getSoundEngine()->play2D(m_button_click,
@@ -261,6 +293,7 @@ SceneManager::processLeftMouseClick()
         break;
     case CurrentSceneState::SceneTwoReady:
         if (m_scene_two->processClick()) {
+            // Dialog click sound
             if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_click)) {
                 m_button_click_sound->stop();
                 m_button_click_sound = Game::getSoundEngine()->play2D(m_button_click,
@@ -305,4 +338,10 @@ NPC*
 SceneManager::getNPC()
 {
     return m_npc.get();
+}
+
+std::vector<Monster*>&
+SceneManager::getMonsters()
+{
+    return m_scene_two->getMonsters();
 }

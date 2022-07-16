@@ -16,7 +16,7 @@ areSame(float a, float b)
 }
 
 static std::pair<bool, bool>
-AABBFloorObjCollision(const glm::vec4& vecA, const glm::vec4& vecB, const glm::vec2& movement)
+AABBCollision(const glm::vec4& vecA, const glm::vec4& vecB, const glm::vec2& movement)
 {
     // x, y -> x, y, x,y at bottom - left corner
     // z -> width
@@ -26,6 +26,9 @@ AABBFloorObjCollision(const glm::vec4& vecA, const glm::vec4& vecB, const glm::v
     // return which direction (horizontal or vertical) are collided
     if ((vecA.x + vecA.z >= vecB.x) && (vecB.x + vecB.z >= vecA.x) && (vecA.y + vecA.w >= vecB.y)
         && (vecB.y + vecB.w >= vecA.y)) {
+        if (movement.x == 0.0f && movement.y == 0.0f)
+            return std::make_pair(true, true);
+
         float dxEntry, dxExit;
         float dyEntry, dyExit;
         float txEntry, txExit;
@@ -182,6 +185,8 @@ const std::string playerSKillEffectJsonPath {
     "Resource/Texture/Player/Skill/skill_effect_spritesheet.json"};
 const std::string monsterStandPNGPath {"Resource/Texture/Monster/Stand/monster_spritesheet.png"};
 const std::string monsterStandJsonPath {"Resource/Texture/Monster/Stand/monster_spritesheet.json"};
+const std::string monsterKilledPNGPath {"Resource/Texture/Monster/Killed/killed_spritesheet.png"};
+const std::string monsterKilledJsonPath {"Resource/Texture/Monster/Killed/killed_spritesheet.json"};
 } // namespace TexturePath
 
 namespace ShadowShaderPath {
@@ -253,4 +258,7 @@ namespace SoundPath {
 const std::string sceneZeroBg {"Resource/Sound/bgmSceneZero.ogg"};
 const std::string buttonHover {"Resource/Sound/buttonHover.ogg"};
 const std::string buttonClick {"Resource/Sound/buttonClick.ogg"};
+const std::string sceneOneTwoBg {"Resource/Sound/overThink.ogg"};
+const std::string monsterBeHit {"Resource/Sound/monsterBeHitSound.ogg"};
+const std::string cut {"Resource/Sound/cutSound.ogg"};
 } // namespace SoundPath

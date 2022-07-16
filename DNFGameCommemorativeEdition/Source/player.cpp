@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include "gamewindow.hpp"
 #include "playerskilleffect.hpp"
+#include "game.hpp"
 
 #include "glerrorcheck.hpp"
 
@@ -172,6 +173,9 @@ Player::Player(ShaderProgram* shader)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
+
+    // Init sound
+    m_player_cut = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::cut.c_str());
 }
 
 void
@@ -475,8 +479,16 @@ void
 Player::afterDraw()
 {
     if (m_player_mode == PlayerMode::BasicAttack
-        && std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames)
+        && std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames) {
+        if (Game::getSoundEngine()->isCurrentlyPlaying(m_player_cut)) {
+            m_player_cut_sound->stop();
+            m_player_cut_sound = Game::getSoundEngine()->play2D(m_player_cut, false, false, true);
+        } else {
+            m_player_cut_sound = Game::getSoundEngine()->play2D(m_player_cut, false, false, true);
+        }
         setPlayerMode(PlayerMode::Stand);
+    }
+
     if (m_player_mode == PlayerMode::Skill
         && std::stoi(m_current_skill_frame) + 1 == m_number_of_skill_frames) {
         m_player_skill_effect->useFrame("0", m_player_sprite_facing_left_dir);
@@ -631,6 +643,26 @@ Player::getPlayerFloorObjCollideGeo()
                      m_player_collide_height);
 }
 
+glm::vec4
+Player::getPlayerAttackCollideGeo()
+{
+    if (m_current_skill_frame == "16" || m_current_skill_frame == "17")
+        return glm::vec4(m_player_dx - m_player_center.x + PlayerSkillEffect::skill_shift_sixteen,
+                         m_player_dy - m_player_center.y,
+                         m_current_scale_x,
+                         m_player_collide_height);
+    else if (m_current_skill_frame == "18" || m_current_skill_frame == "19")
+        return glm::vec4(m_player_dx - m_player_center.x + PlayerSkillEffect::skill_shift_eighteen,
+                         m_player_dy - m_player_center.y,
+                         m_current_scale_x,
+                         m_player_collide_height);
+
+    return glm::vec4(m_player_dx - m_player_center.x,
+                     m_player_dy - m_player_center.y,
+                     m_current_scale_x,
+                     m_player_collide_height);
+}
+
 glm::vec2
 Player::getPlayerMovementAmount()
 {
@@ -674,6 +706,12 @@ Player::updateShadowShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans
     m_shader->enable();
 
     CHECK_GL_ERRORS
+}
+
+Player::PlayerMode
+Player::getPlayerMode()
+{
+    return m_player_mode;
 }
 
 void

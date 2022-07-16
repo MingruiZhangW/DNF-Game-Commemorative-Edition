@@ -41,9 +41,13 @@ public:
     // Player
     Player* getPlayer();
     void movePlayer(Player::PlayerMoveDir moveDir);
+    void playerAttack();
 
     // NPC
     NPC* getNPC();
+
+    // Monsters
+    std::vector<Monster*>& getMonsters();
 
     // Map
     glm::vec4 getCurrentSceneMapBoundary();
@@ -88,10 +92,12 @@ private:
     irrklang::ISound* m_scene_zero_bg_sound;
     irrklang::ISound* m_button_hover_sound;
     irrklang::ISound* m_button_click_sound;
+    irrklang::ISound* m_scenes_bg_sound;
 
     irrklang::ISoundSource* m_scene_zero_bg;
     irrklang::ISoundSource* m_button_hover;
     irrklang::ISoundSource* m_button_click;
+    irrklang::ISoundSource* m_scenes_bg;
 
     GLFWwindow* m_window;
 };

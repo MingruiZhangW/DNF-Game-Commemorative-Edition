@@ -9,6 +9,7 @@
 
 class Map;
 class Player;
+class Monster;
 class DialogSceneNode;
 
 class SceneTwo
@@ -35,7 +36,13 @@ public:
         return m_scene_two_map_boundary;
     }
 
+    std::vector<Monster*>& getMonsters()
+    {
+        return m_monsters;
+    }
+
     std::pair<bool, bool> sceneTwoCollisionTest(const glm::vec2& movement);
+    std::pair<Monster*, bool> sceneTwoAttackCollisionTest();
 
     // Layered drawing
     void reorderLayerNodeChild();
@@ -46,6 +53,9 @@ public:
 
     // Initial display, should call first.
     void prepareInitialDisplay();
+
+    // Remove monster what are killed
+    void checkToRemoveMonster();
 
 private:
     void construct();
@@ -64,6 +74,9 @@ private:
 
     std::unique_ptr<SceneNode> m_scene_two_root_node;
     SceneNode* m_scene_two_layer_node;
+
+    int m_monster_nums;
+    std::vector<Monster*> m_monsters;
 
     Map* m_scene_two_map;
 };

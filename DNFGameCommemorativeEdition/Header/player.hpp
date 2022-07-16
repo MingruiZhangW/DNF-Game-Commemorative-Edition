@@ -7,6 +7,7 @@
 
 #include "json.hpp"
 
+#include <irrKlang.h>
 #include <glm.hpp>
 
 #include <vector>
@@ -37,6 +38,7 @@ public:
     };
 
     void setPlayerMode(PlayerMode mode);
+    PlayerMode getPlayerMode();
 
     // Implement virtual function from base class
     void draw() override;
@@ -60,6 +62,7 @@ public:
     // z -> width
     // w -> height
     glm::vec4 getPlayerFloorObjCollideGeo();
+    glm::vec4 getPlayerAttackCollideGeo();
 
     // Movement sign
     glm::vec2 getPlayerMovementAmount();
@@ -160,4 +163,8 @@ private:
 
     // Skill effect
     PlayerSkillEffect* m_player_skill_effect;
+
+    // Cut Sound
+    irrklang::ISound* m_player_cut_sound;
+    irrklang::ISoundSource* m_player_cut;
 };
