@@ -9,7 +9,7 @@
 class Button : public GeometryNode
 {
 public:
-    enum class ButtonTextureType { ExitButton, PlayButton, Logo };
+    enum class ButtonTextureType { ExitButton, PlayButton, Logo, Victory };
 
     Button(const std::string& name, ShaderProgram* shader, ButtonTextureType textureType);
     ~Button() {}
@@ -25,6 +25,9 @@ public:
     {
         return glm::vec2(m_texture_normal.getTextureWidth(), m_texture_normal.getTextureHeight());
     }
+
+    // For center buttons in certain scene
+    void translateToWindowCenter(float dx, float windowWidth, float windowHeight);
 
 private:
     ShaderProgram* m_shader;

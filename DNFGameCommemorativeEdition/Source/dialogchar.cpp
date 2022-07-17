@@ -51,11 +51,11 @@ DialogChar::DialogChar(const std::string& name,
     };
     // clang-format on
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for dialog char.
     glGenVertexArrays(1, &m_dialog_char_vao);
     glBindVertexArray(m_dialog_char_vao);
 
-    // Create the floor vertex buffer
+    // Create the dialog char vertex buffer
     // Here we need to create vbo dynamically, just allocate the memory first.
     // 5 * 6 -> x, y ,z, u ,v and 6 vertices
     glGenBuffers(1, &m_dialog_char_vbo);
@@ -82,7 +82,6 @@ DialogChar::DialogChar(const std::string& name,
     // Reset state to prevent rogue code from messing with *my* stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
 }

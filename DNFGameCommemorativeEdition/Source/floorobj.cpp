@@ -69,11 +69,11 @@ FloorObj::FloorObj(const std::string& name, ShaderProgram* shader, FloorObjType 
     m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for floor obj.
     glGenVertexArrays(1, &m_floor_obj_vao);
     glBindVertexArray(m_floor_obj_vao);
 
-    // Create the floor vertex buffer
+    // Create the floor obj vertex buffer
     glGenBuffers(1, &m_floor_obj_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_floor_obj_vbo);
     glBufferData(GL_ARRAY_BUFFER,
@@ -104,7 +104,6 @@ FloorObj::FloorObj(const std::string& name, ShaderProgram* shader, FloorObjType 
     // Reset state to prevent rogue code from messing with *my* stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
 }

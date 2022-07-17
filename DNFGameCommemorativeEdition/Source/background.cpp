@@ -62,7 +62,7 @@ Background::Background(const std::string& name,
     m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for background.
     glGenVertexArrays(1, &m_background_vao);
     glBindVertexArray(m_background_vao);
 
@@ -98,7 +98,6 @@ Background::Background(const std::string& name,
     // stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
 }

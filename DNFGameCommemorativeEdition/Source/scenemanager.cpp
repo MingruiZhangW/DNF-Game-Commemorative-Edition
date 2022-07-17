@@ -34,6 +34,7 @@ SceneManager::SceneManager(ShaderProgram* shader,
     , m_npc(std::make_unique<NPC>(m_shader))
     , m_dialog_scene_node(
           std::make_unique<DialogSceneNode>(m_shader, frameBufferWidth, frameBufferHeight))
+    , m_star_particles_generator(std::make_unique<StarParticlesGenerator>(m_shader))
     , m_current_scene_state(CurrentSceneState::SceneZeroPrep)
     , m_window(window)
 {
@@ -64,7 +65,8 @@ SceneManager::constructScenes()
                                              m_frame_buffer_width,
                                              m_frame_buffer_height,
                                              m_player.get(),
-                                             m_dialog_scene_node.get());
+                                             m_dialog_scene_node.get(),
+                                             m_star_particles_generator.get());
 }
 
 void
@@ -147,6 +149,7 @@ SceneManager::renderSceneGraphNodes(SceneNode* node, glm::mat4 modelMat)
         updateShaderUniforms(m_shader, trans);
         m_player->updateShadowShaderModelMat(trans);
         m_npc->updateShadowShaderModelMat(trans);
+        m_star_particles_generator->updateParticleShaderModelMat(trans);
         if (m_current_scene_state == CurrentSceneState::SceneTwoReady) {
             for (auto& i : m_scene_two->getMonsters()) {
                 i->updateShadowShaderModelMat(trans);
@@ -258,6 +261,9 @@ SceneManager::processMouseMove(const glm::vec2& mousePos)
     case CurrentSceneState::SceneOneReady:
         m_scene_one->processHover(mousePos);
         break;
+    case CurrentSceneState::SceneTwoReady:
+        m_scene_two->processHover(mousePos);
+        break;
     default:
         break;
     }
@@ -291,8 +297,9 @@ SceneManager::processLeftMouseClick()
             }
         }
         break;
-    case CurrentSceneState::SceneTwoReady:
-        if (m_scene_two->processClick()) {
+    case CurrentSceneState::SceneTwoReady: {
+        auto currentEvent = m_scene_two->processClick();
+        if (currentEvent == Scene::SceneEvents::DialogClick) {
             // Dialog click sound
             if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_click)) {
                 m_button_click_sound->stop();
@@ -306,8 +313,11 @@ SceneManager::processLeftMouseClick()
                                                                       false,
                                                                       true);
             }
+        } else if (currentEvent == Scene::SceneEvents::QuitGame) {
+            glfwSetWindowShouldClose(m_window, GL_TRUE);
         }
         break;
+    }
     default:
         break;
     }
@@ -338,6 +348,12 @@ NPC*
 SceneManager::getNPC()
 {
     return m_npc.get();
+}
+
+StarParticlesGenerator*
+SceneManager::getStarParticlesGenerator()
+{
+    return m_star_particles_generator.get();
 }
 
 std::vector<Monster*>&

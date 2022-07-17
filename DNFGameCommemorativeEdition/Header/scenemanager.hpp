@@ -9,6 +9,7 @@
 #include "sceneone.hpp"
 #include "scenetwo.hpp"
 #include "dialogscenenode.hpp"
+#include "starparticlesgenerator.hpp"
 
 #include "GL/glew.h"
 
@@ -46,6 +47,9 @@ public:
     // NPC
     NPC* getNPC();
 
+    // StarParticlesGenerator
+    StarParticlesGenerator* getStarParticlesGenerator();
+
     // Monsters
     std::vector<Monster*>& getMonsters();
 
@@ -82,6 +86,7 @@ private:
     std::unique_ptr<Player> m_player;
     std::unique_ptr<NPC> m_npc;
     std::unique_ptr<DialogSceneNode> m_dialog_scene_node;
+    std::unique_ptr<StarParticlesGenerator> m_star_particles_generator;
 
     // Scenes
     std::unique_ptr<SceneZero> m_scene_zero;

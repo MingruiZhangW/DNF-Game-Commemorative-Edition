@@ -94,7 +94,6 @@ Floor::Floor(const std::string& name,
     // Reset state to prevent rogue code from messing with *my* stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
 }

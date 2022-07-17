@@ -42,11 +42,11 @@ DialogImage::DialogImage(ShaderProgram* shader)
 
     cleanMovement();
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for dialog image.
     glGenVertexArrays(1, &m_dialog_img_vao);
     glBindVertexArray(m_dialog_img_vao);
 
-    // Create the floor vertex buffer
+    // Create the dialog image vertex buffer
     glGenBuffers(1, &m_dialog_img_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_dialog_img_vbo);
     glBufferData(GL_ARRAY_BUFFER,
@@ -77,7 +77,6 @@ DialogImage::DialogImage(ShaderProgram* shader)
     // Reset state to prevent rogue code from messing with *my* stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
 }

@@ -121,6 +121,7 @@ Game::draw()
     glUniformMatrix4fv(V_uni, 1, GL_FALSE, value_ptr(m_view));
     m_scene_manager->getPlayer()->updateShadowShaderPVMat(m_proj, m_view);
     m_scene_manager->getNPC()->updateShadowShaderPVMat(m_proj, m_view);
+    m_scene_manager->getStarParticlesGenerator()->updateParticleShaderPVMat(m_proj, m_view);
     for (auto& i : m_scene_manager->getMonsters()) {
         i->updateShadowShaderPVMat(m_proj, m_view);
     }

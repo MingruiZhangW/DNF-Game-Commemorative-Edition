@@ -64,11 +64,11 @@ PlayerSkillEffect::PlayerSkillEffect(ShaderProgram* shader,
     m_textures_sheet = Texture(TexturePath::playerSKillEffectPNGPath);
     m_textures_sheet.loadTexture();
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for skill effect.
     glGenVertexArrays(1, &m_player_skill_effect_vao);
     glBindVertexArray(m_player_skill_effect_vao);
 
-    // Create the floor vertex buffer
+    // Create the skill effect vertex buffer
     glGenBuffers(1, &m_player_skill_effect_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_player_skill_effect_vbo);
     glBufferData(GL_ARRAY_BUFFER,
@@ -77,12 +77,13 @@ PlayerSkillEffect::PlayerSkillEffect(ShaderProgram* shader,
                  GL_STATIC_DRAW);
 
     // Texture vbo
+    // GL_DYNAMIC_DRAW since we need to update it constantly
     glGenBuffers(1, &m_player_skill_effect_tex_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_player_skill_effect_tex_vbo);
     glBufferData(GL_ARRAY_BUFFER,
                  sizeof(player_skill_effect_texture_coord_data),
                  player_skill_effect_texture_coord_data,
-                 GL_STATIC_DRAW);
+                 GL_DYNAMIC_DRAW);
 
     // Specify the means of extracting the position values properly.
     m_position_attrib_pos = m_shader->getAttribLocation("position");
@@ -167,11 +168,12 @@ PlayerSkillEffect::updateTexCoord()
     glBindVertexArray(m_player_skill_effect_vao);
 
     // texture coord
+    // GL_DYNAMIC_DRAW use glBufferSubData
     glBindBuffer(GL_ARRAY_BUFFER, m_player_skill_effect_tex_vbo);
-    glBufferData(GL_ARRAY_BUFFER,
-                 sizeof(player_skill_effect_texture_coord_data),
-                 player_skill_effect_texture_coord_data,
-                 GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER,
+                    0,
+                    sizeof(player_skill_effect_texture_coord_data),
+                    player_skill_effect_texture_coord_data);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);

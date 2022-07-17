@@ -82,6 +82,9 @@
     <Filter Include="Resource Files\Texture\Monster\Killed">
       <UniqueIdentifier>{eac0973e-fce7-4be0-8cf7-9479d1903866}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Particles">
+      <UniqueIdentifier>{6f475c2a-2e6a-46fd-8019-5954c265a6d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -139,6 +142,15 @@
       <Filter>Resource Files\Sound</Filter>
     </None>
     <None Include="Resource\Sound\overThink.ogg">
+      <Filter>Resource Files\Sound</Filter>
+    </None>
+    <None Include="Resource\Shaders\particles_shader.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resource\Shaders\particles_shader.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resource\Sound\playerAttack.ogg">
       <Filter>Resource Files\Sound</Filter>
     </None>
   </ItemGroup>
@@ -236,6 +248,9 @@
     <ClInclude Include="Header\scenetwo.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Header\starparticlesgenerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\game.cpp">
@@ -315,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="Source\scenetwo.cpp">
       <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\starparticlesgenerator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -407,6 +425,15 @@
     </Image>
     <Image Include="Resource\Texture\Monster\Killed\killed_spritesheet.png">
       <Filter>Resource Files\Texture\Monster\Killed</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Particles\star.png">
+      <Filter>Resource Files\Texture\Particles</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\defeat.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\victory.png">
+      <Filter>Resource Files\Texture\UI</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

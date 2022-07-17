@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="Resource\Shaders\particles_shader.frag" />
+    <None Include="Resource\Shaders\particles_shader.vert" />
     <None Include="Resource\Shaders\shader.frag" />
     <None Include="Resource\Shaders\shader.vert" />
     <None Include="Resource\Shaders\shadow_shader.frag" />
@@ -30,6 +32,7 @@
     <None Include="Resource\Sound\cutSound.ogg" />
     <None Include="Resource\Sound\monsterBeHitSound.ogg" />
     <None Include="Resource\Sound\overThink.ogg" />
+    <None Include="Resource\Sound\playerAttack.ogg" />
     <None Include="Resource\Texture\Monster\Killed\killed_spritesheet.json" />
     <None Include="Resource\Texture\Monster\Stand\monster_spritesheet.json" />
     <None Include="Resource\Texture\NPC\npc_spritesheet.json" />
@@ -67,6 +70,7 @@
     <ClInclude Include="Header\scenezero.hpp" />
     <ClInclude Include="Header\shaderexception.hpp" />
     <ClInclude Include="Header\shaderprogram.hpp" />
+    <ClInclude Include="Header\starparticlesgenerator.hpp" />
     <ClInclude Include="Header\stb_image.h" />
     <ClInclude Include="Header\constant.hpp" />
     <ClInclude Include="Header\texture.hpp" />
@@ -98,6 +102,7 @@
     <ClCompile Include="Source\scenetwo.cpp" />
     <ClCompile Include="Source\scenezero.cpp" />
     <ClCompile Include="Source\shaderprogram.cpp" />
+    <ClCompile Include="Source\starparticlesgenerator.cpp" />
     <ClCompile Include="Source\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +121,7 @@
     <Image Include="Resource\Texture\Monster\Stand\monster_spritesheet.png" />
     <Image Include="Resource\Texture\NPC\npcDialogHead.png" />
     <Image Include="Resource\Texture\NPC\npc_spritesheet.png" />
+    <Image Include="Resource\Texture\Particles\star.png" />
     <Image Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.png" />
     <Image Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.png" />
     <Image Include="Resource\Texture\Player\Skill\skill_spritesheet.png" />
@@ -123,6 +129,7 @@
     <Image Include="Resource\Texture\Player\Walk\walk_spritesheet.png" />
     <Image Include="Resource\Texture\Tiles\grassTile.png" />
     <Image Include="Resource\Texture\Tiles\roadTile.png" />
+    <Image Include="Resource\Texture\UI\defeat.png" />
     <Image Include="Resource\Texture\UI\dialog.png" />
     <Image Include="Resource\Texture\UI\dialogButton.png" />
     <Image Include="Resource\Texture\UI\dialogButtonClicked.png" />
@@ -131,6 +138,7 @@
     <Image Include="Resource\Texture\UI\exitButtonNormal.png" />
     <Image Include="Resource\Texture\UI\playButtonHover.png" />
     <Image Include="Resource\Texture\UI\playButtonNormal.png" />
+    <Image Include="Resource\Texture\UI\victory.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resource\Fonts\ARLRDBD.ttf" />

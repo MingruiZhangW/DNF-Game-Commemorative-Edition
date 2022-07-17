@@ -101,11 +101,11 @@ Monster::Monster(ShaderProgram* shader)
     m_current_scale_x = m_monster_width;
     m_current_scale_y = m_monster_height;
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for monster.
     glGenVertexArrays(1, &m_monster_vao);
     glBindVertexArray(m_monster_vao);
 
-    // Create the floor vertex buffer
+    // Create the monster vertex buffer
     glGenBuffers(1, &m_monster_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_monster_vbo);
     glBufferData(GL_ARRAY_BUFFER,
@@ -114,12 +114,13 @@ Monster::Monster(ShaderProgram* shader)
                  GL_STATIC_DRAW);
 
     // Texture vbo
+    // GL_DYNAMIC_DRAW since we need to update it constantly
     glGenBuffers(1, &m_monster_tex_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_monster_tex_vbo);
     glBufferData(GL_ARRAY_BUFFER,
                  sizeof(monster_texture_coord_data),
                  monster_texture_coord_data,
-                 GL_STATIC_DRAW);
+                 GL_DYNAMIC_DRAW);
 
     // Specify the means of extracting the position values properly.
     m_position_attrib_pos = m_shader->getAttribLocation("position");
@@ -272,11 +273,12 @@ Monster::updateTexCoord()
     glBindVertexArray(m_monster_vao);
 
     // texture coord
+    // GL_DYNAMIC_DRAW use glBufferSubData
     glBindBuffer(GL_ARRAY_BUFFER, m_monster_tex_vbo);
-    glBufferData(GL_ARRAY_BUFFER,
-                 sizeof(monster_texture_coord_data),
-                 monster_texture_coord_data,
-                 GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER,
+                    0,
+                    sizeof(monster_texture_coord_data),
+                    monster_texture_coord_data);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);

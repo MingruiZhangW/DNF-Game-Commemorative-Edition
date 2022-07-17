@@ -89,11 +89,11 @@ NPC::NPC(ShaderProgram* shader)
     m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for NPC.
     glGenVertexArrays(1, &m_npc_vao);
     glBindVertexArray(m_npc_vao);
 
-    // Create the floor vertex buffer
+    // Create the NPC vertex buffer
     glGenBuffers(1, &m_npc_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_npc_vbo);
     glBufferData(GL_ARRAY_BUFFER,
@@ -102,12 +102,13 @@ NPC::NPC(ShaderProgram* shader)
                  GL_STATIC_DRAW);
 
     // Texture vbo
+    // GL_DYNAMIC_DRAW since we need to update it constantly
     glGenBuffers(1, &m_npc_tex_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_npc_tex_vbo);
     glBufferData(GL_ARRAY_BUFFER,
                  sizeof(npc_texture_coord_data),
                  npc_texture_coord_data,
-                 GL_STATIC_DRAW);
+                 GL_DYNAMIC_DRAW);
 
     // Specify the means of extracting the position values properly.
     m_position_attrib_pos = m_shader->getAttribLocation("position");
@@ -196,11 +197,9 @@ NPC::updateTexCoord()
     glBindVertexArray(m_npc_vao);
 
     // texture coord
+    // GL_DYNAMIC_DRAW use glBufferSubData
     glBindBuffer(GL_ARRAY_BUFFER, m_npc_tex_vbo);
-    glBufferData(GL_ARRAY_BUFFER,
-                 sizeof(npc_texture_coord_data),
-                 npc_texture_coord_data,
-                 GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(npc_texture_coord_data), npc_texture_coord_data);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);

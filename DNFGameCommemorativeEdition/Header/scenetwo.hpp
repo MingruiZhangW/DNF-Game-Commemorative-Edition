@@ -2,6 +2,7 @@
 
 #include "scenenode.hpp"
 #include "shaderprogram.hpp"
+#include "constant.hpp"
 
 #include "GL/glew.h"
 
@@ -9,20 +10,23 @@
 
 class Map;
 class Player;
+class Button;
 class Monster;
 class DialogSceneNode;
+class StarParticlesGenerator;
 
 class SceneTwo
 {
 public:
     // TODO: add finite state machine.
-    enum class DialogConvMode { ConvOne, ConvTwo };
+    enum class SceneTwoStage { ConvOne, ConvTwo, Victory, Defeat };
 
     SceneTwo(ShaderProgram* shader,
              GLfloat frameBufferWidth,
              GLfloat frameBufferHeight,
              Player* player,
-             DialogSceneNode* dialogSceneNode);
+             DialogSceneNode* dialogSceneNode,
+             StarParticlesGenerator* starParticlesGenerator);
 
     ~SceneTwo();
 
@@ -49,7 +53,8 @@ public:
 
     // Dialog
     void moveDialog(float dx);
-    bool processClick();
+    Scene::SceneEvents processClick();
+    bool processHover(const glm::vec2& mousePos);
 
     // Initial display, should call first.
     void prepareInitialDisplay();
@@ -62,21 +67,25 @@ private:
 
     ShaderProgram* m_shader;
 
-    DialogConvMode m_current_dialog_mode;
+    SceneTwoStage m_current_stage;
 
     Player* m_player;
+    StarParticlesGenerator* m_star_particles_generator;
     DialogSceneNode* m_dialog_scene_node;
+    Button* m_exit_button;
+    Button* m_victory_logo;
 
-    GLfloat m_frame_buffer_width;
-    GLfloat m_frame_buffer_height;
-
-    glm::vec4 m_scene_two_map_boundary;
-
-    std::unique_ptr<SceneNode> m_scene_two_root_node;
-    SceneNode* m_scene_two_layer_node;
+    float m_scene_dx;
 
     int m_monster_nums;
     std::vector<Monster*> m_monsters;
 
     Map* m_scene_two_map;
+    glm::vec4 m_scene_two_map_boundary;
+
+    GLfloat m_frame_buffer_width;
+    GLfloat m_frame_buffer_height;
+
+    std::unique_ptr<SceneNode> m_scene_two_root_node;
+    SceneNode* m_scene_two_layer_node;
 };

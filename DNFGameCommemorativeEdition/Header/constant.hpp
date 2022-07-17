@@ -104,6 +104,7 @@ const std::string sceneTwoMapName {"scene_two_map"};
 const std::string sceneOneFloorObjName {"scene_one_floor_obj"};
 const std::string sceneTwoFloorObjName {"scene_two_floor_obj"};
 const std::string buttonName {"button"};
+const std::string starParticlesGeneratorName {"star_particles_generator"};
 } // namespace StringContant
 
 namespace RatioContant {
@@ -120,7 +121,7 @@ const float frameDelay {1000.0f / fps};
 } // namespace FPS
 
 namespace Scene {
-enum class SceneEvents { None, QuitGame, SceneTransit };
+enum class SceneEvents { None, QuitGame, SceneTransit, DialogClick };
 } // namespace Scene
 
 namespace Fonts {
@@ -187,12 +188,20 @@ const std::string monsterStandPNGPath {"Resource/Texture/Monster/Stand/monster_s
 const std::string monsterStandJsonPath {"Resource/Texture/Monster/Stand/monster_spritesheet.json"};
 const std::string monsterKilledPNGPath {"Resource/Texture/Monster/Killed/killed_spritesheet.png"};
 const std::string monsterKilledJsonPath {"Resource/Texture/Monster/Killed/killed_spritesheet.json"};
+const std::string starPNGPath {"Resource/Texture/Particles/star.png"};
+const std::string victoryPNGPath {"Resource/Texture/UI/victory.png"};
+const std::string defeatPNGPath {"Resource/Texture/UI/defeat.png"};
 } // namespace TexturePath
 
 namespace ShadowShaderPath {
 const std::string vertexShader {"Resource/Shaders/shadow_shader.vert"};
 const std::string fragmentShader {"Resource/Shaders/shadow_shader.frag"};
 } // namespace ShadowShaderPath
+
+namespace ParticleShaderPath {
+const std::string vertexShader {"Resource/Shaders/particles_shader.vert"};
+const std::string fragmentShader {"Resource/Shaders/particles_shader.frag"};
+} // namespace ParticleShaderPath
 
 namespace Conversation {
 const std::string sceneOneS1 {"Where.....am I ? ? ?"};
@@ -261,4 +270,5 @@ const std::string buttonClick {"Resource/Sound/buttonClick.ogg"};
 const std::string sceneOneTwoBg {"Resource/Sound/overThink.ogg"};
 const std::string monsterBeHit {"Resource/Sound/monsterBeHitSound.ogg"};
 const std::string cut {"Resource/Sound/cutSound.ogg"};
+const std::string playerAttack {"Resource/Sound/playerAttack.ogg"};
 } // namespace SoundPath

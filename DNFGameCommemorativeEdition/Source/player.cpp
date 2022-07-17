@@ -125,11 +125,11 @@ Player::Player(ShaderProgram* shader)
     m_current_scale_x = m_player_width;
     m_current_scale_y = m_player_height;
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for player.
     glGenVertexArrays(1, &m_player_vao);
     glBindVertexArray(m_player_vao);
 
-    // Create the floor vertex buffer
+    // Create the player vertex buffer
     glGenBuffers(1, &m_player_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_player_vbo);
     glBufferData(GL_ARRAY_BUFFER,
@@ -138,12 +138,13 @@ Player::Player(ShaderProgram* shader)
                  GL_STATIC_DRAW);
 
     // Texture vbo
+    // GL_DYNAMIC_DRAW since we need to update it constantly
     glGenBuffers(1, &m_player_tex_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_player_tex_vbo);
     glBufferData(GL_ARRAY_BUFFER,
                  sizeof(player_texture_coord_data),
                  player_texture_coord_data,
-                 GL_STATIC_DRAW);
+                 GL_DYNAMIC_DRAW);
 
     // Specify the means of extracting the position values properly.
     m_position_attrib_pos = m_shader->getAttribLocation("position");
@@ -384,12 +385,12 @@ Player::updateTexCoord()
     glBindVertexArray(m_player_vao);
 
     // texture coord
+    // GL_DYNAMIC_DRAW use glBufferSubData
     glBindBuffer(GL_ARRAY_BUFFER, m_player_tex_vbo);
-    glBufferData(GL_ARRAY_BUFFER,
-                 sizeof(player_texture_coord_data),
-                 player_texture_coord_data,
-                 GL_STATIC_DRAW);
-
+    glBufferSubData(GL_ARRAY_BUFFER,
+                    0,
+                    sizeof(player_texture_coord_data),
+                    player_texture_coord_data);
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 

@@ -53,6 +53,9 @@ Button::Button(const std::string& name, ShaderProgram* shader, ButtonTextureType
     case ButtonTextureType::Logo:
         m_texture_normal = Texture(TexturePath::dnfLogoPath);
         break;
+    case ButtonTextureType::Victory:
+        m_texture_normal = Texture(TexturePath::victoryPNGPath);
+        break;
     default:
         break;
     }
@@ -69,7 +72,7 @@ Button::Button(const std::string& name, ShaderProgram* shader, ButtonTextureType
     m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
 
-    // Create the vertex array to record buffer assignments for floor.
+    // Create the vertex array to record buffer assignments for button.
     glGenVertexArrays(1, &m_button_vao);
     glBindVertexArray(m_button_vao);
 
@@ -105,7 +108,6 @@ Button::Button(const std::string& name, ShaderProgram* shader, ButtonTextureType
     // stuff!
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERRORS;
 }
@@ -143,6 +145,14 @@ Button::checkOnTop(const glm::vec2& mousePos)
 }
 
 void
+Button::translateToWindowCenter(float dx, float windowWidth, float windowHeight)
+{
+    translate(glm::vec3(dx + windowWidth / 2.0f - m_texture_normal.getTextureWidth() / 2.0f,
+                        windowHeight / 2.0f - m_texture_normal.getTextureHeight() / 2.0f,
+                        0.0f));
+}
+
+void
 Button::draw()
 {
     // Draw transparent backgrounds in blend mode (alpha channel)
@@ -165,6 +175,9 @@ Button::draw()
         }
         break;
     case Button::ButtonTextureType::Logo:
+        m_texture_normal.useTexture();
+        break;
+    case Button::ButtonTextureType::Victory:
         m_texture_normal.useTexture();
         break;
     default:
