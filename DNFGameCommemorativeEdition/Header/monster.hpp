@@ -22,19 +22,6 @@ public:
 
     enum class MonsterMode { Stand, Walk, BasicAttack, Killed, ToBeDeleted };
 
-    // Make enum instead of enum class
-    enum MonsterMoveDir {
-        None = 0,
-        Left = GLFWArrowKeyRemap::leftKey,
-        LeftUp = GLFWArrowKeyRemap::leftKey + GLFWArrowKeyRemap::upKey,
-        LeftDown = GLFWArrowKeyRemap::leftKey + GLFWArrowKeyRemap::downKey,
-        Right = GLFWArrowKeyRemap::rightKey,
-        RightUp = GLFWArrowKeyRemap::rightKey + GLFWArrowKeyRemap::upKey,
-        RightDown = GLFWArrowKeyRemap::rightKey + GLFWArrowKeyRemap::downKey,
-        Up = GLFWArrowKeyRemap::upKey,
-        Down = GLFWArrowKeyRemap::downKey
-    };
-
     void setMonsterMode(MonsterMode mode);
     MonsterMode getMonsterMode();
 
@@ -43,7 +30,6 @@ public:
     void translate(const glm::vec3& amount) override;
     const glm::mat4& getTransform() override;
 
-    void move(MonsterMoveDir monsterMoveDir);
     void reverseMove(std::pair<bool, bool> dirToReverse);
     void setCurrentMapBoundary(glm::vec4 mapBoundary);
 
@@ -73,6 +59,21 @@ public:
 
     // If the monster is attacking, then do not handle movement.
     bool lockForMovement();
+
+    // For flocking, here last trans is seemed as a move direction
+    glm::vec3 getLastMonsterTrans()
+    {
+        return m_last_monster_trans;
+    }
+
+    void setLastMonsterTrans(const glm::vec3& trans)
+    {
+        m_last_monster_trans = trans;
+    }
+
+    // Check whether hit x or y map boundary and if it is the left or right, top or bottom boundary
+    std::pair<std::pair<bool, bool>, std::pair<bool, bool>> checkHitMapBoundary(
+        const glm::vec3& trans);
 
 private:
     void afterDraw();
@@ -108,7 +109,6 @@ private:
     // Animation speed here is divided by 1000
     bool m_monster_sprite_facing_left_dir;
     MonsterMode m_monster_mode;
-    MonsterMoveDir m_monster_move_dir;
 
     // Stand
     json m_monster_stand_json_parser;

@@ -63,6 +63,12 @@ SceneNode::addChildFront(SceneNode* child)
 }
 
 void
+SceneNode::insertChildBefore(std::list<SceneNode*>::iterator it, SceneNode* child)
+{
+    m_children.insert(it, child);
+}
+
+void
 SceneNode::removeChild(SceneNode* child)
 {
     m_children.remove(child);

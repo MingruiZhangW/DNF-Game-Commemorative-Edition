@@ -42,12 +42,6 @@ static float m_star_life {1.0f};
 // 3 because of x,y,z
 static GLfloat* particle_pos_offset_data = new GLfloat[max_particles_num * 3];
 
-float
-randomBetweenZeroAndOne()
-{
-    return static_cast<float>(std::rand() % 11) / 10.0f;
-}
-
 StarParticlesGenerator::StarParticlesGenerator(ShaderProgram* shader)
     : GeometryNode(StringContant::starParticlesGeneratorName)
     , m_shader(shader)
@@ -166,8 +160,8 @@ StarParticlesGenerator::processing()
             newPar.positionOffset = glm::vec3(0.0f, 0.0f, 0.0f);
             newPar.speed = 20.0f;
 
-            auto r = radius_stars_circles * sqrt(randomBetweenZeroAndOne());
-            auto theta = randomBetweenZeroAndOne() * 2.0f * M_PI;
+            auto r = radius_stars_circles * sqrt(Utils::randomBetweenZeroAndOne());
+            auto theta = Utils::randomBetweenZeroAndOne() * 2.0f * M_PI;
             auto x = r * cos(theta);
             auto y = r * sin(theta);
 

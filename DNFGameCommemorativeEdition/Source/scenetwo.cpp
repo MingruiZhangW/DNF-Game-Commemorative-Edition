@@ -6,12 +6,15 @@
 #include "dialogscenenode.hpp"
 #include "game.hpp"
 #include "button.hpp"
+#include "flockingengine.hpp"
 
-// Offset
+// Const and offset
 const static float m_player_scene_two_initial_y {175.0f};
 const static float m_player_scene_two_initial_x {100.0f};
 
 const static float m_exit_button_y_offset {-225.0f};
+
+const static unsigned int m_monster_max_num {5};
 
 SceneTwo::SceneTwo(ShaderProgram* shader,
                    GLfloat frameBufferWidth,
@@ -23,11 +26,12 @@ SceneTwo::SceneTwo(ShaderProgram* shader,
     , m_frame_buffer_width(frameBufferWidth)
     , m_frame_buffer_height(frameBufferHeight)
     , m_player(player)
-    , m_monster_nums(1)
+    , m_monster_nums(m_monster_max_num)
     , m_star_particles_generator(starParticlesGenerator)
     , m_dialog_scene_node(dialogSceneNode)
     , m_current_stage(SceneTwoStage::ConvOne)
     , m_scene_dx(0.0f)
+    , m_hover_changed(false)
     , m_scene_two_map_boundary(glm::vec4(0.0f))
     , m_scene_two_root_node(std::make_unique<SceneNode>(StringContant::sceneTwoRootNodeName))
     , m_scene_two_layer_node(new SceneNode(StringContant::sceneTwoLayerNodeName))
@@ -77,9 +81,53 @@ SceneTwo::prepareInitialDisplay()
     m_dialog_scene_node->setShown(true);
     m_player->setCurrentMapBoundary(m_scene_two_map_boundary);
     m_player->translate(glm::vec3(m_player_scene_two_initial_x, m_player_scene_two_initial_y, 0.0f));
-    m_monsters[0]->setCurrentMapBoundary(m_scene_two_map_boundary);
-    m_monsters[0]->translate(
-        glm::vec3(m_player_scene_two_initial_x + 300.0f, m_player_scene_two_initial_y, 0.0f));
+
+    for (size_t i = 0; i < m_monsters.size(); i++) {
+        m_monsters[i]->setCurrentMapBoundary(glm::vec4(m_scene_two_map_boundary.x,
+                                                       m_scene_two_map_boundary.y,
+                                                       m_scene_two_map_boundary.z + 100.0f,
+                                                       m_scene_two_map_boundary.w - 100.0f));
+
+        // Assign pos to each monster in a manual way
+        switch (i) {
+        case 0: {
+            m_monsters[i]->translate(glm::vec3(m_player_scene_two_initial_x + 500.0f,
+                                               m_player_scene_two_initial_y - 100.0f,
+                                               0.0f));
+            break;
+        }
+        case 1: {
+            m_monsters[i]->translate(glm::vec3(m_player_scene_two_initial_x + 300.0f,
+                                               m_player_scene_two_initial_y,
+                                               0.0f));
+            break;
+        }
+        case 2: {
+            m_monsters[i]->translate(glm::vec3(m_player_scene_two_initial_x + 600.0f,
+                                               m_player_scene_two_initial_y + 100.0f,
+                                               0.0f));
+            break;
+        }
+        case 3: {
+            m_monsters[i]->translate(glm::vec3(m_player_scene_two_initial_x + 400.0f,
+                                               m_player_scene_two_initial_y + 150.0f,
+                                               0.0f));
+            break;
+        }
+        case 4: {
+            m_monsters[i]->translate(glm::vec3(m_player_scene_two_initial_x + 700.0f,
+                                               m_player_scene_two_initial_y - 200.0f,
+                                               0.0f));
+            break;
+        }
+        default:
+            break;
+        }
+
+        // Give fake initial pos for flocking
+        m_monsters[i]->setLastMonsterTrans(
+            glm::vec3(Utils::randomBetween(-10, 10), Utils::randomBetween(-10, 10), 0.0f));
+    }
 
     m_scene_two_root_node->addChild(m_scene_two_map);
     m_scene_two_root_node->addChild(m_scene_two_layer_node);
@@ -116,25 +164,67 @@ SceneTwo::checkToRemoveMonster()
 }
 
 void
+SceneTwo::updateMonsterFlockingMovements()
+{
+    if (Game::getEnableKeyBoardEvent())
+        FlockingEngine::updatePosition(m_monsters);
+}
+
+void
 SceneTwo::reorderLayerNodeChild()
 {
     // the draw order will depend on -y coord
     m_scene_two_layer_node->cleanChild();
 
-    m_scene_two_layer_node->addChild(m_player);
-    for (auto floorItem : m_scene_two_map->getFloorReorderObjs()) {
-        if (floorItem.second.y > m_player->getPlayerDy() - m_player->getPlayerCenter().y) {
-            m_scene_two_layer_node->addChildFront(floorItem.first);
-        } else {
-            m_scene_two_layer_node->addChild(floorItem.first);
-        }
-    }
+    int monsterIndex {0};
+    int floorObjIndex {0};
+    bool playerAdded {false};
+    auto floorObjs = m_scene_two_map->getFloorReorderObjs();
 
-    for (auto monster : m_monsters) {
-        if (monster->getMonsterDy() > m_player->getPlayerDy() - m_player->getPlayerCenter().y) {
-            m_scene_two_layer_node->addChildFront(monster);
+    // Sort Monster, floor obj is sorted
+    std::sort(m_monsters.begin(), m_monsters.end(), [](Monster* monsterA, Monster* monsterB) {
+        return monsterA->getMonsterDy() > monsterB->getMonsterDy();
+    });
+
+    // Sort floor obj
+    std::sort(floorObjs.begin(),
+              floorObjs.end(),
+              [](std::pair<FloorObj*, glm::vec2> pairA, std::pair<FloorObj*, glm::vec2> pairB) {
+                  return pairA.second.y > pairB.second.y;
+              });
+
+    // Rearrange
+    for (size_t i = 0; i < m_monsters.size() + floorObjs.size() + 1; i++) {
+        if (monsterIndex == m_monsters.size()
+            || floorObjs[floorObjIndex].second.y
+                   > (m_monsters[monsterIndex]->getMonsterDy()
+                      - m_monsters[monsterIndex]->getMonsterCenter().y)) {
+            if (!playerAdded) {
+                if (floorObjs[floorObjIndex].second.y
+                    < (m_player->getPlayerDy() - m_player->getPlayerCenter().y)) {
+                    m_scene_two_layer_node->addChild(m_player);
+
+                    playerAdded = true;
+
+                    continue;
+                }
+            }
+
+            m_scene_two_layer_node->addChild(floorObjs[floorObjIndex].first);
+            floorObjIndex++;
         } else {
-            m_scene_two_layer_node->addChild(monster);
+            if (!playerAdded) {
+                if (m_monsters[monsterIndex]->getMonsterDy() < m_player->getPlayerDy()) {
+                    m_scene_two_layer_node->addChild(m_player);
+
+                    playerAdded = true;
+
+                    continue;
+                }
+            }
+
+            m_scene_two_layer_node->addChild(m_monsters[monsterIndex]);
+            monsterIndex++;
         }
     }
 
@@ -177,23 +267,23 @@ SceneTwo::sceneTwoCollisionTest(const glm::vec2& movement)
     return result;
 }
 
-std::pair<Monster*, bool>
+std::vector<std::pair<Monster*, bool>>
 SceneTwo::sceneTwoAttackCollisionTest()
 {
-    std::pair<bool, bool> result {false, false};
+    std::vector<std::pair<Monster*, bool>> result {};
 
     // Monster
     for (auto monster : m_monsters) {
-        result = Utils::AABBCollision(m_player->getPlayerAttackCollideGeo(),
-                                      monster->getMonsterFloorObjCollideGeo(),
-                                      glm::vec2(0.0f));
+        auto resultForOneMonster = Utils::AABBCollision(m_player->getPlayerAttackCollideGeo(),
+                                                        monster->getMonsterFloorObjCollideGeo(),
+                                                        glm::vec2(0.0f));
 
-        if (result.first || result.second) {
-            return std::make_pair(monster, true);
+        if (resultForOneMonster.first || resultForOneMonster.second) {
+            result.push_back(std::make_pair(monster, true));
         }
     }
 
-    return std::make_pair(nullptr, false);
+    return result;
 }
 
 void
@@ -207,9 +297,16 @@ bool
 SceneTwo::processHover(const glm::vec2& mousePos)
 {
     switch (m_current_stage) {
-    case SceneTwoStage::Victory:
-        return m_exit_button->checkOnTop(mousePos);
+    case SceneTwoStage::Victory: {
+        auto isHovered = m_exit_button->checkOnTop(mousePos);
+        if (m_hover_changed != isHovered) {
+            m_hover_changed = isHovered;
+            return m_exit_button->checkOnTop();
+        }
+        break;
     }
+    }
+
     return false;
 }
 

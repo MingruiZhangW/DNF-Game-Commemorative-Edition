@@ -297,7 +297,8 @@ Map::initSceneTwoMap()
                                                        FloorObj::FloorObjType::FlowerTwo);
                     flowerTwo->translate(glm::vec3(totalMainFloorXTrans, heightScale * i, 0.0f));
 
-                    m_floor_obj_layer_one_list.push_back(flowerTwo);
+                    m_floor_obj_layer_two_list.push_back(
+                        std::make_pair(flowerTwo, glm::vec2(totalMainFloorXTrans, heightScale * i)));
                 } else if (scene_two_floor_tiles[i][j][k] == 3) {
                     FloorObj* normalDoor = new FloorObj(StringContant::sceneOneFloorObjName
                                                             + std::to_string(i + j + k),

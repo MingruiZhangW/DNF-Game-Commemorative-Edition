@@ -21,6 +21,12 @@ Game::enableKeyBoardEvent(bool enable)
     m_enable_keyboard_event = enable;
 }
 
+bool
+Game::getEnableKeyBoardEvent()
+{
+    return m_enable_keyboard_event;
+}
+
 irrklang::ISoundEngine*
 Game::getSoundEngine()
 {

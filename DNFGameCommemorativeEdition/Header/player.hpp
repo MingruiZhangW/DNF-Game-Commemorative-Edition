@@ -165,6 +165,6 @@ private:
     PlayerSkillEffect* m_player_skill_effect;
 
     // Cut Sound
-    irrklang::ISound* m_player_cut_sound;
-    irrklang::ISoundSource* m_player_cut;
+    irrklang::ISound* m_player_attack_sound;
+    irrklang::ISoundSource* m_player_attack;
 };

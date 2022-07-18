@@ -29,6 +29,8 @@ public:
 
     void addChildFront(SceneNode* child);
 
+    void insertChildBefore(std::list<SceneNode*>::iterator it, SceneNode* child);
+
     void removeChild(SceneNode* child);
 
     void cleanChild();

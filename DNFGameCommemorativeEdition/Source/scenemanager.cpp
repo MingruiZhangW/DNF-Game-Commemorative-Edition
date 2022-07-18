@@ -128,6 +128,7 @@ SceneManager::drawSceneTwo()
                           m_scene_two->getRootSceneNode()->getTransform());
 
     m_scene_two->checkToRemoveMonster();
+    m_scene_two->updateMonsterFlockingMovements();
 }
 
 void
@@ -196,14 +197,14 @@ SceneManager::movePlayer(Player::PlayerMoveDir moveDir)
 void
 SceneManager::playerAttack()
 {
-    std::pair<Monster*, bool> result;
     switch (m_current_scene_state) {
-    case CurrentSceneState::SceneTwoReady:
-        result = m_scene_two->sceneTwoAttackCollisionTest();
-        if (result.second)
-            result.first->setMonsterMode(Monster::MonsterMode::Killed);
-
+    case CurrentSceneState::SceneTwoReady: {
+        for (auto& i : m_scene_two->sceneTwoAttackCollisionTest()) {
+            if (i.second)
+                i.first->setMonsterMode(Monster::MonsterMode::Killed);
+        }
         break;
+    }
     default:
         break;
     }
@@ -262,7 +263,21 @@ SceneManager::processMouseMove(const glm::vec2& mousePos)
         m_scene_one->processHover(mousePos);
         break;
     case CurrentSceneState::SceneTwoReady:
-        m_scene_two->processHover(mousePos);
+        if (m_scene_two->processHover(mousePos)) {
+            // Button hover sound
+            if (Game::getSoundEngine()->isCurrentlyPlaying(m_button_hover)) {
+                m_button_hover_sound->stop();
+                m_button_hover_sound = Game::getSoundEngine()->play2D(m_button_hover,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            } else {
+                m_button_hover_sound = Game::getSoundEngine()->play2D(m_button_hover,
+                                                                      false,
+                                                                      false,
+                                                                      true);
+            }
+        }
         break;
     default:
         break;

@@ -51,6 +51,7 @@
     <ClInclude Include="Header\dialogscenenode.hpp" />
     <ClInclude Include="Header\dialogtextmanager.hpp" />
     <ClInclude Include="Header\exception.hpp" />
+    <ClInclude Include="Header\flockingengine.hpp" />
     <ClInclude Include="Header\floor.hpp" />
     <ClInclude Include="Header\floorobj.hpp" />
     <ClInclude Include="Header\game.hpp" />
@@ -85,6 +86,7 @@
     <ClCompile Include="Source\dialogimage.cpp" />
     <ClCompile Include="Source\dialogscenenode.cpp" />
     <ClCompile Include="Source\dialogtextmanager.cpp" />
+    <ClCompile Include="Source\flockingengine.cpp" />
     <ClCompile Include="Source\floor.cpp" />
     <ClCompile Include="Source\floorobj.cpp" />
     <ClCompile Include="Source\game.cpp" />

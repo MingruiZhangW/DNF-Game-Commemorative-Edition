@@ -56,7 +56,6 @@ Monster::Monster(ShaderProgram* shader)
     , m_stand_animation_move_speed(0.05f)
     , m_killed_animation_move_speed(0.02f)
     , m_monster_mode(MonsterMode::Stand)
-    , m_monster_move_dir(MonsterMoveDir::None)
     , m_monster_sprite_facing_left_dir(true)
     , m_current_stand_frame("0")
     , m_current_killed_frame("0")
@@ -86,7 +85,7 @@ Monster::Monster(ShaderProgram* shader)
     m_stand_textures_sheet = Texture(TexturePath::monsterStandPNGPath);
     m_stand_textures_sheet.loadTexture();
 
-    // Load texture - stand
+    // Load texture - killed
     std::ifstream ifs_k(TexturePath::monsterKilledJsonPath);
     m_monster_killed_json_parser = json::parse(ifs_k);
     m_number_of_killed_frames = static_cast<unsigned int>(
@@ -154,8 +153,7 @@ Monster::Monster(ShaderProgram* shader)
     CHECK_GL_ERRORS;
 
     // Init sound
-    m_monster_be_hit = Game::getSoundEngine()->addSoundSourceFromFile(
-        SoundPath::monsterBeHit.c_str());
+    m_monster_be_hit = Game::getSoundEngine()->getSoundSource(SoundPath::monsterBeHit.c_str(), true);
 }
 
 void
@@ -368,70 +366,6 @@ Monster::afterDraw()
 }
 
 void
-Monster::move(MonsterMoveDir monsterMoveDir)
-{
-    switch (monsterMoveDir) {
-    case Monster::None:
-        m_last_monster_trans = glm::vec3(0.0f);
-        break;
-    case Monster::Left:
-        if (!m_monster_sprite_facing_left_dir)
-            flipSprite();
-
-        m_last_monster_trans = glm::vec3(-PlayerFollowCameraSpeed::walk, 0.0, 0.0f);
-        break;
-    case Monster::LeftUp:
-        if (!m_monster_sprite_facing_left_dir)
-            flipSprite();
-
-        m_last_monster_trans = glm::vec3(-PlayerFollowCameraSpeed::walk,
-                                         PlayerFollowCameraSpeed::walk,
-                                         0.0f);
-        break;
-    case Monster::LeftDown:
-        if (!m_monster_sprite_facing_left_dir)
-            flipSprite();
-
-        m_last_monster_trans = glm::vec3(-PlayerFollowCameraSpeed::walk,
-                                         -PlayerFollowCameraSpeed::walk,
-                                         0.0f);
-        break;
-    case Monster::Right:
-        if (m_monster_sprite_facing_left_dir)
-            flipSprite();
-
-        m_last_monster_trans = glm::vec3(PlayerFollowCameraSpeed::walk, 0.0f, 0.0f);
-        break;
-    case Monster::RightUp:
-        if (m_monster_sprite_facing_left_dir)
-            flipSprite();
-
-        m_last_monster_trans = glm::vec3(PlayerFollowCameraSpeed::walk,
-                                         PlayerFollowCameraSpeed::walk,
-                                         0.0f);
-        break;
-    case Monster::RightDown:
-        if (m_monster_sprite_facing_left_dir)
-            flipSprite();
-
-        m_last_monster_trans = glm::vec3(PlayerFollowCameraSpeed::walk,
-                                         -PlayerFollowCameraSpeed::walk,
-                                         0.0f);
-        break;
-    case Monster::Up:
-        m_last_monster_trans = glm::vec3(0.0f, PlayerFollowCameraSpeed::walk, 0.0f);
-        break;
-    case Monster::Down:
-        m_last_monster_trans = glm::vec3(0.0f, -PlayerFollowCameraSpeed::walk, 0.0f);
-        break;
-    default:
-        break;
-    }
-
-    translate(m_last_monster_trans);
-}
-
-void
 Monster::flipSprite()
 {
     m_monster_sprite_facing_left_dir = !m_monster_sprite_facing_left_dir;
@@ -453,7 +387,37 @@ Monster::translate(const glm::vec3& amount)
     else
         m_monster_dy = m_monster_dy + finalTrans.y;
 
+    m_last_monster_trans = finalTrans;
+
     SceneNode::translate(finalTrans);
+}
+
+std::pair<std::pair<bool, bool>, std::pair<bool, bool>>
+Monster::checkHitMapBoundary(const glm::vec3& trans)
+{
+    std::pair<std::pair<bool, bool>, std::pair<bool, bool>> result {{false, false}, {false, false}};
+
+    if (m_monster_dx + trans.x < m_current_map_boundary.z) {
+        // x, left boundary
+        result.first.first = true;
+        result.first.second = true;
+    } else if (m_monster_dx + trans.x > m_current_map_boundary.w) {
+        // x, right boundary
+        result.first.first = true;
+        result.first.second = false;
+    }
+
+    if (m_monster_dy + trans.y > m_current_map_boundary.x) {
+        // y, top boundary
+        result.second.first = true;
+        result.second.second = true;
+    } else if (m_monster_dy + trans.y < m_current_map_boundary.y) {
+        // y, bottom boundary
+        result.second.first = true;
+        result.second.second = false;
+    }
+
+    return result;
 }
 
 void

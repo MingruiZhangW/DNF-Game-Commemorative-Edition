@@ -46,12 +46,12 @@ public:
     }
 
     std::pair<bool, bool> sceneTwoCollisionTest(const glm::vec2& movement);
-    std::pair<Monster*, bool> sceneTwoAttackCollisionTest();
+    std::vector<std::pair<Monster*, bool>> sceneTwoAttackCollisionTest();
 
     // Layered drawing
     void reorderLayerNodeChild();
 
-    // Dialog
+    // Dialog and mouse processing
     void moveDialog(float dx);
     Scene::SceneEvents processClick();
     bool processHover(const glm::vec2& mousePos);
@@ -61,6 +61,9 @@ public:
 
     // Remove monster what are killed
     void checkToRemoveMonster();
+
+    // Flock monster movements
+    void updateMonsterFlockingMovements();
 
 private:
     void construct();
@@ -76,6 +79,8 @@ private:
     Button* m_victory_logo;
 
     float m_scene_dx;
+
+    bool m_hover_changed;
 
     int m_monster_nums;
     std::vector<Monster*> m_monsters;

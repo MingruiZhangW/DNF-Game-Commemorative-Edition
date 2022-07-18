@@ -176,7 +176,8 @@ Player::Player(ShaderProgram* shader)
     CHECK_GL_ERRORS;
 
     // Init sound
-    m_player_cut = Game::getSoundEngine()->addSoundSourceFromFile(SoundPath::cut.c_str());
+    m_player_attack = Game::getSoundEngine()->addSoundSourceFromFile(
+        SoundPath::playerAttack.c_str());
 }
 
 void
@@ -479,15 +480,23 @@ Player::draw()
 void
 Player::afterDraw()
 {
-    if (m_player_mode == PlayerMode::BasicAttack
-        && std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames) {
-        if (Game::getSoundEngine()->isCurrentlyPlaying(m_player_cut)) {
-            m_player_cut_sound->stop();
-            m_player_cut_sound = Game::getSoundEngine()->play2D(m_player_cut, false, false, true);
-        } else {
-            m_player_cut_sound = Game::getSoundEngine()->play2D(m_player_cut, false, false, true);
+    if (m_player_mode == PlayerMode::BasicAttack) {
+        if (std::stoi(m_current_basic_attack_frame) + 1 == m_number_of_basic_attack_frames) {
+            setPlayerMode(PlayerMode::Stand);
+        } else if (m_current_basic_attack_frame == "1") {
+            if (Game::getSoundEngine()->isCurrentlyPlaying(m_player_attack)) {
+                m_player_attack_sound->stop();
+                m_player_attack_sound = Game::getSoundEngine()->play2D(m_player_attack,
+                                                                       false,
+                                                                       false,
+                                                                       true);
+            } else {
+                m_player_attack_sound = Game::getSoundEngine()->play2D(m_player_attack,
+                                                                       false,
+                                                                       false,
+                                                                       true);
+            }
         }
-        setPlayerMode(PlayerMode::Stand);
     }
 
     if (m_player_mode == PlayerMode::Skill

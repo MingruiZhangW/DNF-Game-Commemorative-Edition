@@ -21,6 +21,7 @@ public:
     virtual ~Game();
 
     static void enableKeyBoardEvent(bool enable);
+    static bool getEnableKeyBoardEvent();
     static irrklang::ISoundEngine* getSoundEngine();
 
 protected:

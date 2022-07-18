@@ -3,6 +3,7 @@
 #include <string>
 #include <limits>
 #include <cmath>
+#include <random>
 
 #include <glm.hpp>
 #include <gtx/string_cast.hpp>
@@ -13,6 +14,18 @@ static bool
 areSame(float a, float b)
 {
     return fabs(a - b) < std::numeric_limits<float>::epsilon();
+}
+
+static float
+randomBetweenZeroAndOne()
+{
+    return static_cast<float>(std::rand() % 101) / 100.0f;
+}
+
+static int
+randomBetween(int low, int high)
+{
+    return rand() % (high - low + 1) + low;
 }
 
 static std::pair<bool, bool>
