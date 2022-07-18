@@ -330,6 +330,12 @@ SceneManager::processLeftMouseClick()
             }
         } else if (currentEvent == Scene::SceneEvents::QuitGame) {
             glfwSetWindowShouldClose(m_window, GL_TRUE);
+        } else if (currentEvent == Scene::SceneEvents::SceneTransit) {
+            m_scenes_bg_sound->stop();
+            m_player->cleanMovement();
+            m_dialog_scene_node->clearMovement();
+
+            m_current_scene_state = CurrentSceneState::SceneZeroPrep;
         }
         break;
     }

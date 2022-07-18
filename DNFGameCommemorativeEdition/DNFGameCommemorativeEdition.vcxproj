@@ -134,6 +134,12 @@
     <Image Include="Resource\Texture\Player\Walk\walk_spritesheet.png" />
     <Image Include="Resource\Texture\Tiles\grassTile.png" />
     <Image Include="Resource\Texture\Tiles\roadTile.png" />
+    <Image Include="Resource\Texture\UI\arrowKey.png" />
+    <Image Include="Resource\Texture\UI\attackLabel.png" />
+    <Image Include="Resource\Texture\UI\backButtonHover.png" />
+    <Image Include="Resource\Texture\UI\backButtonNormal.png" />
+    <Image Include="Resource\Texture\UI\controlButtonHover.png" />
+    <Image Include="Resource\Texture\UI\controlButtonNormal.png" />
     <Image Include="Resource\Texture\UI\defeat.png" />
     <Image Include="Resource\Texture\UI\dialog.png" />
     <Image Include="Resource\Texture\UI\dialogButton.png" />
@@ -141,9 +147,14 @@
     <Image Include="Resource\Texture\UI\dnfLogo.png" />
     <Image Include="Resource\Texture\UI\exitButtonHover.png" />
     <Image Include="Resource\Texture\UI\exitButtonNormal.png" />
+    <Image Include="Resource\Texture\UI\interactLabel.png" />
+    <Image Include="Resource\Texture\UI\mouseLeft.png" />
+    <Image Include="Resource\Texture\UI\moveLabel.png" />
     <Image Include="Resource\Texture\UI\playButtonHover.png" />
     <Image Include="Resource\Texture\UI\playButtonNormal.png" />
     <Image Include="Resource\Texture\UI\victory.png" />
+    <Image Include="Resource\Texture\UI\xKey.png" />
+    <Image Include="Resource\Texture\UI\zKey.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resource\Fonts\ARLRDBD.ttf" />

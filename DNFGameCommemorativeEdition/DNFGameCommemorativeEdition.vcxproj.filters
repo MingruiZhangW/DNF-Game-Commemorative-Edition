@@ -456,6 +456,39 @@
     <Image Include="Resource\Texture\Monster\Walk\walk_spritesheet.png">
       <Filter>Resource Files\Texture\Monster\Walk</Filter>
     </Image>
+    <Image Include="Resource\Texture\UI\arrowKey.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\backButtonHover.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\backButtonNormal.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\mouseLeft.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\xKey.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\zKey.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\controlButtonHover.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\controlButtonNormal.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\attackLabel.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\interactLabel.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\moveLabel.png">
+      <Filter>Header Files\UI</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resource\Fonts\FZFangSong-Z02T-Regular.ttf">

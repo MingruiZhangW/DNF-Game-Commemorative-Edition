@@ -12,7 +12,7 @@
 const static float m_player_scene_two_initial_y {175.0f};
 const static float m_player_scene_two_initial_x {100.0f};
 
-const static float m_exit_button_y_offset {-225.0f};
+const static float m_exit_button_y_offset {-300.0f};
 
 const static unsigned int m_monster_max_num {5};
 
@@ -31,7 +31,7 @@ SceneTwo::SceneTwo(ShaderProgram* shader,
     , m_dialog_scene_node(dialogSceneNode)
     , m_current_stage(SceneTwoStage::ConvOne)
     , m_scene_dx(0.0f)
-    , m_hover_changed(false)
+    , m_current_button_hover(CurrentButtonHoverInScene::None)
     , m_scene_two_map_boundary(glm::vec4(0.0f))
     , m_scene_two_root_node(std::make_unique<SceneNode>(StringContant::sceneTwoRootNodeName))
     , m_scene_two_layer_node(new SceneNode(StringContant::sceneTwoLayerNodeName))
@@ -68,11 +68,18 @@ SceneTwo::construct()
     m_victory_logo = new Button(StringContant::buttonName + "victory",
                                 m_shader,
                                 Button::ButtonTextureType::Victory);
+
+    m_back_button = new Button(StringContant::buttonName + "back",
+                               m_shader,
+                               Button::ButtonTextureType::BackButton);
 }
 
 void
 SceneTwo::prepareInitialDisplay()
 {
+    m_scene_dx = 0.0f;
+    m_current_stage = SceneTwoStage::ConvOne;
+
     Game::enableKeyBoardEvent(false);
     m_dialog_scene_node->clearMovement();
     m_dialog_scene_node->setCurrentDialogSpeaker(StringContant::fancyPlayerChineseName);
@@ -81,6 +88,12 @@ SceneTwo::prepareInitialDisplay()
     m_dialog_scene_node->setShown(true);
     m_player->setCurrentMapBoundary(m_scene_two_map_boundary);
     m_player->translate(glm::vec3(m_player_scene_two_initial_x, m_player_scene_two_initial_y, 0.0f));
+
+    if (m_monsters.size() == 0) {
+        for (int i = 0; i < m_monster_nums; i++) {
+            m_monsters.push_back(new Monster(m_shader));
+        }
+    }
 
     for (size_t i = 0; i < m_monsters.size(); i++) {
         m_monsters[i]->setCurrentMapBoundary(glm::vec4(m_scene_two_map_boundary.x,
@@ -132,12 +145,18 @@ SceneTwo::prepareInitialDisplay()
     m_scene_two_root_node->addChild(m_scene_two_map);
     m_scene_two_root_node->addChild(m_scene_two_layer_node);
 
+    m_star_particles_generator->cleanMovement();
+    m_victory_logo->cleanMovement();
+    m_exit_button->cleanMovement();
+    m_back_button->cleanMovement();
+
     reorderLayerNodeChild();
 }
 
 void
 SceneTwo::checkToRemoveMonster()
 {
+    // Erase will also destory the obj within
     m_monsters.erase(std::remove_if(m_monsters.begin(),
                                     m_monsters.end(),
                                     [this](Monster* monster) {
@@ -172,7 +191,7 @@ SceneTwo::updateMonsterFlockingMovements()
         reorderLayerNodeChild();
     }
 }
-#pragma optimize("", off)
+
 void
 SceneTwo::reorderLayerNodeChild()
 {
@@ -253,8 +272,16 @@ SceneTwo::reorderLayerNodeChild()
                                                m_frame_buffer_height);
         m_exit_button->translate(glm::vec3(0.0f, m_exit_button_y_offset, 0.0f));
 
+        m_back_button->translateToWindowCenter(m_scene_dx,
+                                               m_frame_buffer_width,
+                                               m_frame_buffer_height);
+
+        m_back_button->translate(
+            glm::vec3(0.0f, m_exit_button_y_offset + m_back_button->getTextureGeo().y, 0.0f));
+
         m_scene_two_layer_node->addChild(m_star_particles_generator);
         m_scene_two_layer_node->addChild(m_victory_logo);
+        m_scene_two_layer_node->addChild(m_back_button);
         m_scene_two_layer_node->addChild(m_exit_button);
     }
 
@@ -309,18 +336,28 @@ SceneTwo::moveDialog(float dx)
 bool
 SceneTwo::processHover(const glm::vec2& mousePos)
 {
+    bool changed {false};
+    CurrentButtonHoverInScene thisHover = CurrentButtonHoverInScene::None;
+
     switch (m_current_stage) {
     case SceneTwoStage::Victory: {
-        auto isHovered = m_exit_button->checkOnTop(mousePos);
-        if (m_hover_changed != isHovered) {
-            m_hover_changed = isHovered;
-            return m_exit_button->checkOnTop();
-        }
+        bool backHover = m_back_button->checkOnTop(mousePos);
+        bool exitHover = m_exit_button->checkOnTop(mousePos);
+
+        if (backHover)
+            thisHover = CurrentButtonHoverInScene::Back;
+        if (exitHover)
+            thisHover = CurrentButtonHoverInScene::Exit;
         break;
     }
     }
 
-    return false;
+    if (thisHover != m_current_button_hover) {
+        m_current_button_hover = thisHover;
+        changed = true;
+    }
+
+    return changed && m_current_button_hover != CurrentButtonHoverInScene::None;
 }
 
 Scene::SceneEvents
@@ -344,8 +381,16 @@ SceneTwo::processClick()
         reorderLayerNodeChild();
         return Scene::SceneEvents::DialogClick;
     case SceneTwoStage::Victory:
-        if (m_exit_button->checkOnTop())
+        if (m_exit_button->checkOnTop()) {
             return Scene::SceneEvents::QuitGame;
+        } else if (m_back_button->checkOnTop()) {
+            m_scene_two_layer_node->cleanChild();
+            m_scene_two_root_node->cleanChild();
+            m_back_button->checkOnTop(glm::vec2(0.0f));
+            m_exit_button->checkOnTop(glm::vec2(0.0f));
+
+            return Scene::SceneEvents::SceneTransit;
+        }
         return Scene::SceneEvents::None;
     default:
         break;

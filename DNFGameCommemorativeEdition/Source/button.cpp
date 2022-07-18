@@ -50,11 +50,44 @@ Button::Button(const std::string& name, ShaderProgram* shader, ButtonTextureType
 
         m_texture_hover.loadTexture();
         break;
+    case ButtonTextureType::ControlButton:
+        m_texture_normal = Texture(TexturePath::controlButtonNormalUIPath);
+        m_texture_hover = Texture(TexturePath::controlButtonHoverUIPath);
+
+        m_texture_hover.loadTexture();
+        break;
+    case ButtonTextureType::BackButton:
+        m_texture_normal = Texture(TexturePath::backButtonNormalUIPath);
+        m_texture_hover = Texture(TexturePath::backButtonHoverUIPath);
+
+        m_texture_hover.loadTexture();
+        break;
     case ButtonTextureType::Logo:
         m_texture_normal = Texture(TexturePath::dnfLogoPath);
         break;
     case ButtonTextureType::Victory:
         m_texture_normal = Texture(TexturePath::victoryPNGPath);
+        break;
+    case ButtonTextureType::AttackLabel:
+        m_texture_normal = Texture(TexturePath::attackLabelPath);
+        break;
+    case ButtonTextureType::MoveLabel:
+        m_texture_normal = Texture(TexturePath::moveLabelPath);
+        break;
+    case ButtonTextureType::InteractLabel:
+        m_texture_normal = Texture(TexturePath::interactLabelPath);
+        break;
+    case ButtonTextureType::ZKey:
+        m_texture_normal = Texture(TexturePath::zKeyPath);
+        break;
+    case ButtonTextureType::XKey:
+        m_texture_normal = Texture(TexturePath::xKeyPath);
+        break;
+    case ButtonTextureType::ArrowKey:
+        m_texture_normal = Texture(TexturePath::arrowKeyPath);
+        break;
+    case ButtonTextureType::MouseLeft:
+        m_texture_normal = Texture(TexturePath::mouseLeftPath);
         break;
     default:
         break;
@@ -65,12 +98,8 @@ Button::Button(const std::string& name, ShaderProgram* shader, ButtonTextureType
     m_plane_width = static_cast<float>(m_texture_normal.getTextureWidth());
     m_plane_height = static_cast<float>(m_texture_normal.getTextureHeight());
 
-    // S * T * R * T^-1
-    // Scale will have no effect on translation
-    m_trans = glm::scale(m_trans, glm::vec3(m_plane_width, m_plane_height, 0.0f));
-    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
-    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
+    // Init m_trans
+    cleanMovement();
 
     // Create the vertex array to record buffer assignments for button.
     glGenVertexArrays(1, &m_button_vao);
@@ -121,6 +150,22 @@ Button::translate(const glm::vec3& amount)
     SceneNode::translate(amount);
 }
 
+void
+Button::cleanMovement()
+{
+    m_trans = glm::mat4(1.0f);
+
+    m_button_dx = 0.0f;
+    m_button_dy = 0.0f;
+
+    // S * T * R * T^-1
+    // Scale will have no effect on translation
+    m_trans = glm::scale(m_trans, glm::vec3(m_plane_width, m_plane_height, 0.0f));
+    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
+    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
+}
+
 bool
 Button::checkOnTop()
 {
@@ -165,6 +210,8 @@ Button::draw()
     switch (m_current_button_t_type) {
     case Button::ButtonTextureType::ExitButton:
     case Button::ButtonTextureType::PlayButton:
+    case Button::ButtonTextureType::ControlButton:
+    case Button::ButtonTextureType::BackButton:
         switch (m_button_is_hovered) {
         case false:
             m_texture_normal.useTexture();
@@ -175,9 +222,14 @@ Button::draw()
         }
         break;
     case Button::ButtonTextureType::Logo:
-        m_texture_normal.useTexture();
-        break;
     case Button::ButtonTextureType::Victory:
+    case Button::ButtonTextureType::AttackLabel:
+    case Button::ButtonTextureType::MoveLabel:
+    case Button::ButtonTextureType::InteractLabel:
+    case Button::ButtonTextureType::MouseLeft:
+    case Button::ButtonTextureType::ZKey:
+    case Button::ButtonTextureType::XKey:
+    case Button::ButtonTextureType::ArrowKey:
         m_texture_normal.useTexture();
         break;
     default:

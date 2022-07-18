@@ -24,6 +24,8 @@ public:
     void updateParticleShaderPVMat(const glm::mat4& pTrans, const glm::mat4& vTrans);
     void updateParticleShaderModelMat(const glm::mat4& nodeTrans);
 
+    void cleanMovement();
+
 private:
     void processing();
 

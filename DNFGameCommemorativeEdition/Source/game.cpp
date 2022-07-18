@@ -94,7 +94,9 @@ Game::appLogic()
         || m_scene_manager->getPlayer()->getPlayerMode() == Player::PlayerMode::Skill) {
         m_scene_manager->playerAttack();
     }
-    if (m_scene_manager->getCurrentSceneState() == SceneManager::CurrentSceneState::SceneTwoPrep) {
+    if (m_scene_manager->getCurrentSceneState() == SceneManager::CurrentSceneState::SceneTwoPrep
+        || m_scene_manager->getCurrentSceneState()
+               == SceneManager::CurrentSceneState::SceneZeroPrep) {
         m_camera_pos = glm::vec3(0.0f);
     }
     m_view = glm::lookAt(m_camera_pos, m_camera_pos + m_camera_front, glm::vec3(0.0f, 1.0f, 0.0f));

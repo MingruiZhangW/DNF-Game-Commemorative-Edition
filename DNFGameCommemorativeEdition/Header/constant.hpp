@@ -168,10 +168,24 @@ const std::string englishLetters {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRS
 
 namespace TexturePath {
 const std::string dnfLogoPath {"Resource/Texture/UI/dnfLogo.png"};
+const std::string mouseLeftPath {"Resource/Texture/UI/mouseLeft.png"};
+const std::string xKeyPath {"Resource/Texture/UI/xKey.png"};
+const std::string zKeyPath {"Resource/Texture/UI/zKey.png"};
+const std::string arrowKeyPath {"Resource/Texture/UI/arrowKey.png"};
+const std::string moveLabelPath {"Resource/Texture/UI/moveLabel.png"};
+const std::string attackLabelPath {"Resource/Texture/UI/attackLabel.png"};
+const std::string interactLabelPath {"Resource/Texture/UI/interactLabel.png"};
 const std::string exitButtonNormalUIPath {"Resource/Texture/UI/exitButtonNormal.png"};
 const std::string exitButtonHoverUIPath {"Resource/Texture/UI/exitButtonHover.png"};
+const std::string controlButtonNormalUIPath {"Resource/Texture/UI/controlButtonNormal.png"};
+const std::string controlButtonHoverUIPath {"Resource/Texture/UI/controlButtonHover.png"};
+const std::string backButtonNormalUIPath {"Resource/Texture/UI/backButtonNormal.png"};
+const std::string backButtonHoverUIPath {"Resource/Texture/UI/backButtonHover.png"};
 const std::string playButtonNormalUIPath {"Resource/Texture/UI/playButtonNormal.png"};
 const std::string playButtonHoverUIPath {"Resource/Texture/UI/playButtonHover.png"};
+const std::string starPNGPath {"Resource/Texture/Particles/star.png"};
+const std::string victoryPNGPath {"Resource/Texture/UI/victory.png"};
+const std::string defeatPNGPath {"Resource/Texture/UI/defeat.png"};
 const std::string dialogUIPath {"Resource/Texture/UI/dialog.png"};
 const std::string npcDialogHeadPath {"Resource/Texture/NPC/npcDialogHead.png"};
 const std::string doorBushPath {"Resource/Texture/Door/doorBush.png"};
@@ -207,9 +221,6 @@ const std::string monsterWalkPNGPath {"Resource/Texture/Monster/Walk/walk_sprite
 const std::string monsterWalkJsonPath {"Resource/Texture/Monster/Walk/walk_spritesheet.json"};
 const std::string monsterKilledPNGPath {"Resource/Texture/Monster/Killed/killed_spritesheet.png"};
 const std::string monsterKilledJsonPath {"Resource/Texture/Monster/Killed/killed_spritesheet.json"};
-const std::string starPNGPath {"Resource/Texture/Particles/star.png"};
-const std::string victoryPNGPath {"Resource/Texture/UI/victory.png"};
-const std::string defeatPNGPath {"Resource/Texture/UI/defeat.png"};
 } // namespace TexturePath
 
 namespace ShadowShaderPath {

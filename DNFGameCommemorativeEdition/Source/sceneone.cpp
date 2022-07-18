@@ -53,6 +53,8 @@ SceneOne::construct()
 void
 SceneOne::prepareInitialDisplay()
 {
+    m_current_dialog_mode = DialogConvMode::ConvOne;
+
     Game::enableKeyBoardEvent(false);
     m_dialog_scene_node->setCurrentDialogSpeaker(StringContant::fancyPlayerChineseName);
     m_dialog_scene_node->setCurrentDialogText(Conversation::sceneOneS1);
@@ -113,8 +115,12 @@ SceneOne::sceneOneCollisionTest(const glm::vec2& movement)
 
         if (result.first || result.second) {
             if (x.first->getFloorObjType() == FloorObj::FloorObjType::SideNormalDoor
-                && m_current_dialog_mode == DialogConvMode::ConvEight)
+                && m_current_dialog_mode == DialogConvMode::ConvEight) {
+                m_scene_one_layer_node->cleanChild();
+                m_scene_one_root_node->cleanChild();
+
                 return std::make_pair(true, result);
+            }
 
             return std::make_pair(false, result);
         }

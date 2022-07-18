@@ -68,10 +68,7 @@ StarParticlesGenerator::StarParticlesGenerator(ShaderProgram* shader)
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     // Init m_trans
-    m_trans = glm::scale(m_trans, glm::vec3(m_star_size, m_star_size, m_star_size));
-    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
-    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
+    cleanMovement();
 
     // Create the vertex array to record buffer assignments for particles generator.
     glGenVertexArrays(1, &m_particles_generator_vao);
@@ -205,6 +202,20 @@ StarParticlesGenerator::processing()
     glDisableVertexAttribArray(m_pos_offset_attrib_pos);
 
     CHECK_GL_ERRORS;
+}
+
+void
+StarParticlesGenerator::cleanMovement()
+{
+    m_trans = glm::mat4(1.0f);
+
+    m_dx = 0.0f;
+    m_dy = 0.0f;
+
+    m_trans = glm::scale(m_trans, glm::vec3(m_star_size, m_star_size, m_star_size));
+    m_trans = glm::translate(m_trans, glm::vec3(0.5f, 0.5f, 0.0f));
+    m_trans = glm::rotate(m_trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_trans = glm::translate(m_trans, glm::vec3(-0.5f, -0.5f, 0.0f));
 }
 
 void

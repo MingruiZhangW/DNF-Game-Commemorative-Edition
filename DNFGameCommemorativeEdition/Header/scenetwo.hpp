@@ -66,31 +66,31 @@ public:
     void updateMonsterFlockingMovements();
 
 private:
+    enum class CurrentButtonHoverInScene { None, Exit, Back };
+
     void construct();
 
     ShaderProgram* m_shader;
 
-    SceneTwoStage m_current_stage;
-
+    int m_monster_nums;
     Player* m_player;
     StarParticlesGenerator* m_star_particles_generator;
     DialogSceneNode* m_dialog_scene_node;
     Button* m_exit_button;
+    Button* m_back_button;
     Button* m_victory_logo;
-
-    float m_scene_dx;
-
-    bool m_hover_changed;
-
-    int m_monster_nums;
     std::vector<Monster*> m_monsters;
 
     Map* m_scene_two_map;
     glm::vec4 m_scene_two_map_boundary;
 
+    float m_scene_dx;
     GLfloat m_frame_buffer_width;
     GLfloat m_frame_buffer_height;
 
     std::unique_ptr<SceneNode> m_scene_two_root_node;
     SceneNode* m_scene_two_layer_node;
+
+    CurrentButtonHoverInScene m_current_button_hover;
+    SceneTwoStage m_current_stage;
 };

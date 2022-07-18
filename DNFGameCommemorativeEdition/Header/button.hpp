@@ -9,7 +9,21 @@
 class Button : public GeometryNode
 {
 public:
-    enum class ButtonTextureType { ExitButton, PlayButton, Logo, Victory };
+    enum class ButtonTextureType {
+        ExitButton,
+        PlayButton,
+        BackButton,
+        ControlButton,
+        Logo,
+        Victory,
+        ZKey,
+        XKey,
+        ArrowKey,
+        MouseLeft,
+        AttackLabel,
+        MoveLabel,
+        InteractLabel
+    };
 
     Button(const std::string& name, ShaderProgram* shader, ButtonTextureType textureType);
     ~Button() {}
@@ -21,6 +35,16 @@ public:
     bool checkOnTop();
     bool checkOnTop(const glm::vec2& mousePos);
 
+    float getButtonDx()
+    {
+        return m_button_dx;
+    }
+
+    float getButtonDy()
+    {
+        return m_button_dy;
+    }
+
     glm::vec2 getTextureGeo()
     {
         return glm::vec2(m_texture_normal.getTextureWidth(), m_texture_normal.getTextureHeight());
@@ -28,6 +52,8 @@ public:
 
     // For center buttons in certain scene
     void translateToWindowCenter(float dx, float windowWidth, float windowHeight);
+
+    void cleanMovement();
 
 private:
     ShaderProgram* m_shader;
