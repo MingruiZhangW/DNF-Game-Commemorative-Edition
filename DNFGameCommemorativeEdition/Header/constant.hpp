@@ -90,6 +90,10 @@ namespace IconPath {
 const std::string iconPath {"Resource/Icon/icon.jfif"};
 } // namespace IconPath
 
+namespace CursorPath {
+const std::string cursorPath {"Resource/Texture/Cursor/cursor.png"};
+} // namespace CursorPath
+
 namespace StringContant {
 // Wide character string is used here for chinese names
 const std::wstring fancyPlayerChineseName {L"ÖËçüÖ®Áé"};

@@ -113,6 +113,7 @@
     <Image Include="Resource\Texture\Background\backgoundMid.png" />
     <Image Include="Resource\Texture\Background\backgroundFar.png" />
     <Image Include="Resource\Texture\Background\sceneZeroBackground.png" />
+    <Image Include="Resource\Texture\Cursor\cursor.png" />
     <Image Include="Resource\Texture\Door\doorBush.png" />
     <Image Include="Resource\Texture\Door\sideBossDoor.png" />
     <Image Include="Resource\Texture\Door\sideNormalDoor.png" />

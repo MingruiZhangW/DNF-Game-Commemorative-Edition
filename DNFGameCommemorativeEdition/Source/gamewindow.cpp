@@ -353,6 +353,16 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
     glfwSetWindowIcon(m_window, 1, icons);
     stbi_image_free(icons[0].pixels);
 
+    // Set up cursor
+    GLFWimage cursorImage;
+    cursorImage.pixels = stbi_load(CursorPath::cursorPath.c_str(),
+                                   &cursorImage.width,
+                                   &cursorImage.height,
+                                   0,
+                                   4);
+    GLFWcursor* cursor = glfwCreateCursor(&cursorImage, 0, 0);
+    glfwSetCursor(m_window, cursor);
+
     try {
         // Wait until m_monitor refreshes before swapping front and back buffers.
         // To prevent tearing artifacts.
@@ -407,6 +417,7 @@ GameWindow::run(int width, int height, const std::string& windowTitle, float des
     }
 
     cleanup();
+    glfwDestroyCursor(cursor);
     glfwDestroyWindow(m_window);
 }
 

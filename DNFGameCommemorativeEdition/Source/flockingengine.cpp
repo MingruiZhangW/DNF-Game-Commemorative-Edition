@@ -11,7 +11,7 @@ static const float m_min_distance_x {200.0f};
 static const float m_min_distance_y {100.0f};
 static const float m_update_time {2.0f};
 
-static glm::vec3 m_random_trans {Utils::randomBetween(-5, 5), Utils::randomBetween(-2, 2), 0.0f};
+static glm::vec3 m_random_trans {Utils::randomBetween(-2, 2), Utils::randomBetween(-2, 2), 0.0f};
 static float m_accumulated_time {0.0f};
 
 glm::vec3
@@ -19,7 +19,7 @@ getRandomTrans()
 {
     m_accumulated_time += GameWindow::getDeltaTime();
     if (m_accumulated_time > m_update_time) {
-        m_random_trans = glm::vec3(Utils::randomBetween(-5, 5), Utils::randomBetween(-2, 2), 0.0f);
+        m_random_trans = glm::vec3(Utils::randomBetween(-2, 2), Utils::randomBetween(-2, 2), 0.0f);
         m_accumulated_time = 0.0f;
     }
 

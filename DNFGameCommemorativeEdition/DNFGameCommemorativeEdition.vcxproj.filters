@@ -85,6 +85,9 @@
     <Filter Include="Resource Files\Texture\Particles">
       <UniqueIdentifier>{6f475c2a-2e6a-46fd-8019-5954c265a6d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Cursor">
+      <UniqueIdentifier>{fd00d167-4c27-42cc-8010-88b497e676ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -440,6 +443,9 @@
     </Image>
     <Image Include="Resource\Texture\UI\victory.png">
       <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Cursor\cursor.png">
+      <Filter>Resource Files\Texture\Cursor</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
