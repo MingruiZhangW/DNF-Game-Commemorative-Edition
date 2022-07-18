@@ -54,11 +54,13 @@ Monster::Monster(ShaderProgram* shader)
     : GeometryNode(StringContant::monsterName)
     , m_shader(shader)
     , m_stand_animation_move_speed(0.05f)
+    , m_walk_animation_move_speed(0.05f)
     , m_killed_animation_move_speed(0.02f)
     , m_monster_mode(MonsterMode::Stand)
     , m_monster_sprite_facing_left_dir(true)
     , m_current_stand_frame("0")
     , m_current_killed_frame("0")
+    , m_current_walk_frame("0")
     , m_animation_cursor(0.0f)
     , m_monster_dx(0.0f)
     , m_monster_dy(0.0f)
@@ -92,6 +94,14 @@ Monster::Monster(ShaderProgram* shader)
         m_monster_killed_json_parser[SSJsonKeys::frames].size());
     m_killed_textures_sheet = Texture(TexturePath::monsterKilledPNGPath);
     m_killed_textures_sheet.loadTexture();
+
+    // Load texture - walk
+    std::ifstream ifs_w(TexturePath::monsterWalkJsonPath);
+    m_monster_walk_json_parser = json::parse(ifs_w);
+    m_number_of_walk_frames = static_cast<unsigned int>(
+        m_monster_walk_json_parser[SSJsonKeys::frames].size());
+    m_walk_textures_sheet = Texture(TexturePath::monsterWalkPNGPath);
+    m_walk_textures_sheet.loadTexture();
 
     m_monster_dx = m_monster_center.x;
     m_monster_dy = m_monster_center.y;
@@ -170,6 +180,14 @@ Monster::updateFrame()
         } else
             return;
         break;
+    case Monster::MonsterMode::Walk:
+        if (m_animation_cursor > m_walk_animation_move_speed) {
+            m_current_walk_frame = std::to_string((std::stoi(m_current_walk_frame) + 1)
+                                                  % m_number_of_walk_frames);
+            m_animation_cursor = 0;
+        } else
+            return;
+        break;
     case Monster::MonsterMode::Killed:
         if (m_animation_cursor > m_killed_animation_move_speed) {
             m_current_killed_frame = std::to_string((std::stoi(m_current_killed_frame) + 1)
@@ -224,6 +242,41 @@ Monster::updateTexCoord()
 
         monster_texture_coord_data[10] = (texX + texW) / m_stand_textures_sheet.getTextureWidth();
         monster_texture_coord_data[11] = texY / m_stand_textures_sheet.getTextureHeight();
+
+        break;
+    case Monster::MonsterMode::Walk:
+        // get sprite sheet coord
+        texX = m_monster_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame]
+                                         [SSJsonKeys::frame][SSJsonKeys::x]
+                                             .get<float>();
+        texY = m_monster_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame]
+                                         [SSJsonKeys::frame][SSJsonKeys::y]
+                                             .get<float>();
+        texW = m_monster_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame]
+                                         [SSJsonKeys::frame][SSJsonKeys::w]
+                                             .get<float>();
+        texH = m_monster_walk_json_parser[SSJsonKeys::frames][m_current_walk_frame]
+                                         [SSJsonKeys::frame][SSJsonKeys::h]
+                                             .get<float>();
+
+        // update each data point to tex coord
+        monster_texture_coord_data[0] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[1] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[2] = texX / m_walk_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[3] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[4] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[5] = texY / m_walk_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[6] = texX / m_walk_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[7] = texY / m_walk_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[8] = texX / m_walk_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[9] = (texY + texH) / m_walk_textures_sheet.getTextureHeight();
+
+        monster_texture_coord_data[10] = (texX + texW) / m_walk_textures_sheet.getTextureWidth();
+        monster_texture_coord_data[11] = texY / m_walk_textures_sheet.getTextureHeight();
 
         break;
     case Monster::MonsterMode::Killed:
@@ -304,6 +357,9 @@ Monster::draw()
     case MonsterMode::Stand:
         m_stand_textures_sheet.useTexture();
         break;
+    case MonsterMode::Walk:
+        m_walk_textures_sheet.useTexture();
+        break;
     case MonsterMode::Killed:
         m_killed_textures_sheet.useTexture();
         break;
@@ -333,6 +389,9 @@ Monster::draw()
     switch (m_monster_mode) {
     case MonsterMode::Stand:
         m_stand_textures_sheet.useTexture();
+        break;
+    case MonsterMode::Walk:
+        m_walk_textures_sheet.useTexture();
         break;
     case MonsterMode::Killed:
         glUniform1i(m_be_hit_id, true);
@@ -369,6 +428,17 @@ void
 Monster::flipSprite()
 {
     m_monster_sprite_facing_left_dir = !m_monster_sprite_facing_left_dir;
+}
+
+void
+Monster::moveMonster(const glm::vec3& amount)
+{
+    if (abs(amount.x) < 0.1f && abs(amount.y) < 0.1f)
+        m_monster_mode = MonsterMode::Stand;
+    else
+        m_monster_mode = MonsterMode::Walk;
+
+    translate(amount);
 }
 
 void
@@ -429,15 +499,6 @@ Monster::setCurrentMapBoundary(glm::vec4 mapBoundary)
 
     m_current_map_boundary.z = m_current_map_boundary.z + m_monster_center.x;
     m_current_map_boundary.w = m_current_map_boundary.w - m_monster_center.x;
-}
-
-void
-Monster::reverseMove(std::pair<bool, bool> dirToReverse)
-{
-    auto toReverseMove = glm::vec3(dirToReverse.first ? -m_last_monster_trans.x : 0.0f,
-                                   dirToReverse.second ? -m_last_monster_trans.y : 0.0f,
-                                   0.0f);
-    translate(toReverseMove);
 }
 
 float
@@ -531,6 +592,7 @@ Monster::setMonsterMode(MonsterMode mode)
 
     m_current_stand_frame = "0";
     m_current_killed_frame = "0";
+    m_current_walk_frame = "0";
     m_animation_cursor = 0;
 
     updateTexCoord();
@@ -545,9 +607,9 @@ Monster::getMonsterMode()
 bool
 Monster::lockForMovement()
 {
-    // if (m_monster_mode == MonsterMode::BasicAttack || m_monster_mode == MonsterMode::Skill)
-    //     return true;
-    // return false;
+    if (m_monster_mode == MonsterMode::BasicAttack || m_monster_mode == MonsterMode::Killed)
+        return true;
+    return false;
 }
 
 const glm::mat4&

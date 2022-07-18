@@ -150,7 +150,7 @@ SceneTwo::checkToRemoveMonster()
                                     }),
                      m_monsters.end());
 
-    if (m_monsters.size() == 0 && m_current_stage == SceneTwoStage::ConvOne) {
+    if (m_monsters.size() == 0 && m_current_stage == SceneTwoStage::Fighting) {
         m_current_stage = SceneTwoStage::ConvTwo;
 
         Game::enableKeyBoardEvent(false);
@@ -166,10 +166,13 @@ SceneTwo::checkToRemoveMonster()
 void
 SceneTwo::updateMonsterFlockingMovements()
 {
-    if (Game::getEnableKeyBoardEvent())
+    if (Game::getEnableKeyBoardEvent()) {
         FlockingEngine::updatePosition(m_monsters);
-}
 
+        reorderLayerNodeChild();
+    }
+}
+#pragma optimize("", off)
 void
 SceneTwo::reorderLayerNodeChild()
 {
@@ -225,6 +228,16 @@ SceneTwo::reorderLayerNodeChild()
 
             m_scene_two_layer_node->addChild(m_monsters[monsterIndex]);
             monsterIndex++;
+        }
+    }
+
+    // Monster should face right if monster x pos is smaller than player
+    for (auto& i : m_monsters) {
+        if (i->getMonsterDx() < m_player->getPlayerDx()) {
+            if (i->spriteIsFacingLeft())
+                i->flipSprite();
+        } else if (!i->spriteIsFacingLeft()) {
+            i->flipSprite();
         }
     }
 
@@ -319,6 +332,9 @@ SceneTwo::processClick()
         m_dialog_scene_node->setShown(false);
 
         reorderLayerNodeChild();
+
+        m_current_stage = SceneTwoStage::Fighting;
+
         return Scene::SceneEvents::DialogClick;
     case SceneTwoStage::ConvTwo:
         m_dialog_scene_node->setShown(false);

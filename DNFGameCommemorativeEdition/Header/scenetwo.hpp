@@ -19,7 +19,7 @@ class SceneTwo
 {
 public:
     // TODO: add finite state machine.
-    enum class SceneTwoStage { ConvOne, ConvTwo, Victory, Defeat };
+    enum class SceneTwoStage { ConvOne, Fighting, ConvTwo, Victory, Defeat };
 
     SceneTwo(ShaderProgram* shader,
              GLfloat frameBufferWidth,

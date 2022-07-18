@@ -88,6 +88,9 @@
     <Filter Include="Resource Files\Texture\Cursor">
       <UniqueIdentifier>{fd00d167-4c27-42cc-8010-88b497e676ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Monster\Walk">
+      <UniqueIdentifier>{211e7c7e-f264-4ba7-a384-10ebeda24b07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -155,6 +158,9 @@
     </None>
     <None Include="Resource\Sound\playerAttack.ogg">
       <Filter>Resource Files\Sound</Filter>
+    </None>
+    <None Include="Resource\Texture\Monster\Walk\walk_spritesheet.json">
+      <Filter>Resource Files\Texture\Monster\Walk</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -446,6 +452,9 @@
     </Image>
     <Image Include="Resource\Texture\Cursor\cursor.png">
       <Filter>Resource Files\Texture\Cursor</Filter>
+    </Image>
+    <Image Include="Resource\Texture\Monster\Walk\walk_spritesheet.png">
+      <Filter>Resource Files\Texture\Monster\Walk</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

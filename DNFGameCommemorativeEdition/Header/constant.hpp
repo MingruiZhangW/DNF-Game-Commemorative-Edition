@@ -203,6 +203,8 @@ const std::string playerSKillEffectJsonPath {
     "Resource/Texture/Player/Skill/skill_effect_spritesheet.json"};
 const std::string monsterStandPNGPath {"Resource/Texture/Monster/Stand/monster_spritesheet.png"};
 const std::string monsterStandJsonPath {"Resource/Texture/Monster/Stand/monster_spritesheet.json"};
+const std::string monsterWalkPNGPath {"Resource/Texture/Monster/Walk/walk_spritesheet.png"};
+const std::string monsterWalkJsonPath {"Resource/Texture/Monster/Walk/walk_spritesheet.json"};
 const std::string monsterKilledPNGPath {"Resource/Texture/Monster/Killed/killed_spritesheet.png"};
 const std::string monsterKilledJsonPath {"Resource/Texture/Monster/Killed/killed_spritesheet.json"};
 const std::string starPNGPath {"Resource/Texture/Particles/star.png"};

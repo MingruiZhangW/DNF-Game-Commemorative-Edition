@@ -26,11 +26,15 @@ public:
     MonsterMode getMonsterMode();
 
     // Implement virtual function from base class
+    // For monster, translate will not trigger walk mode
+    // but, move monster will.
     void draw() override;
-    void translate(const glm::vec3& amount) override;
     const glm::mat4& getTransform() override;
+    void translate(const glm::vec3& amount) override;
 
-    void reverseMove(std::pair<bool, bool> dirToReverse);
+    void moveMonster(const glm::vec3& amount);
+
+    // Map boundary set
     void setCurrentMapBoundary(glm::vec4 mapBoundary);
 
     glm::vec2 getMonsterCenter();
@@ -56,8 +60,12 @@ public:
 
     // Flip the direction of the sprite
     void flipSprite();
+    bool spriteIsFacingLeft()
+    {
+        return m_monster_sprite_facing_left_dir;
+    }
 
-    // If the monster is attacking, then do not handle movement.
+    // If the monster is attacking or killed, then do not handle movement.
     bool lockForMovement();
 
     // For flocking, here last trans is seemed as a move direction
@@ -123,6 +131,13 @@ private:
     float m_killed_animation_move_speed;
     std::string m_current_killed_frame;
     Texture m_killed_textures_sheet;
+
+    // Walk
+    json m_monster_walk_json_parser;
+    unsigned int m_number_of_walk_frames;
+    float m_walk_animation_move_speed;
+    std::string m_current_walk_frame;
+    Texture m_walk_textures_sheet;
 
     // Override getTransform()
     // Due to a mistake for not separating the monster and the weapon,

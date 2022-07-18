@@ -97,6 +97,7 @@ FlockingEngine::updatePosition(std::vector<Monster*>& monsters)
     }
 
     for (int k = 0; k < monsters.size(); k++) {
-        monsters[k]->translate(transMap[k]);
+        if (!monsters[k]->lockForMovement())
+            monsters[k]->moveMonster(transMap[k]);
     }
 }

@@ -35,6 +35,7 @@
     <None Include="Resource\Sound\playerAttack.ogg" />
     <None Include="Resource\Texture\Monster\Killed\killed_spritesheet.json" />
     <None Include="Resource\Texture\Monster\Stand\monster_spritesheet.json" />
+    <None Include="Resource\Texture\Monster\Walk\walk_spritesheet.json" />
     <None Include="Resource\Texture\NPC\npc_spritesheet.json" />
     <None Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.json" />
     <None Include="Resource\Texture\Player\Skill\skill_effect_spritesheet.json" />
@@ -122,6 +123,7 @@
     <Image Include="Resource\Texture\FloorObj\tree.png" />
     <Image Include="Resource\Texture\Monster\Killed\killed_spritesheet.png" />
     <Image Include="Resource\Texture\Monster\Stand\monster_spritesheet.png" />
+    <Image Include="Resource\Texture\Monster\Walk\walk_spritesheet.png" />
     <Image Include="Resource\Texture\NPC\npcDialogHead.png" />
     <Image Include="Resource\Texture\NPC\npc_spritesheet.png" />
     <Image Include="Resource\Texture\Particles\star.png" />
