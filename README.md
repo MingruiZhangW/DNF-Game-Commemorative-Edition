@@ -37,6 +37,19 @@ Mini DNF Like Game
 - Entity components system refactor
 - Finite state machine
 
+> Objectives:
+
+1. Dialog UI component in the game.
+2. Synchronized sound effect.
+3. Particle systems in celebration stage.
+4. AABB intersections.
+5. Texture blending for background and sprite status.
+6. Shadow sprites.
+7. Sprite Animations.
+8. Tile map for game map.
+9. Text rendering for game conversations.
+10. Flocking for monsters.
+
 > Some Screenshots
 
 - ![Alt text](screenshots/mainPage.png?raw=true)
