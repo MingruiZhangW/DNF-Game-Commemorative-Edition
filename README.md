@@ -16,6 +16,7 @@ Mini DNF Like Game
 
 > How To Run
 
+- Install the required SDK and build tool in Visual Studio Installer.
 - Open the ```DNFGameCommemorativeEdition.sln``` with Visual Studio, click run, then you are good to go!
 
 > How To Play
@@ -35,3 +36,11 @@ Mini DNF Like Game
 
 - Entity components system refactor
 - Finite state machine
+
+> Some Screenshots
+
+- ![Alt text](screenshots/mainPage.png?raw=true)
+- ![Alt text](screenshots/controlPage.png?raw=true)
+- ![Alt text](screenshots/sceneOne.png?raw=true)
+- ![Alt text](screenshots/sceneTwo.png?raw=true)
+- ![Alt text](screenshots/finalStage.png?raw=true)
