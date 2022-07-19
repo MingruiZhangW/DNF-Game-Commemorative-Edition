@@ -9,17 +9,26 @@
 
 class FloorObj;
 
+/*
+ * Layer Zero
+ */
 class Map : public SceneNode
 {
 public:
     Map(ShaderProgram* shader, NPC* npc, GLfloat width, GLfloat height);
     ~Map();
 
+    // Two kind of map
     void initSceneOneMap();
     void initSceneTwoMap();
 
+    // Map boundary to limit the player and monster movements
     glm::vec4 getMapBoundary();
+
+    // Objs that need to do collisions detections
     const std::vector<std::pair<FloorObj*, glm::vec2>>& getFloorCollisionObjs();
+
+    // Objs that need to rearrange the drawing order
     const std::vector<std::pair<FloorObj*, glm::vec2>>& getFloorReorderObjs();
 
 protected:
@@ -41,6 +50,8 @@ protected:
     // Use to detect collision and depth layer
     // Only layer two need to reorder depending on -y.
     // x, y -> x, y, x,y at bottom - left corner
+    // Here layer one represent no need to rearrange the drawing order
+    // layer two means we need to rearrange the drawing order
     std::vector<FloorObj*> m_floor_obj_layer_one_list;
     std::vector<std::pair<FloorObj*, glm::vec2>> m_floor_obj_layer_two_list;
     std::vector<std::pair<FloorObj*, glm::vec2>> m_floor_obj_collision_list;

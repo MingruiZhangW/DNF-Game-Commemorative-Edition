@@ -72,6 +72,7 @@ private:
     Player* m_player;
     NPC* m_npc;
     DialogSceneNode* m_dialog_scene_node;
+    Map* m_scene_one_map;
 
     GLfloat m_frame_buffer_width;
     GLfloat m_frame_buffer_height;
@@ -80,6 +81,4 @@ private:
 
     std::unique_ptr<SceneNode> m_scene_one_root_node;
     SceneNode* m_scene_one_layer_node;
-
-    Map* m_scene_one_map;
 };

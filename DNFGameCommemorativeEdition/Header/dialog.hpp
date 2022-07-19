@@ -4,6 +4,9 @@
 #include "texture.hpp"
 #include "geometrynode.hpp"
 
+/*
+ * UI always on the top, no layer is considered here.
+ */
 class Dialog : public GeometryNode
 {
 public:

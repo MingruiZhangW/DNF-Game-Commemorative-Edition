@@ -5,6 +5,9 @@
 #include "geometrynode.hpp"
 #include "constant.hpp"
 
+/*
+ * UI always on the top, no layer is considered here.
+ */
 class DialogChar : public GeometryNode
 {
 public:

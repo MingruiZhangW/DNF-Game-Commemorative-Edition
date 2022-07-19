@@ -347,6 +347,7 @@ SceneManager::processLeftMouseClick()
 void
 SceneManager::moveDialog(float dx)
 {
+    // Keep dialog sync with player location
     switch (m_current_scene_state) {
     case CurrentSceneState::SceneOneReady:
         m_scene_one->moveDialog(dx);

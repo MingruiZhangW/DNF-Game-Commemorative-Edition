@@ -16,6 +16,9 @@ using json = nlohmann::json;
 
 class PlayerSkillEffect;
 
+/*
+ * Layer One
+ */
 class Player : public GeometryNode
 {
 public:

@@ -191,6 +191,7 @@ Map::initSceneOneMap()
         }
     }
 
+    // No need to rearrange the drawing order, add first
     for (auto i : m_floor_obj_layer_one_list) {
         addChild(i);
     }
@@ -340,6 +341,7 @@ Map::initSceneTwoMap()
         }
     }
 
+    // No need to rearrange the drawing order, add first
     for (auto i : m_floor_obj_layer_one_list) {
         addChild(i);
     }

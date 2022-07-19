@@ -4,6 +4,10 @@
 #include "texture.hpp"
 #include "geometrynode.hpp"
 
+/*
+ * Floor objects are in Layer One.
+ * Some floor objs are collidable.
+ */
 class FloorObj : public GeometryNode
 {
 public:
@@ -13,6 +17,7 @@ public:
     ~FloorObj() {}
 
     void draw() override;
+
     glm::vec2 getTextureGeo()
     {
         return glm::vec2(m_texture.getTextureWidth(), m_texture.getTextureHeight());
@@ -33,6 +38,7 @@ public:
         m_floor_obj_collide_height = collisionHeight;
     }
 
+    // Flip the obj
     void flip();
 
 private:

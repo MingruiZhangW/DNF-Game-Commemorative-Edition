@@ -17,6 +17,9 @@
 
 using json = nlohmann::json;
 
+/*
+ * Layer One
+ */
 class NPC : public GeometryNode
 {
 public:

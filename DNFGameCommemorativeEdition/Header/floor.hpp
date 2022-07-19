@@ -4,6 +4,9 @@
 #include "texture.hpp"
 #include "geometrynode.hpp"
 
+/*
+ * Layer zero
+ */
 class Floor : public GeometryNode
 {
 public:
@@ -17,6 +20,7 @@ public:
     ~Floor() {}
 
     void draw() override;
+
     glm::vec2 getTextureGeo()
     {
         return glm::vec2(m_texture.getTextureWidth(), m_texture.getTextureHeight());

@@ -52,9 +52,6 @@
     <Filter Include="Resource Files\Texture\NPC">
       <UniqueIdentifier>{35677b1f-0202-473a-a916-68eea5c7a244}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Texture\UI">
-      <UniqueIdentifier>{c850cd70-fd09-4463-96f6-680ae516e5a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\UI">
       <UniqueIdentifier>{c2924414-5d7b-47b6-8e1e-4d94519b1f97}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,9 @@
     </Filter>
     <Filter Include="Resource Files\Texture\Monster\Walk">
       <UniqueIdentifier>{211e7c7e-f264-4ba7-a384-10ebeda24b07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture\UI">
+      <UniqueIdentifier>{d14db816-8f5c-464e-8eac-46af35f56988}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -393,32 +393,8 @@
     <Image Include="Resource\Texture\NPC\npcDialogHead.png">
       <Filter>Resource Files\Texture\NPC</Filter>
     </Image>
-    <Image Include="Resource\Texture\UI\dialog.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\dialogButton.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\dialogButtonClicked.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
     <Image Include="Resource\Texture\Background\sceneZeroBackground.png">
       <Filter>Resource Files\Texture\Background</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\dnfLogo.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\playButtonHover.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\playButtonNormal.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\exitButtonHover.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\exitButtonNormal.png">
-      <Filter>Resource Files\Texture\UI</Filter>
     </Image>
     <Image Include="Resource\Texture\Player\BasicAttack\basicattack_spritesheet.png">
       <Filter>Resource Files\Texture\Player\BasicAttack</Filter>
@@ -444,12 +420,6 @@
     <Image Include="Resource\Texture\Particles\star.png">
       <Filter>Resource Files\Texture\Particles</Filter>
     </Image>
-    <Image Include="Resource\Texture\UI\defeat.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\victory.png">
-      <Filter>Resource Files\Texture\UI</Filter>
-    </Image>
     <Image Include="Resource\Texture\Cursor\cursor.png">
       <Filter>Resource Files\Texture\Cursor</Filter>
     </Image>
@@ -457,37 +427,67 @@
       <Filter>Resource Files\Texture\Monster\Walk</Filter>
     </Image>
     <Image Include="Resource\Texture\UI\arrowKey.png">
-      <Filter>Header Files\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\backButtonHover.png">
-      <Filter>Header Files\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\backButtonNormal.png">
-      <Filter>Header Files\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\mouseLeft.png">
-      <Filter>Header Files\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\xKey.png">
-      <Filter>Header Files\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\zKey.png">
-      <Filter>Header Files\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\controlButtonHover.png">
-      <Filter>Header Files\UI</Filter>
-    </Image>
-    <Image Include="Resource\Texture\UI\controlButtonNormal.png">
-      <Filter>Header Files\UI</Filter>
+      <Filter>Resource Files\Texture\UI</Filter>
     </Image>
     <Image Include="Resource\Texture\UI\attackLabel.png">
-      <Filter>Header Files\UI</Filter>
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\backButtonHover.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\backButtonNormal.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\controlButtonHover.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\controlButtonNormal.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\defeat.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dialog.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dialogButton.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dialogButtonClicked.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\dnfLogo.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\exitButtonHover.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\exitButtonNormal.png">
+      <Filter>Resource Files\Texture\UI</Filter>
     </Image>
     <Image Include="Resource\Texture\UI\interactLabel.png">
-      <Filter>Header Files\UI</Filter>
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\mouseLeft.png">
+      <Filter>Resource Files\Texture\UI</Filter>
     </Image>
     <Image Include="Resource\Texture\UI\moveLabel.png">
-      <Filter>Header Files\UI</Filter>
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\playButtonHover.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\playButtonNormal.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\victory.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\xKey.png">
+      <Filter>Resource Files\Texture\UI</Filter>
+    </Image>
+    <Image Include="Resource\Texture\UI\zKey.png">
+      <Filter>Resource Files\Texture\UI</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

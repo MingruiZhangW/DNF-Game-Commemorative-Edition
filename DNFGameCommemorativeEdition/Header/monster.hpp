@@ -14,6 +14,9 @@
 
 using json = nlohmann::json;
 
+/*
+ * Layer One
+ */
 class Monster : public GeometryNode
 {
 public:
@@ -32,6 +35,7 @@ public:
     const glm::mat4& getTransform() override;
     void translate(const glm::vec3& amount) override;
 
+    // Need to use this for flocking since it will monitor the monster type
     void moveMonster(const glm::vec3& amount);
 
     // Map boundary set

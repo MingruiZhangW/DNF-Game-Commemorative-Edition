@@ -13,6 +13,7 @@ public:
     void draw() override;
 
     void setDialogOrigin(glm::vec2 dialogOrigin);
+
     void setShouldDraw(bool show)
     {
         m_should_draw = show;

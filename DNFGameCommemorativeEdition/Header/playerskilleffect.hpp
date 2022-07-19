@@ -12,6 +12,9 @@ using json = nlohmann::json;
 
 class Player;
 
+/*
+ * Layer One, always child node of player
+ */
 class PlayerSkillEffect : public GeometryNode
 {
 public:

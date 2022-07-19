@@ -6,9 +6,13 @@
 
 #include <glm.hpp>
 
+/*
+ * UI always on the top, no layer is considered here.
+ */
 class Button : public GeometryNode
 {
 public:
+    // Buttons and static textures
     enum class ButtonTextureType {
         ExitButton,
         PlayButton,
